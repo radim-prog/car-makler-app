@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>CAR Makléř - Timeline projektu</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6",
+                        "background-light": "#f3f4f6",
+                        "background-dark": "#1f2937",
+                        "card-light": "#ffffff",
+                        "card-dark": "#374151",
+                        "text-light": "#111827",
+                        "text-dark": "#f9fafb",
+                        "border-light": "#e5e7eb",
+                        "border-dark": "#4b5563",
+                    },
+                    fontFamily: {
+                        display: ["Roboto", "sans-serif"],
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        .timeline-grid {
+            grid-template-columns: 120px repeat(10, 1fr);
+        }
+        .task {
+            position: absolute;
+            height: 36px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            padding: 0 0.75rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            font-weight: 500;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-primary mb-3">CAR Makléř - Timeline projektu</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-400">Říjen 2025 - Červen 2026</p>
+            <p class="text-sm text-gray-500 dark:text-gray-500 mt-2">Přehled všech aktivit od přípravy po spuštění projektu</p>
+        </header>
+
+        <!-- Progress Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-green-100 dark:bg-green-900 p-4 rounded-lg">
+                <div class="text-green-800 dark:text-green-200 font-semibold">Fáze 1: Quick Wins</div>
+                <div class="text-2xl font-bold text-green-600 dark:text-green-400">Týden 1-2</div>
+                <div class="text-sm text-green-700 dark:text-green-300">+40% conversion</div>
+            </div>
+            <div class="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg">
+                <div class="text-blue-800 dark:text-blue-200 font-semibold">Fáze 2: A/B Testing</div>
+                <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">Týden 3-4</div>
+                <div class="text-sm text-blue-700 dark:text-blue-300">+20% conversion</div>
+            </div>
+            <div class="bg-purple-100 dark:bg-purple-900 p-4 rounded-lg">
+                <div class="text-purple-800 dark:text-purple-200 font-semibold">Fáze 3: SEO & Content</div>
+                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">Měsíc 2-3</div>
+                <div class="text-sm text-purple-700 dark:text-purple-300">10k návštěv/měsíc</div>
+            </div>
+            <div class="bg-orange-100 dark:bg-orange-900 p-4 rounded-lg">
+                <div class="text-orange-800 dark:text-orange-200 font-semibold">Fáze 4: Trust</div>
+                <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">Měsíc 4-6</div>
+                <div class="text-sm text-orange-700 dark:text-orange-300">Autoritative brand</div>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="overflow-x-auto bg-card-light dark:bg-card-dark rounded-lg shadow-xl p-6 mb-8">
+            <div class="relative min-w-[1200px]">
+                <!-- Month headers -->
+                <div class="grid timeline-grid border-b-2 border-border-light dark:border-border-dark pb-3 mb-6">
+                    <div class="font-bold text-gray-700 dark:text-gray-300">Oblast</div>
+                    <div class="text-center font-semibold text-sm">
+                        <div>Říjen</div>
+                        <div class="text-xs text-gray-500">2025</div>
+                    </div>
+                    <div class="text-center font-semibold text-sm">
+                        <div>Listopad</div>
+                        <div class="text-xs text-gray-500">2025</div>
+                    </div>
+                    <div class="text-center font-semibold text-sm">
+                        <div>Prosinec</div>
+                        <div class="text-xs text-gray-500">2025</div>
+                    </div>
+                    <div class="text-center font-semibold text-sm bg-red-50 dark:bg-red-900/20 rounded">
+                        <div>Leden</div>
+                        <div class="text-xs text-red-600 dark:text-red-400 font-bold">VIP START</div>
+                    </div>
+                    <div class="text-center font-semibold text-sm">
+                        <div>Únor</div>
+                        <div class="text-xs text-gray-500">2026</div>
+                    </div>
+                    <div class="text-center font-semibold text-sm bg-green-50 dark:bg-green-900/20 rounded">
+                        <div>Březen</div>
+                        <div class="text-xs text-green-600 dark:text-green-400 font-bold">START</div>
+                    </div>
+                    <div class="text-center font-semibold text-sm">
+                        <div>Duben</div>
+                        <div class="text-xs text-gray-500">2026</div>
+                    </div>
+                    <div class="text-center font-semibold text-sm">
+                        <div>Květen</div>
+                        <div class="text-xs text-gray-500">2026</div>
+                    </div>
+                    <div class="text-center font-semibold text-sm">
+                        <div>Červen</div>
+                        <div class="text-xs text-gray-500">2026</div>
+                    </div>
+                    <div class="text-center font-semibold text-sm">
+                        <div>Červenec</div>
+                        <div class="text-xs text-gray-500">2026</div>
+                    </div>
+                </div>
+
+                <!-- Vertical month lines -->
+                <div class="absolute top-12 bottom-0 left-[120px] grid grid-cols-10 w-[calc(100%-120px)] pointer-events-none">
+                    <div class="border-r border-border-light dark:border-border-dark"></div>
+                    <div class="border-r border-border-light dark:border-border-dark"></div>
+                    <div class="border-r border-border-light dark:border-border-dark"></div>
+                    <div class="border-r border-red-300 dark:border-red-700 bg-red-50/30 dark:bg-red-900/10"></div>
+                    <div class="border-r border-border-light dark:border-border-dark"></div>
+                    <div class="border-r border-green-300 dark:border-green-700 bg-green-50/30 dark:bg-green-900/10"></div>
+                    <div class="border-r border-border-light dark:border-border-dark"></div>
+                    <div class="border-r border-border-light dark:border-border-dark"></div>
+                    <div class="border-r border-border-light dark:border-border-dark"></div>
+                    <div></div>
+                </div>
+
+                <!-- Timeline rows -->
+                <div class="space-y-14 relative pt-4">
+                    <!-- Marketing & Web -->
+                    <div class="grid timeline-grid items-center h-20">
+                        <div class="font-semibold text-gray-700 dark:text-gray-300 pr-3">
+                            <span class="material-icons text-blue-500 align-middle mr-1">language</span>
+                            Marketing & Web
+                        </div>
+                        <div class="col-span-10 relative h-full">
+                            <div class="task bg-gradient-to-r from-green-500 to-green-600" style="left: 0%; width: 20%; top: 0px;">
+                                Quick Wins (2 týdny)
+                            </div>
+                            <div class="task bg-gradient-to-r from-blue-500 to-blue-600" style="left: 20%; width: 20%; top: 0px;">
+                                A/B Testing (2 týdny)
+                            </div>
+                            <div class="task bg-gradient-to-r from-purple-500 to-purple-600" style="left: 10%; width: 30%; top: 45px;">
+                                SEO & Content (2 měsíce)
+                            </div>
+                            <div class="task bg-gradient-to-r from-orange-500 to-orange-600" style="left: 40%; width: 30%; top: 45px;">
+                                Trust & Authority (3 měsíce)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lidé (People) -->
+                    <div class="grid timeline-grid items-center h-32">
+                        <div class="font-semibold text-gray-700 dark:text-gray-300 pr-3">
+                            <span class="material-icons text-pink-500 align-middle mr-1">groups</span>
+                            Lidé & Týmy
+                        </div>
+                        <div class="col-span-10 relative h-full">
+                            <div class="task bg-gradient-to-r from-indigo-500 to-indigo-600" style="left: 10%; width: 25%; top: 0px;">
+                                Vztahy & vedení
+                            </div>
+                            <div class="task bg-gradient-to-r from-purple-500 to-purple-600" style="left: 35%; width: 40%; top: 0px;">
+                                <span class="material-icons mr-1 text-sm">groups</span> Manažerská pěstírna
+                            </div>
+                            <div class="task bg-gradient-to-r from-pink-500 to-pink-600" style="left: 50%; width: 30%; top: 48px;">
+                                Partnerství s bazary
+                            </div>
+                            <div class="task bg-gradient-to-r from-cyan-500 to-cyan-600" style="left: 15%; width: 20%; top: 96px;">
+                                Video producer
+                            </div>
+                            <div class="task bg-gradient-to-r from-teal-500 to-teal-600" style="left: 10%; width: 25%; top: 48px;">
+                                Copywriter (články)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aplikace & Systémy -->
+                    <div class="grid timeline-grid items-center h-40">
+                        <div class="font-semibold text-gray-700 dark:text-gray-300 pr-3">
+                            <span class="material-icons text-teal-500 align-middle mr-1">settings</span>
+                            Aplikace
+                        </div>
+                        <div class="col-span-10 relative h-full">
+                            <div class="task bg-gradient-to-r from-teal-500 to-teal-600" style="left: 10%; width: 30%; top: 0px;">
+                                <span class="material-icons mr-1 text-sm">description</span> Web materiály & design
+                            </div>
+                            <div class="task bg-gradient-to-r from-cyan-500 to-cyan-600" style="left: 40%; width: 25%; top: 0px;">
+                                CRM Administrace
+                            </div>
+                            <div class="task bg-gradient-to-r from-sky-500 to-sky-600" style="left: 50%; width: 20%; top: 48px;">
+                                Asistentka systém
+                            </div>
+                            <div class="task bg-gradient-to-r from-blue-500 to-blue-600" style="left: 55%; width: 20%; top: 96px;">
+                                Kontroling dashboard
+                            </div>
+                            <div class="task bg-gradient-to-r from-green-500 to-green-600" style="left: 50%; width: 35%; top: 144px;">
+                                <span class="material-icons mr-1 text-sm">school</span> Školení (Forens, Systém)
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analytics & Tracking -->
+                    <div class="grid timeline-grid items-center h-20">
+                        <div class="font-semibold text-gray-700 dark:text-gray-300 pr-3">
+                            <span class="material-icons text-amber-500 align-middle mr-1">analytics</span>
+                            Analytics
+                        </div>
+                        <div class="col-span-10 relative h-full">
+                            <div class="task bg-gradient-to-r from-amber-500 to-amber-600" style="left: 5%; width: 15%; top: 0px;">
+                                GA4 setup
+                            </div>
+                            <div class="task bg-gradient-to-r from-yellow-500 to-yellow-600" style="left: 20%; width: 50%; top: 0px;">
+                                Tracking & monitoring (ongoing)
+                            </div>
+                            <div class="task bg-gradient-to-r from-orange-500 to-orange-600" style="left: 15%; width: 20%; top: 45px;">
+                                Hotjar heatmapy
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-8">
+            <h3 class="font-bold text-lg mb-4">📖 Legenda</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <div class="flex items-center mb-2">
+                        <div class="w-4 h-4 bg-red-100 border-2 border-red-500 rounded mr-2"></div>
+                        <span class="font-semibold text-red-600">VIP START (Leden 2026)</span>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 ml-6">Zkušební provoz pro manažery a velké partnery - osahání systémů práce před oficiálním startem</p>
+                </div>
+                <div>
+                    <div class="flex items-center mb-2">
+                        <div class="w-4 h-4 bg-green-100 border-2 border-green-500 rounded mr-2"></div>
+                        <span class="font-semibold text-green-600">PLNÝ START (Březen 2026)</span>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 ml-6">Oficiální spuštění pro všechny zákazníky</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Milestones -->
+        <div class="bg-card-light dark:bg-card-dark rounded-lg shadow-lg p-6 mb-8">
+            <h3 class="font-bold text-xl mb-4">🎯 Klíčové milníky</h3>
+            <div class="space-y-4">
+                <div class="flex">
+                    <div class="text-2xl mr-4">📊</div>
+                    <div>
+                        <div class="font-semibold text-green-600">Týden 2: První výsledky Quick Wins</div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">+40% conversion rate, první data z GA4</p>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="text-2xl mr-4">🧪</div>
+                    <div>
+                        <div class="font-semibold text-blue-600">Týden 4: A/B testy dokončeny</div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Optimální varianty headline a CTA, +60% celkový růst</p>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="text-2xl mr-4">📈</div>
+                    <div>
+                        <div class="font-semibold text-purple-600">Měsíc 3: SEO momentum</div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">5000 návštěv/měsíc organicky, 8 blogových článků live</p>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="text-2xl mr-4">🔥</div>
+                    <div>
+                        <div class="font-semibold text-red-600">Leden 2026: VIP START</div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Zkušební provoz pro manažery a velké partnery - osahání systémů před startem</p>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="text-2xl mr-4">🚀</div>
+                    <div>
+                        <div class="font-semibold text-green-600">Březen 2026: PLNÝ START</div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Oficiální launch, 10k+ návštěv/měsíc, 8-10% conversion</p>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="text-2xl mr-4">🏆</div>
+                    <div>
+                        <div class="font-semibold text-orange-600">Červen 2026: Market leader</div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Dominantní pozice na trhu, etablovaná značka</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-sm text-gray-500 dark:text-gray-400">
+            <p class="mb-2">📄 Detailní úkoly a návody najdeš v Notion roadmapě</p>
+            <p class="mb-2">🤖 Pro AI asistenty: Přečti si <code class="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">AI-CONTEXT.md</code> pro kompletní kontext projektu</p>
+            <p>🎯 Cíl: Dominance na českém trhu automobilových makléřů do Q2 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
