@@ -124,6 +124,10 @@ model User {
   brokerPayouts     BrokerPayout[] @relation("BrokerPayouts")
   approvedPayouts   BrokerPayout[] @relation("PayoutApprover")
 
+  // Audit (F-031)
+  auditLogs       AuditLog[] @relation("AuditLogSubject")
+  auditedActions  AuditLog[] @relation("AuditLogActor")
+
   // Auth
   emailVerified DateTime?
 
@@ -1803,4 +1807,66 @@ model EmailVerificationToken {
 
   @@index([email])
   @@index([token])
+}
+
+// ============================================
+// AUDIT LOG (F-031) — GDPR/security compliance trail
+// ============================================
+// Slouží jako neměnný (append-only z aplikační vrstvy) záznam citlivých
+// akcí. Vyžadováno pro:
+//   - prokázání plnění GDPR Art. 17 (erasure) auditem ÚOOÚ
+//   - investigation security incidentů (login attempts, role changes)
+//   - non-repudiation (kdo schválil komisi, kdo smazal účet)
+// Retence: 3 roky (zákon o kybernetické bezpečnosti + GDPR accountability).
+
+enum AuditAction {
+  // Auth lifecycle
+  LOGIN_SUCCESS
+  LOGIN_FAILED
+  LOGOUT
+  PASSWORD_CHANGED
+  PASSWORD_RESET_REQUESTED
+  PASSWORD_RESET_COMPLETED
+  EMAIL_VERIFIED
+
+  // Account lifecycle
+  ACCOUNT_CREATED
+  ROLE_CHANGED
+  STATUS_CHANGED
+
+  // GDPR
+  ERASURE_REQUESTED
+  ERASURE_EXECUTED
+  ERASURE_DENIED
+  DATA_EXPORTED
+
+  // Listings (anti-fraud)
+  LISTING_CREATED
+  LISTING_PUBLISHED
+  LISTING_DELETED
+
+  // Misc
+  ADMIN_ACTION
+}
+
+model AuditLog {
+  id         String      @id @default(cuid())
+  userId     String?     // subjekt akce (může být null pro pre-login pokus)
+  actorId    String?     // kdo akci provedl (admin, system, samotný user)
+  action     AuditAction
+  entityType String?     // "User" | "Listing" | "Commission" | ...
+  entityId   String?
+  metadata   Json?       // libovolný kontext (důvod změny, staré/nové hodnoty, ...)
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime    @default(now())
+
+  user  User? @relation("AuditLogSubject", fields: [userId], references: [id], onDelete: SetNull)
+  actor User? @relation("AuditLogActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([actorId, createdAt])
+  @@index([action, createdAt])
+  @@index([entityType, entityId])
+  @@index([createdAt])
 }

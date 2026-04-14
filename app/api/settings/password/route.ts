@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { changePasswordSchema } from "@/lib/validators/settings";
 import bcrypt from "bcryptjs";
+import { logAudit } from "@/lib/audit";
 
 export async function PUT(request: NextRequest) {
   try {
@@ -44,6 +45,14 @@ export async function PUT(request: NextRequest) {
     await prisma.user.update({
       where: { id: session.user.id },
       data: { passwordHash: newHash },
+    });
+
+    await logAudit({
+      action: "PASSWORD_CHANGED",
+      userId: session.user.id,
+      entityType: "User",
+      entityId: session.user.id,
+      request,
     });
 
     return NextResponse.json({ success: true });

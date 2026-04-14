@@ -3,6 +3,7 @@ import { z } from "zod";
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/resend";
+import { logAudit } from "@/lib/audit";
 
 const schema = z.object({
   email: z.string().email(),
@@ -48,6 +49,15 @@ export async function POST(request: NextRequest) {
 
     await prisma.passwordResetToken.create({
       data: { email, token, expiresAt },
+    });
+
+    await logAudit({
+      action: "PASSWORD_RESET_REQUESTED",
+      userId: user.id,
+      entityType: "User",
+      entityId: user.id,
+      metadata: { email },
+      request,
     });
 
     // Odeslat email

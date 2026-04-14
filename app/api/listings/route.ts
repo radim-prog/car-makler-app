@@ -7,6 +7,7 @@ import { generateListingSlug } from "@/lib/listings";
 import { autoFlagListing } from "@/lib/listing-flagging";
 import { getQuickFilterBySlug, quickFilterToWhere } from "@/lib/listing-quick-filters";
 import { sendListingConfirmEmail } from "@/lib/listing-confirm";
+import { logAudit } from "@/lib/audit";
 
 /* ------------------------------------------------------------------ */
 /*  Zod schemas                                                        */
@@ -208,6 +209,20 @@ export async function POST(request: NextRequest) {
       include: {
         images: true,
       },
+    });
+
+    await logAudit({
+      action: "LISTING_CREATED",
+      userId,
+      entityType: "Listing",
+      entityId: listing.id,
+      metadata: {
+        slug: listing.slug,
+        listingType,
+        anonymous: requiresEmailConfirm,
+        status: requestedStatus,
+      },
+      request,
     });
 
     // Auto-flag po vytvoření (přeskočit pro DRAFT — flag až při publishi)

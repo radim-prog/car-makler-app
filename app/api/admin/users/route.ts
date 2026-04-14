@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { logAudit } from "@/lib/audit";
 
 const ALLOWED_ROLES = ["ADMIN", "BACKOFFICE", "MANAGER"];
 
@@ -69,11 +70,39 @@ export async function PATCH(request: NextRequest) {
     if (role) updateData.role = role;
     if (status) updateData.status = status;
 
+    const previous = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { role: true, status: true },
+    });
+
     const user = await prisma.user.update({
       where: { id: userId },
       data: updateData,
       select: { id: true, email: true, role: true, status: true },
     });
+
+    if (role && previous?.role !== user.role) {
+      await logAudit({
+        action: "ROLE_CHANGED",
+        userId: user.id,
+        actorId: session.user.id,
+        entityType: "User",
+        entityId: user.id,
+        metadata: { from: previous?.role ?? null, to: user.role },
+        request,
+      });
+    }
+    if (status && previous?.status !== user.status) {
+      await logAudit({
+        action: "STATUS_CHANGED",
+        userId: user.id,
+        actorId: session.user.id,
+        entityType: "User",
+        entityId: user.id,
+        metadata: { from: previous?.status ?? null, to: user.status },
+        request,
+      });
+    }
 
     return NextResponse.json({ user });
   } catch (error) {

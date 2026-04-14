@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { logAudit } from "@/lib/audit";
 
 const schema = z.object({
   token: z.string().min(32),
@@ -57,6 +58,15 @@ export async function POST(request: NextRequest) {
         data: { used: true },
       }),
     ]);
+
+    await logAudit({
+      action: "PASSWORD_RESET_COMPLETED",
+      userId: user.id,
+      entityType: "User",
+      entityId: user.id,
+      metadata: { email: resetToken.email },
+      request,
+    });
 
     return NextResponse.json({ message: "Heslo bylo uspesne zmeneno" });
   } catch (error) {

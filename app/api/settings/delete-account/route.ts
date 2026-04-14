@@ -3,8 +3,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { createNotification } from "@/lib/notifications";
+import { logAudit } from "@/lib/audit";
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
@@ -32,6 +33,15 @@ export async function POST() {
         })
       )
     );
+
+    await logAudit({
+      action: "ERASURE_REQUESTED",
+      userId: session.user.id,
+      entityType: "User",
+      entityId: session.user.id,
+      metadata: { requestedBy: userName },
+      request,
+    });
 
     return NextResponse.json({
       message: "Žádost o smazání účtu byla odeslána. Budeme vás kontaktovat.",

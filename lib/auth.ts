@@ -2,6 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
+import { logAudit } from "./audit";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -18,15 +19,53 @@ export const authOptions: NextAuthOptions = {
           where: { email: credentials.email },
         });
 
-        if (!user) return null;
+        if (!user) {
+          await logAudit({
+            action: "LOGIN_FAILED",
+            metadata: { email: credentials.email, reason: "user_not_found" },
+          });
+          return null;
+        }
+
+        // F-017 hybrid: blokuj přihlášení pro anon DRAFT účty (passwordHash="" — vznikly přes magic-link flow)
+        if (!user.passwordHash || user.passwordHash === "") {
+          await logAudit({
+            action: "LOGIN_FAILED",
+            userId: user.id,
+            metadata: { email: credentials.email, reason: "no_password_set" },
+          });
+          return null;
+        }
+
         // Povolit přihlášení pro ACTIVE a ONBOARDING (makléři v onboarding procesu)
-        if (user.status !== "ACTIVE" && user.status !== "ONBOARDING") return null;
+        if (user.status !== "ACTIVE" && user.status !== "ONBOARDING") {
+          await logAudit({
+            action: "LOGIN_FAILED",
+            userId: user.id,
+            metadata: { email: credentials.email, reason: `status_${user.status}` },
+          });
+          return null;
+        }
 
         const isValid = await bcrypt.compare(
           credentials.password,
           user.passwordHash
         );
-        if (!isValid) return null;
+        if (!isValid) {
+          await logAudit({
+            action: "LOGIN_FAILED",
+            userId: user.id,
+            metadata: { email: credentials.email, reason: "bad_password" },
+          });
+          return null;
+        }
+
+        await logAudit({
+          action: "LOGIN_SUCCESS",
+          userId: user.id,
+          entityType: "User",
+          entityId: user.id,
+        });
 
         return {
           id: user.id,
