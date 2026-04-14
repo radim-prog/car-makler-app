@@ -1877,3 +1877,22 @@ model AuditLog {
   @@index([entityType, entityId])
   @@index([createdAt])
 }
+
+// F-020: Marketplace waitlist gate — uzavřená investiční platforma,
+// zájemci se registrují do waitlistu před veřejným spuštěním.
+model MarketplaceWaitlist {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  phone     String?
+  role      String   @default("INVESTOR") // INVESTOR, DEALER, BOTH
+  message   String?
+  source    String?  // utm_source / ?ref=
+  ipAddress String?
+  userAgent String?
+  invitedAt DateTime? // naplněno když dostane invite token
+  createdAt DateTime @default(now())
+
+  @@index([role, createdAt])
+  @@index([createdAt])
+}

@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { getServerSession } from "next-auth";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Alert } from "@/components/ui/Alert";
 import { Breadcrumbs } from "@/components/web/Breadcrumbs";
 import { getMarketplaceStats } from "@/lib/stats";
 import { pageCanonical } from "@/lib/canonical";
+import { authOptions } from "@/lib/auth";
+import {
+  MARKETPLACE_INVITE_COOKIE,
+  marketplaceGateOpen,
+} from "@/lib/marketplace-gate";
+import { WaitlistComingSoon } from "@/components/marketplace/WaitlistComingSoon";
 
 export const metadata: Metadata = {
   title: "Marketplace | Propojujeme realizátory a investory | CarMakléř",
@@ -124,11 +132,25 @@ const faqJsonLd = {
 // Landing má searchParams → nesmí mít revalidate (jinak Next.js static prerender se pokoušel cache invaidovat na každé query change). Necháme dynamic.
 
 type MarketplacePageProps = {
-  searchParams: Promise<{ reason?: string }>;
+  searchParams: Promise<{ reason?: string; invite?: string }>;
 };
 
 export default async function MarketplacePage({ searchParams }: MarketplacePageProps) {
-  const { reason } = await searchParams;
+  const { reason, invite } = await searchParams;
+
+  // F-020: waitlist gate
+  const cookieStore = await cookies();
+  const session = await getServerSession(authOptions);
+  const gateOpen = marketplaceGateOpen({
+    queryToken: invite ?? null,
+    cookieToken: cookieStore.get(MARKETPLACE_INVITE_COOKIE)?.value ?? null,
+    userRole: session?.user?.role ?? null,
+  });
+
+  if (!gateOpen) {
+    return <WaitlistComingSoon />;
+  }
+
   const stats = await getMarketplaceStats();
   return (
     <main>
