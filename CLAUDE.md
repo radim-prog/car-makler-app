@@ -80,3 +80,22 @@ npm run lint         # ESLint
 npx prisma studio    # Prisma GUI
 npx prisma migrate dev  # DB migrace
 ```
+
+## Infra (server 91.98.203.239)
+
+### Databáze
+- **Prod:** PostgreSQL 16, DB `carmakler`, peer auth z `postgres` usera
+- **Sandbox:** stejný server, DB `carmakler_sandbox`
+
+### Zálohy (FIX-007, F-015)
+- **Cron:** `/etc/cron.d/pg-backup-carmakler` — denní `pg_dump | gzip` obou DB
+- **Umístění dumpů:** `/root/db-backups/` (mode 700)
+- **Formát:** `carmakler-YYYY-MM-DD.sql.gz` (prod 03:00 UTC), `sandbox-YYYY-MM-DD.sql.gz` (03:15 UTC)
+- **Retence:** 30 dní (cron úklid 04:00 UTC)
+- **Log:** `/var/log/pg-backup.log`
+- **Restore:** `zcat /root/db-backups/carmakler-YYYY-MM-DD.sql.gz | sudo -u postgres psql carmakler_restore`
+- **TODO (fáze 2):** off-site replication na Hetzner Storage Box
+
+### Deploy sandboxu
+- `scripts/deploy-sandbox.sh` — push + remote pull/build + `pm2 restart car-zajcon --update-env` + smoke retry
+- Cesta na serveru: `/var/www/car.zajcon.cz`, port 3030, pm2 proces `car-zajcon` (id 4)
