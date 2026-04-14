@@ -8,13 +8,13 @@ import { getMarketplaceStats } from "@/lib/stats";
 import { pageCanonical } from "@/lib/canonical";
 
 export const metadata: Metadata = {
-  title: "Marketplace | Investiční platforma pro flipping aut",
+  title: "Marketplace | Propojujeme realizátory a investory | CarMakléř",
   description:
-    "Investujte do aut a vydělejte 15-25 % ročně. Ověření realizátoři nabízí příležitosti, ověření investoři financují. Bezpečně přes CarMakléř.",
+    "Propojujeme ověřené realizátory aut s investory. Transparentní spolupráce přes CarMakléř.",
   openGraph: {
-    title: "Marketplace — investice do aut | CarMakléř",
+    title: "Marketplace — propojení realizátorů a investorů | CarMakléř",
     description:
-      "Investujte do aut a vydělejte 15-25 % ročně. Ověření realizátoři, bezpečné transakce přes CarMakléř.",
+      "Propojujeme ověřené realizátory aut s investory. Transparentní spolupráce přes CarMakléř.",
   },
   alternates: pageCanonical("/marketplace"),
 };
@@ -166,12 +166,16 @@ export default async function MarketplacePage({ searchParams }: MarketplacePageP
                 Investiční platforma
               </span>
               <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
-                Investujte do aut,{" "}
-                <span className="text-orange-500">vydělejte 15-25 %</span> ročně
+                Propojujeme{" "}
+                <span className="text-orange-500">ověřené realizátory</span> s investory
               </h1>
               <p className="text-lg text-white/60 mt-5 leading-relaxed max-w-lg">
-                Ověření realizátoři nacházejí příležitosti. Vy investujete. Auto se opraví, prodá a zisk se dělí férově.
+                Ověření realizátoři nacházejí příležitosti. Investoři je financují. Auto se opraví, prodá a zisk se dělí férově.
               </p>
+              <div className="mt-5 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-100/90 text-sm leading-relaxed">
+                <strong className="block font-semibold mb-1">⚠️ Upozornění na riziko</strong>
+                Spolupráce na flippingu aut je podnikatelská činnost spojená s rizikem ztráty vložených prostředků. CarMakléř neposkytuje investiční poradenství a nepředstavuje veřejnou nabídku investičních nástrojů.
+              </div>
               <div className="mt-8 flex flex-wrap gap-4">
                 <Link href="/marketplace/apply?role=investor" className="no-underline">
                   <Button variant="primary" size="lg">
@@ -201,7 +205,7 @@ export default async function MarketplacePage({ searchParams }: MarketplacePageP
                   <div className="text-2xl font-extrabold text-orange-500">
                     {stats.avgROI > 0 ? `${stats.avgROI}%` : "–"}
                   </div>
-                  <div className="text-sm text-white/50">Průměrný ROI</div>
+                  <div className="text-sm text-white/50">Historický ROI (ø)</div>
                 </div>
                 <div>
                   <div className="text-2xl font-extrabold text-orange-500">
@@ -216,9 +220,9 @@ export default async function MarketplacePage({ searchParams }: MarketplacePageP
               <div className="relative">
                 <div className="aspect-square bg-gradient-to-br from-orange-500/20 to-orange-600/10 rounded-3xl flex items-center justify-center">
                   <div className="text-center p-8">
-                    <div className="text-6xl mb-4">📈</div>
-                    <div className="text-3xl font-extrabold text-white mb-2">+21%</div>
-                    <div className="text-white/60">Průměrný roční výnos</div>
+                    <div className="text-6xl mb-4">🤝</div>
+                    <div className="text-2xl font-extrabold text-white mb-2">Transparentní spolupráce</div>
+                    <div className="text-white/60">realizátor · investor · CarMakléř</div>
                   </div>
                 </div>
               </div>
@@ -254,14 +258,14 @@ export default async function MarketplacePage({ searchParams }: MarketplacePageP
         </div>
       </section>
 
-      {/* Priklady ROI */}
+      {/* Ilustrativní příklady */}
       <section className="py-16 md:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-2xl sm:text-[28px] font-extrabold text-gray-900">
-              Příklady zhodnocení
+              Ilustrativní příklady projektů
             </h2>
-            <p className="text-gray-500 mt-2">Reálné příklady flipů a jejich výnosnost</p>
+            <p className="text-gray-500 mt-2">Modelové kalkulace — nejsou zárukou budoucích výsledků</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
