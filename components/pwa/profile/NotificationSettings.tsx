@@ -1,0 +1,83 @@
+"use client";
+
+import { useState } from "react";
+import { Card } from "@/components/ui/Card";
+import { Toggle } from "@/components/ui/Toggle";
+
+interface NotificationSetting {
+  key: string;
+  label: string;
+  description: string;
+}
+
+const SETTINGS: NotificationSetting[] = [
+  {
+    key: "vehicleApproved",
+    label: "Schválení vozidla",
+    description: "Notifikace když je váš inzerát schválen",
+  },
+  {
+    key: "newInquiry",
+    label: "Nové dotazy",
+    description: "Notifikace o nových dotazech na vaše vozy",
+  },
+  {
+    key: "commissionPaid",
+    label: "Výplata provize",
+    description: "Notifikace o vyplacení provize",
+  },
+  {
+    key: "systemUpdates",
+    label: "Systémové zprávy",
+    description: "Důležité aktualizace a novinky",
+  },
+];
+
+export function NotificationSettings() {
+  const [settings, setSettings] = useState<Record<string, boolean>>({
+    vehicleApproved: true,
+    newInquiry: true,
+    commissionPaid: true,
+    systemUpdates: false,
+  });
+
+  const handleChange = async (key: string, value: boolean) => {
+    const updated = { ...settings, [key]: value };
+    setSettings(updated);
+
+    try {
+      await fetch("/api/broker/notifications", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ [key]: value }),
+      });
+    } catch {
+      // Revert on failure
+      setSettings(settings);
+    }
+  };
+
+  return (
+    <Card className="p-4">
+      <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wide mb-4">
+        Nastavení notifikací
+      </h3>
+      <div className="space-y-4">
+        {SETTINGS.map((setting) => (
+          <div key={setting.key} className="flex items-center justify-between gap-3">
+            <div>
+              <div className="text-sm font-semibold text-gray-900">
+                {setting.label}
+              </div>
+              <div className="text-xs text-gray-500">{setting.description}</div>
+            </div>
+            <Toggle
+              checked={settings[setting.key]}
+              onChange={(value) => handleChange(setting.key, value)}
+            />
+          </div>
+        ))}
+      </div>
+    </Card>
+  );
+}

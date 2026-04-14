@@ -1,0 +1,1806 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================
+// MODELS
+// ============================================
+
+model User {
+  id           String  @id @default(cuid())
+  email        String  @unique
+  phone        String?
+  passwordHash String
+  firstName    String
+  lastName     String
+  avatar       String?
+  role         String  @default("BROKER") // ADMIN, BACKOFFICE, REGIONAL_DIRECTOR, MANAGER, BROKER, ADVERTISER, BUYER, PARTS_SUPPLIER, WHOLESALE_SUPPLIER, INVESTOR, VERIFIED_DEALER, PARTNER_BAZAR, PARTNER_VRAKOVISTE
+  status       String  @default("PENDING") // PENDING, ONBOARDING, ACTIVE, SUSPENDED, INACTIVE
+
+  // Hierarchie
+  managerId   String?
+  manager     User?   @relation("ManagerToBroker", fields: [managerId], references: [id])
+  teamMembers User[]  @relation("ManagerToBroker")
+
+  // Region
+  regionId String?
+  region   Region? @relation(fields: [regionId], references: [id])
+
+  // Gamifikace
+  level      String @default("JUNIOR") // JUNIOR, BROKER, SENIOR, TOP
+  totalSales Int    @default(0)
+
+  // Profil makléře
+  specializations String? // JSON array: ["SUV", "Luxury"]
+  cities          String? // JSON array: ["Praha", "Brno"]
+  bio             String?
+  slug            String? @unique
+
+  // Onboarding makléře
+  bankAccount         String?  // IBAN pro výplatu provizí
+  documents           String?  // JSON: { tradeLicense?: string, idFront?: string, idBack?: string }
+  onboardingStep      Int      @default(1) // 1-5 aktuální krok onboardingu
+  onboardingCompleted Boolean  @default(false)
+  quizScore           Int?     // Výsledek kvízu (procenta)
+  brokerContractUrl   String?  // URL podepsané smlouvy s Carmakler
+  brokerSignature     String?  // Base64 PNG podpisu makléře (onboarding smlouva)
+  quickModeEnabled    Boolean  @default(false) // Rychlé nabírání (Makléř+ level)
+
+  // Kreditový systém pro inzeráty
+  listingCredits      Int      @default(0)  // Počet předplacených inzerátů (Bundle 30ks)
+
+  // Profil inzerenta (ADVERTISER)
+  accountType String? // PRIVATE, DEALER, BAZAAR
+  companyName String?
+  ico         String? // IČO pro firmy/makléře
+  icoVerified Boolean @default(false)
+  logo        String?
+
+  // Relace
+  vehicles        Vehicle[]
+  commissions     Commission[]     @relation("BrokerCommissions")
+  notifications   Notification[]
+  contracts       Contract[]       @relation("BrokerContracts")
+  aiConversations AiConversation[]
+  sentInvitations Invitation[]     @relation("ManagerInvitations")
+
+  // Email systém
+  emailLogs EmailLog[] @relation("SenderEmails")
+
+  // Gamifikace relace
+  achievements UserAchievement[]
+
+  // Notifikační preference
+  notificationPreferences NotificationPreference[]
+
+  // Prodejní flow relace
+  vehicleInquiries VehicleInquiry[] @relation("BrokerInquiries")
+  damageReports    DamageReport[]   @relation("DamageReports")
+
+  // Lead management relace
+  assignedLeads   Lead[]           @relation("AssignedLeads")
+  assignedByLeads Lead[]           @relation("AssignedByLeads")
+
+  // CRM relace
+  sellerContacts       SellerContact[]       @relation("BrokerContacts")
+  sellerCommunications SellerCommunication[] @relation("BrokerCommunications")
+
+  // Eskalace
+  escalationsAsBroker  Escalation[] @relation("BrokerEscalations")
+  escalationsAsManager Escalation[] @relation("ManagerEscalations")
+
+  // Inzertní platforma relace
+  listings    Listing[]
+  inquiries   Inquiry[]  @relation("BuyerInquiries")
+  watchdogs   Watchdog[]
+  favorites   Favorite[]
+  cebiaReports    CebiaReport[]
+  feedConfigs     ListingFeedConfig[]
+
+  // Eshop autodíly relace
+  suppliedParts         Part[]
+  ordersAsBuyer         Order[]
+  orderItemsAsSupplier  OrderItem[]  @relation("SupplierOrderItems")
+  partsFeedConfigs      PartsFeedConfig[]
+
+  // Marketplace relace
+  dealerFlips FlipOpportunity[]
+  investments Investment[]
+  marketplaceApplicationsReviewed  MarketplaceApplication[] @relation("MarketplaceApplicationReviewer")
+  marketplaceApplicationsConverted MarketplaceApplication[] @relation("MarketplaceApplicationConvertedUser")
+
+  // Partnerský modul relace
+  managedPartners    Partner[]         @relation("PartnerManager")
+  partnerAccount     Partner?          @relation("PartnerUser")
+  partnerActivities  PartnerActivity[]
+  commissionChanges  PartnerCommissionLog[] @relation("PartnerCommissionChanger")
+
+  // Platební systém relace
+  confirmedPayments Payment[]      @relation("PaymentConfirmer")
+  brokerPayouts     BrokerPayout[] @relation("BrokerPayouts")
+  approvedPayouts   BrokerPayout[] @relation("PayoutApprover")
+
+  // Auth
+  emailVerified DateTime?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([role])
+  @@index([status])
+  @@index([managerId])
+}
+
+model Region {
+  id     String  @id @default(cuid())
+  name   String  @unique
+  cities String? // JSON array
+  users  User[]
+
+  invitations Invitation[]
+  leads       Lead[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================
+// ONBOARDING MAKLÉŘŮ
+// ============================================
+
+model Invitation {
+  id        String @id @default(cuid())
+  email     String
+  name      String?
+  token     String @unique
+  managerId String
+  manager   User   @relation("ManagerInvitations", fields: [managerId], references: [id])
+  regionId  String
+  region    Region @relation(fields: [regionId], references: [id])
+  status    String @default("PENDING") // PENDING, USED, EXPIRED
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([managerId])
+  @@index([status])
+}
+
+model Vehicle {
+  id String @id @default(cuid())
+
+  // VIN
+  vin       String  @unique
+  vinLocked Boolean @default(false)
+
+  // Fulltext search
+  searchVector Unsupported("tsvector")?
+
+  // Základní info
+  brand   String
+  model   String
+  variant String?
+  year    Int
+  mileage Int
+  slug    String? @unique
+
+  // Motor
+  fuelType       String // PETROL, DIESEL, ELECTRIC, HYBRID, PLUGIN_HYBRID, LPG, CNG
+  transmission   String // MANUAL, AUTOMATIC, DSG, CVT
+  enginePower    Int?
+  engineCapacity Int?
+
+  // Karoserie
+  bodyType   String? // SEDAN, HATCHBACK, COMBI, SUV, COUPE, CABRIO, VAN, PICKUP
+  color      String?
+  doorsCount Int?
+  seatsCount Int?
+
+  // Pohon a historie
+  drivetrain        String? // FWD, RWD, AWD, 4WD
+  ownerCount        Int?
+  serviceBookStatus String? // COMPLETE, PARTIAL, NONE, ELECTRONIC
+  odometerStatus    String? // VERIFIED, UNVERIFIED, TAMPERED
+  originCountry     String?
+
+  // Stav
+  condition     String // NEW, LIKE_NEW, EXCELLENT, GOOD, FAIR, DAMAGED
+  stkValidUntil DateTime?
+  serviceBook   Boolean   @default(false)
+
+  // Cena a DPH
+  price           Int
+  priceNegotiable Boolean @default(true)
+  vatStatus       String? // DEDUCTIBLE, NON_DEDUCTIBLE, MARGIN_SCHEME
+
+  // Popis
+  equipment   String? // JSON array
+  description String?
+  highlights  String? // JSON array - klíčové přednosti vozidla
+
+  // Zdroj vozidla
+  vehicleSource String? // OWNER, DEALER, AUCTION, IMPORT, LEASING_RETURN
+
+  // Status
+  status             String    @default("DRAFT") // DRAFT, DRAFT_QUICK, PENDING, REJECTED, ACTIVE, RESERVED, PAID, SOLD, ARCHIVED
+  rejectionReason    String?
+  quickDraftDeadline DateTime? // 48h deadline pro doplnění rychlého draftu
+
+  // Typ prodejce
+  sellerType String @default("broker") // broker, private
+
+  // Makléř (null pro soukromé inzeráty)
+  brokerId String?
+  broker   User?   @relation(fields: [brokerId], references: [id])
+
+  // Kontakt (pro soukromé inzeráty)
+  contactName  String?
+  contactPhone String?
+  contactEmail String?
+
+  // Lead info (kontakt na prodejce pro makléře)
+  leadSource  String? // BAZOS, SAUTO, FACEBOOK, REFERRAL, COLD_CALL, OTHER
+  leadUrl     String?
+  sellerName  String?
+  sellerPhone String?
+  sellerEmail String?
+
+  // Provize makléře
+  commission Int? // výše provize v CZK
+
+  // Inspekce
+  inspectionData String? // JSON - kompletní data z prohlídky
+  overallRating  Int? // 1-5 hvězdiček
+
+  // Lokace
+  city      String
+  district  String?
+  latitude  Float?
+  longitude Float?
+
+  // Trust Score
+  trustScore Int @default(0)
+
+  // Stats
+  viewCount Int @default(0)
+
+  // Exkluzivita
+  exclusiveUntil      DateTime? // Datum konce exkluzivity
+  exclusiveContractId String?   // ID propojené exkluzivní smlouvy
+
+  // Rezervace a prodej
+  reservedFor        String?
+  reservedAt         DateTime?
+  reservedPrice      Int?
+  soldPrice          Int?
+  soldAt             DateTime?
+  handoverCompleted  Boolean   @default(false)
+  handoverDate       DateTime?
+  workflowChecklist  String?   // JSON: WorkflowChecklistData
+
+  // CRM — propojení na prodejce
+  sellerContactId String?
+  sellerContact   SellerContact? @relation(fields: [sellerContactId], references: [id])
+
+  // Relace
+  images        VehicleImage[]
+  changeLog     VehicleChangeLog[]
+  commissions   Commission[]
+  contracts     Contract[]
+  listing       Listing?
+  leads         Lead[]
+  inquiries     VehicleInquiry[]
+  damageReports DamageReport[]
+  payments        Payment[]
+  sellerPayouts   SellerPayout[]
+  emailLogs       EmailLog[]
+  priceReductions PriceReduction[]
+  escalations     Escalation[]
+  partnerLeads    PartnerLead[]
+
+  // Timestamps
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime?
+
+  @@index([brand, model])
+  @@index([status])
+  @@index([brokerId])
+  @@index([price])
+  @@index([year])
+  @@index([sellerType])
+}
+
+model VehicleImage {
+  id        String  @id @default(cuid())
+  vehicleId String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  url       String
+  order     Int     @default(0)
+  isPrimary Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([vehicleId])
+}
+
+model VehicleChangeLog {
+  id         String  @id @default(cuid())
+  vehicleId  String
+  vehicle    Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  userId     String
+  field      String
+  oldValue   String?
+  newValue   String?
+  reason     String?
+  flagged    Boolean @default(false)
+  flagReason String?
+
+  createdAt DateTime @default(now())
+
+  @@index([vehicleId])
+}
+
+// ============================================
+// PRODEJNÍ FLOW
+// ============================================
+
+model VehicleInquiry {
+  id        String  @id @default(cuid())
+  vehicleId String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  brokerId  String
+  broker    User    @relation("BrokerInquiries", fields: [brokerId], references: [id])
+
+  // Kupující
+  buyerName  String
+  buyerPhone String
+  buyerEmail String?
+  message    String
+
+  // Stav dotazu
+  status String @default("NEW") // NEW, REPLIED, VIEWING_SCHEDULED, NEGOTIATING, RESERVED, SOLD, NO_INTEREST
+
+  // Odpověď makléře
+  reply     String?
+  repliedAt DateTime?
+
+  // Prohlídka
+  viewingDate   DateTime?
+  viewingResult String? // INTERESTED, THINKING, NO_INTEREST
+
+  // Cena
+  offeredPrice Int?
+  agreedPrice  Int?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([vehicleId])
+  @@index([brokerId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model DamageReport {
+  id           String  @id @default(cuid())
+  vehicleId    String
+  vehicle      Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  reportedById String
+  reportedBy   User    @relation("DamageReports", fields: [reportedById], references: [id])
+
+  description String
+  severity    String // COSMETIC, FUNCTIONAL, SEVERE
+  images      String? // JSON array of image URLs
+
+  repaired   Boolean   @default(false)
+  repairedAt DateTime?
+  repairNote String?
+
+  createdAt DateTime @default(now())
+
+  @@index([vehicleId])
+  @@index([reportedById])
+}
+
+model Commission {
+  id        String  @id @default(cuid())
+  brokerId  String
+  broker    User    @relation("BrokerCommissions", fields: [brokerId], references: [id])
+  vehicleId String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+
+  salePrice  Int
+  commission Int
+  rate       Float
+  status     String @default("PENDING") // PENDING, APPROVED, PAID, CANCELLED
+
+  // Rozdělení provize
+  brokerShare  Int? // 50% provize (makléřova část)
+  companyShare Int? // 50% provize (firemní část)
+  managerBonus Int? // Bonus manažera (2 500 Kč)
+
+  // Propojení na výplaty
+  payoutId String?
+  payout   BrokerPayout? @relation(fields: [payoutId], references: [id])
+
+  soldAt DateTime
+  paidAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([brokerId])
+  @@index([status])
+  @@index([soldAt])
+  @@index([payoutId])
+}
+
+model Notification {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  type  String // COMMISSION, VEHICLE, SYSTEM, MESSAGE
+  title String
+  body  String
+  link  String?
+  read  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([read])
+  @@index([createdAt])
+}
+
+model Contract {
+  id   String @id @default(cuid())
+  type String // BROKERAGE (zprostředkovatelská), HANDOVER (předávací protokol)
+
+  vehicleId String?
+  vehicle   Vehicle? @relation(fields: [vehicleId], references: [id])
+  brokerId  String
+  broker    User     @relation("BrokerContracts", fields: [brokerId], references: [id])
+
+  // Prodejce
+  sellerName        String
+  sellerPhone       String
+  sellerEmail       String?
+  sellerAddress     String?
+  sellerIdNumber    String? // Rodné číslo
+  sellerIdCard      String? // Číslo OP
+  sellerBankAccount String?
+
+  // Obsah smlouvy
+  content    String? // JSON - strukturovaná data smlouvy
+  price      Int? // Dohodnutá cena
+  commission Int? // Provize
+
+  // Exkluzivita
+  exclusiveDuration  Int?      // Doba exkluzivity v měsících
+  exclusiveStartDate DateTime? // Začátek exkluzivity
+  exclusiveEndDate   DateTime? // Konec exkluzivity
+
+  // Ukončení smlouvy
+  earlyTermination  Boolean   @default(false)
+  terminationReason String?
+  terminationDate   DateTime?
+
+  // Porušení exkluzivity
+  violationReported Boolean @default(false)
+  violationDetails  String?
+  penaltyAmount     Int?    // Smluvní pokuta v CZK
+
+  // Podpisy
+  sellerSignature String? // Base64 PNG podpisu
+  brokerSignature String? // Base64 PNG podpisu
+  signedAt        DateTime?
+  signedLocation  String? // GPS souřadnice při podpisu
+
+  // PDF
+  pdfUrl String? // URL vygenerovaného PDF
+
+  // Stav
+  status String @default("DRAFT") // DRAFT, SIGNED, SENT, ARCHIVED, EXPIRED, TERMINATED
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([brokerId])
+  @@index([vehicleId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model AiConversation {
+  id       String @id @default(cuid())
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
+  messages Json // Array of { role: 'user'|'assistant', content: string, timestamp: string }
+  context  Json? // { step?: string, vehicleId?: string }
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// ============================================
+// LEAD MANAGEMENT
+// ============================================
+
+model Lead {
+  id String @id @default(cuid())
+
+  // Kontakt
+  name  String
+  phone String
+  email String?
+
+  // Auto info
+  brand         String?
+  model         String?
+  year          Int?
+  mileage       Int?
+  expectedPrice Int?
+  description   String?
+
+  // Zdroj
+  source       String // WEB_FORM, EXTERNAL_APP, MANUAL, REFERRAL
+  externalId   String?
+  sourceDetail String?
+
+  // Lokace
+  city     String?
+  regionId String?
+  region   Region? @relation(fields: [regionId], references: [id])
+
+  // Přiřazení
+  assignedToId String?
+  assignedTo   User?    @relation("AssignedLeads", fields: [assignedToId], references: [id])
+  assignedById String?
+  assignedBy   User?    @relation("AssignedByLeads", fields: [assignedById], references: [id])
+  assignedAt   DateTime?
+
+  // Stav
+  status          String @default("NEW") // NEW, ASSIGNED, CONTACTED, MEETING_SCHEDULED, VEHICLE_ADDED, REJECTED, EXPIRED
+  rejectionReason String?
+  meetingDate     DateTime?
+
+  // Propojení na vozidlo
+  vehicleId String?
+  vehicle   Vehicle? @relation(fields: [vehicleId], references: [id])
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([assignedToId])
+  @@index([regionId])
+  @@index([source])
+  @@index([phone, brand, model])
+}
+
+// ============================================
+// INZERTNÍ PLATFORMA
+// ============================================
+
+model Listing {
+  id          String @id @default(cuid())
+  slug        String @unique
+  listingType String // PRIVATE, DEALER, BROKER
+
+  // Fulltext search
+  searchVector Unsupported("tsvector")?
+
+  // Vlastník inzerátu
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  vehicleId String?  @unique // Odkaz na Vehicle (pokud listing od makléře)
+  vehicle   Vehicle? @relation(fields: [vehicleId], references: [id])
+
+  // Vozidlo
+  vin            String?
+  brand          String
+  model          String
+  variant        String?
+  year           Int
+  mileage        Int
+  fuelType       String // PETROL, DIESEL, ELECTRIC, HYBRID, PLUGIN_HYBRID, LPG, CNG
+  transmission   String // MANUAL, AUTOMATIC, DSG, CVT
+  enginePower    Int?
+  engineCapacity Int?
+  bodyType       String? // SEDAN, HATCHBACK, COMBI, SUV, COUPE, CABRIO, VAN, PICKUP
+  color          String?
+  doorsCount     Int?
+  seatsCount     Int?
+  drivetrain     String? // FRONT, REAR, 4x4
+
+  // Stav vozidla
+  condition      String // NEW, LIKE_NEW, EXCELLENT, GOOD, FAIR, DAMAGED
+  serviceBook    Boolean?  @default(false)
+  stkValidUntil  DateTime?
+  odometerStatus String? // VERIFIED, UNVERIFIED, TAMPERED
+  ownerCount     Int?
+  originCountry  String?
+
+  // Cena
+  price           Int
+  priceNegotiable Boolean @default(true)
+  vatStatus       String? // DEDUCTIBLE, NON_DEDUCTIBLE, MARGIN_SCHEME
+
+  // Kontakt
+  contactName  String
+  contactPhone String
+  contactEmail String?
+  city         String
+  district     String?
+
+  // Obsah
+  description String?
+  equipment   String? // JSON array
+  highlights  String? // JSON array
+
+  // Status
+  status       String    @default("DRAFT") // DRAFT, ACTIVE, INACTIVE, SOLD, EXPIRED
+  isPremium    Boolean   @default(false)
+  premiumUntil DateTime?
+
+  // Propojení s makléřskou sítí
+  wantsBrokerHelp Boolean @default(false)
+
+  // Flagování a moderace
+  flagged          Boolean   @default(false)
+  flagReasons      String?   // JSON array of reasons
+  flaggedAt        DateTime?
+  moderationStatus String?   // AUTO_APPROVED, PENDING_REVIEW, APPROVED, REJECTED
+
+  // SLA a response tracking
+  lastResponseAt   DateTime?
+  responseDeadline DateTime?
+
+  // Upsell tracking
+  upsellStage  Int       @default(0) // 0=none, 1=14d, 2=30d, 3=45d
+  upsellSentAt DateTime?
+
+  // Tier inzerátu
+  listingTier String @default("PRIVATE") // PRIVATE, ADVERTISER, PARTNER
+
+  // Stats
+  viewCount    Int @default(0)
+  inquiryCount Int @default(0)
+
+  // Timestamps
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  publishedAt DateTime?
+  expiresAt   DateTime?
+
+  // Relace
+  images       ListingImage[]
+  inquiries    Inquiry[]
+  favorites    Favorite[]
+  reservations Reservation[]
+  cebiaReports CebiaReport[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([brand, model])
+  @@index([price])
+  @@index([year])
+  @@index([city])
+  @@index([listingType])
+  @@index([isPremium])
+  @@index([flagged])
+  @@index([moderationStatus])
+  @@index([listingTier])
+}
+
+model ListingImage {
+  id        String  @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  url       String
+  order     Int     @default(0)
+  isPrimary Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([listingId])
+}
+
+model Inquiry {
+  id        String  @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  senderId  String?
+  sender    User?   @relation("BuyerInquiries", fields: [senderId], references: [id])
+
+  // Kontakt (pro nepřihlášené zájemce)
+  name    String
+  email   String
+  phone   String?
+  message String
+
+  // Odpověď inzerenta
+  reply     String?
+  repliedAt DateTime?
+
+  // Status flow
+  status String @default("NEW") // NEW, READ, REPLIED, CLOSED
+
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([listingId])
+  @@index([senderId])
+  @@index([status])
+}
+
+model Watchdog {
+  id     String  @id @default(cuid())
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+  email  String? // Pro email-only watchdog (bez registrace)
+
+  // Kritéria
+  brand    String?
+  model    String?
+  minPrice Int?
+  maxPrice Int?
+  minYear  Int?
+  maxYear  Int?
+  fuelType String?
+  bodyType String?
+  city     String?
+
+  active       Boolean   @default(true)
+  lastNotified DateTime?
+  createdAt    DateTime  @default(now())
+
+  @@index([userId])
+  @@index([email])
+}
+
+model Favorite {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, listingId])
+  @@index([userId])
+}
+
+// ============================================
+// REZERVACE INZERÁTŮ
+// ============================================
+
+model Reservation {
+  id        String  @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id])
+
+  // Kupující
+  buyerName  String
+  buyerEmail String
+  buyerPhone String
+
+  // Platba
+  amount          Int     @default(5000) // Kauce v CZK
+  status          String  @default("PENDING") // PENDING, PAID, EXPIRED, CANCELLED, REFUNDED
+  stripeSessionId String?
+
+  // Časy
+  expiresAt DateTime // 48h po vytvoření
+  createdAt DateTime @default(now())
+
+  @@index([listingId])
+  @@index([status])
+  @@index([stripeSessionId])
+  @@index([expiresAt])
+}
+
+// ============================================
+// CEBIA OVĚŘENÍ VOZIDEL
+// ============================================
+
+model CebiaReport {
+  id        String   @id @default(cuid())
+  listingId String?
+  listing   Listing? @relation(fields: [listingId], references: [id])
+  vin       String
+
+  status    String @default("PENDING") // PENDING, COMPLETED, FAILED
+  reportUrl String?
+  price     Int    @default(499) // Cena v CZK
+
+  orderedById String
+  orderedBy   User   @relation(fields: [orderedById], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@index([listingId])
+  @@index([vin])
+  @@index([orderedById])
+  @@index([status])
+}
+
+// ============================================
+// FEED IMPORT INZERÁTŮ
+// ============================================
+
+model ListingFeedConfig {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  name          String
+  feedUrl       String
+  format        String  @default("XML") // XML, CSV, JSON
+  mappingConfig String? // JSON mapping konfigurace
+
+  autoSync     Boolean  @default(false)
+  syncInterval String   @default("daily") // daily, hourly, manual
+  lastSyncAt   DateTime?
+
+  // Relace
+  importLogs ListingImportLog[]
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model ListingImportLog {
+  id       String            @id @default(cuid())
+  configId String
+  config   ListingFeedConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+
+  status        String @default("PENDING") // SUCCESS, PARTIAL, FAILED
+  importedCount Int    @default(0)
+  updatedCount  Int    @default(0)
+  errorCount    Int    @default(0)
+  errors        String? // JSON array of error details
+
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  @@index([configId])
+  @@index([status])
+}
+
+// ============================================
+// ESHOP AUTODÍLY
+// ============================================
+
+model Part {
+  id         String @id @default(cuid())
+  slug       String @unique
+  supplierId String
+  supplier   User   @relation(fields: [supplierId], references: [id])
+
+  // Základní info
+  category    String // ENGINE, TRANSMISSION, BRAKES, SUSPENSION, BODY, ELECTRICAL, INTERIOR, WHEELS, EXHAUST, COOLING, FUEL, OTHER
+  name        String
+  description String?
+
+  // Fulltext search (generováno z name + description + oemNumber + partNumber)
+  searchVector Unsupported("tsvector")?
+  partNumber  String?
+  oemNumber   String?
+
+  // Výrobce a záruka (pro aftermarket a nové díly)
+  manufacturer String? // Např. "TRW", "Bosch", "LUK"
+  warranty     String? // Např. "24 měsíců", "zákonná", "doživotní"
+
+  // Typ dílu
+  partType String @default("USED") // USED, NEW, AFTERMARKET
+
+  // Stav
+  condition String // NEW, USED_GOOD, USED_FAIR, USED_POOR, REFURBISHED
+
+  // Cena
+  price          Int
+  wholesalePrice Int?    // Nákupní cena z feedu
+  markupPercent  Float?  // Přirážka v %
+  currency       String  @default("CZK")
+  vatIncluded    Boolean @default(true)
+
+  // Sklad
+  stock      Int     @default(1)
+  weight     Float?
+  dimensions String?
+
+  // Kompatibilita
+  compatibleBrands   String?  // JSON array: ["Škoda", "VW"]
+  compatibleModels   String?  // JSON array: ["Octavia", "Golf"]
+  compatibleYearFrom Int?
+  compatibleYearTo   Int?
+  universalFit       Boolean @default(false)
+
+  // Status
+  status    String @default("DRAFT") // DRAFT, ACTIVE, SOLD, INACTIVE
+  viewCount Int    @default(0)
+
+  // Feed import
+  feedConfigId String?
+  feedConfig   PartsFeedConfig? @relation(fields: [feedConfigId], references: [id])
+  externalId   String?  // ID dílu v externím feedu
+
+  // Relace
+  images     PartImage[]
+  orderItems OrderItem[]
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([supplierId])
+  @@index([category])
+  @@index([status])
+  @@index([price])
+  @@index([partType])
+  @@index([feedConfigId])
+  @@index([externalId])
+  @@index([manufacturer])
+}
+
+model PartImage {
+  id        String  @id @default(cuid())
+  partId    String
+  part      Part    @relation(fields: [partId], references: [id], onDelete: Cascade)
+  url       String
+  order     Int     @default(0)
+  isPrimary Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([partId])
+}
+
+// SEO long-form content pro /dily/znacka/* landing pages.
+// Source of truth: plán-81 §C3.2 + plán-139 §3.1.
+// Hybrid Cesta C: DB pre-seed pro brand+model (32 entries), MODEL_YEAR
+// fallback je render-time template factory (no DB row).
+model SeoContent {
+  id String @id @default(cuid())
+
+  // URL identifier
+  pageType String  // "BRAND", "MODEL", "MODEL_YEAR", "CATEGORY"
+  brand    String? // brand slug, e.g. "skoda"
+  model    String? // model slug, e.g. "octavia"
+  year     Int?    // year, e.g. 2018
+  category String? // category slug (future use, e.g. "brzdy")
+
+  // Content (JSON for flexibility — JSON.parse on render)
+  h1            String // H1 text
+  metaTitle     String // <title>
+  metaDesc      String // <meta name="description">
+  introHtml     String // Hero paragraph (raw HTML, sanitized v gen scriptu Zod whitelist)
+  sectionsJson  String // JSON: [{h2: string, html: string}, ...]
+  faqJson       String // JSON: [{question: string, answer: string}, ...]
+  aiSnippetText String // 2-3 věty pro AI featured snippet (Perplexity, ChatGPT, AI Overview)
+  quickFacts    String // JSON: string[] (numerická data pro UI panel)
+
+  // Meta
+  wordCount   Int      // Auto-computed, pro analytics
+  generatedBy String   @default("template") // "template", "claude", "manual"
+  generatedAt DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([pageType, brand, model, year, category])
+  @@index([pageType])
+  @@index([brand])
+}
+
+model Order {
+  id          String  @id @default(cuid())
+  orderNumber String  @unique
+  buyerId     String?
+  buyer       User?   @relation(fields: [buyerId], references: [id])
+
+  // Status
+  status String @default("PENDING") // PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED
+
+  // Doručení
+  deliveryName    String
+  deliveryPhone   String
+  deliveryEmail   String
+  deliveryAddress String
+  deliveryCity    String
+  deliveryZip     String
+
+  // Způsob doručení
+  deliveryMethod      String  @default("PPL") // ZASILKOVNA, DPD, PPL, GLS, CESKA_POSTA, PICKUP
+  zasilkovnaPointId   String? // ID výdejního místa Zásilkovny
+  zasilkovnaPointName String? // Název výdejního místa
+
+  // Platba
+  paymentMethod String @default("BANK_TRANSFER") // BANK_TRANSFER, COD, CARD
+  paymentStatus String @default("PENDING")        // PENDING, PAID
+
+  // Ceny
+  totalPrice    Int
+  shippingPrice Int @default(0)
+
+  // Poznámka
+  note String?
+
+  // Tracking + přepravní štítek (generované naším systémem přes API dopravce)
+  trackingNumber   String?
+  trackingCarrier  String? // Reálný dopravce (zpravidla stejný jako deliveryMethod)
+  trackingUrl      String? // Link na tracking u dopravce
+  shippingLabelUrl String? // URL na PDF přepravní štítek k vytištění ve vrakovišti
+  shippedAt        DateTime?
+  deliveredAt      DateTime?
+
+  // Guest checkout
+  guestToken  String?  @unique  // Token pro sledovani objednavky bez prihlaseni
+
+  // Relace
+  items   OrderItem[]
+  returns ReturnRequest[]
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([buyerId])
+  @@index([status])
+  @@index([guestToken])
+}
+
+model OrderItem {
+  id         String @id @default(cuid())
+  orderId    String
+  order      Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  partId     String
+  part       Part   @relation(fields: [partId], references: [id])
+  supplierId String
+  supplier   User   @relation("SupplierOrderItems", fields: [supplierId], references: [id])
+
+  quantity   Int
+  unitPrice  Int
+  totalPrice Int
+
+  // Snapshot sazby v době platby — imutabilní i pokud se Partner.commissionRate později změní.
+  commissionRateApplied Decimal? @db.Decimal(4, 2)
+  carmaklerFee          Int?
+  supplierPayout        Int?
+
+  status String @default("PENDING") // PENDING, CONFIRMED, SHIPPED
+
+  createdAt DateTime @default(now())
+
+  @@index([orderId])
+  @@index([partId])
+  @@index([supplierId])
+}
+
+// ============================================
+// VRÁCENÍ A REKLAMACE
+// ============================================
+
+model ReturnRequest {
+  id      String @id @default(cuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id])
+
+  // Typ
+  type String // WITHDRAWAL (14-den odstoupení), WARRANTY (záruční reklamace)
+
+  // Položky k vrácení
+  items String // JSON array: [{orderItemId, quantity, reason}]
+
+  // Důvod
+  reason     String  // Textový popis důvodu
+  defectDesc String? // Popis závady (jen pro WARRANTY)
+  photos     String? // JSON array URL fotek závady
+
+  // Kontakt
+  contactName  String
+  contactEmail String
+  contactPhone String?
+
+  // Bankovní účet pro vrácení peněz
+  bankAccount String?
+
+  // Finance
+  requestedAmount Int        // Částka k vrácení
+  approvedAmount  Int?       // Schválená částka
+  refundedAt      DateTime?
+
+  // Stav
+  status String @default("NEW")
+  // NEW, RECEIVED, IN_REVIEW, APPROVED, REFUNDED, PARTIALLY_REFUNDED, REJECTED, CANCELLED
+
+  rejectionReason String?
+
+  // 30-den lhůta na vyřízení (§19/3 ZOS)
+  deadlineAt DateTime?
+
+  // Interní poznámky
+  adminNotes String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orderId])
+  @@index([status])
+  @@index([type])
+  @@index([createdAt])
+}
+
+// ============================================
+// MARKETPLACE — INVESTIČNÍ PLATFORMA
+// ============================================
+
+model FlipOpportunity {
+  id       String @id @default(cuid())
+  dealerId String
+  dealer   User   @relation(fields: [dealerId], references: [id])
+
+  // Auto
+  brand     String
+  model     String
+  year      Int
+  mileage   Int
+  vin       String?
+  condition String // NEW, LIKE_NEW, EXCELLENT, GOOD, FAIR, DAMAGED
+  photos    String? // JSON array of URLs
+
+  // Finance
+  purchasePrice      Int
+  repairCost         Int
+  estimatedSalePrice Int
+
+  // Opravy
+  repairDescription String?
+  repairPhotos      String? // JSON array of URLs
+
+  // Prodej
+  actualSalePrice Int?
+  soldAt          DateTime?
+
+  // Status
+  status          String @default("PENDING_APPROVAL")
+  // PENDING_APPROVAL, APPROVED, FUNDING, FUNDED, IN_REPAIR, FOR_SALE, SOLD, PAYOUT_PENDING, COMPLETED, CANCELLED
+  fundedAmount    Int    @default(0)
+  adminNotes      String?
+  rejectionReason String?
+
+  // Relace
+  investments Investment[]
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([dealerId])
+  @@index([status])
+}
+
+model Investment {
+  id            String          @id @default(cuid())
+  investorId    String
+  investor      User            @relation(fields: [investorId], references: [id])
+  opportunityId String
+  opportunity   FlipOpportunity @relation(fields: [opportunityId], references: [id])
+
+  amount           Int
+  paymentStatus    String @default("PENDING") // PENDING, CONFIRMED, REFUNDED
+  paymentReference String?
+
+  // Výplata
+  returnAmount Int?
+  paidOutAt    DateTime?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([investorId])
+  @@index([opportunityId])
+  @@index([paymentStatus])
+}
+
+// Marketplace žádosti o přístup — public apply form (není potřeba login)
+model MarketplaceApplication {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Basic contact
+  firstName String
+  lastName  String
+  email     String
+  phone     String
+  role      String // "VERIFIED_DEALER" | "INVESTOR"
+
+  // Dealer-specific (optional)
+  companyName String?
+  ico         String?
+
+  // Investor-specific (optional)
+  investmentRange String? // "10k-50k" | "50k-200k" | "200k-1M" | "1M+"
+
+  // Common
+  message     String  @db.Text
+  gdprConsent Boolean @default(false)
+
+  // Admin workflow
+  status       String    @default("NEW") // NEW | CONTACTED | APPROVED | REJECTED | SPAM
+  adminNotes   String?   @db.Text
+  reviewedAt   DateTime?
+  reviewedById String?
+  reviewedBy   User?     @relation("MarketplaceApplicationReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  // Když byl převeden na user account
+  convertedUserId String?
+  convertedUser   User?   @relation("MarketplaceApplicationConvertedUser", fields: [convertedUserId], references: [id], onDelete: SetNull)
+
+  // Rate limiting / anti-spam metadata
+  ipAddress String?
+  userAgent String? @db.Text
+
+  @@index([status, createdAt])
+  @@index([email])
+  @@index([role, status])
+}
+
+// ============================================
+// PLATEBNÍ SYSTÉM
+// ============================================
+
+model Payment {
+  id        String  @id @default(cuid())
+  vehicleId String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+
+  // Kupující
+  buyerName  String
+  buyerEmail String
+  buyerPhone String?
+
+  // Platba
+  amount Int    // Celková částka (prodejní cena) v CZK
+  method String // CARD, BANK_TRANSFER, FINANCING
+  status String @default("PENDING") // PENDING, PROCESSING, PAID, FAILED, REFUNDED
+
+  // Stripe
+  stripeSessionId     String? // Stripe Checkout Session ID
+  stripePaymentIntent String? // Payment Intent ID
+
+  // Bankovní převod
+  variableSymbol String? // Variabilní symbol (pro převody)
+
+  // Potvrzení
+  confirmedAt   DateTime?
+  confirmedById String?
+  confirmedBy   User?    @relation("PaymentConfirmer", fields: [confirmedById], references: [id])
+
+  // Relace
+  sellerPayouts SellerPayout[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([vehicleId])
+  @@index([status])
+  @@index([stripeSessionId])
+  @@index([variableSymbol])
+}
+
+model SellerPayout {
+  id        String  @id @default(cuid())
+  vehicleId String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+  paymentId String
+  payment   Payment @relation(fields: [paymentId], references: [id])
+
+  sellerName        String
+  sellerBankAccount String
+  amount            Int    // Prodejní cena - provize
+  commissionAmount  Int    // Stržená provize
+
+  status        String    @default("PENDING") // PENDING, PROCESSING, PAID, FAILED
+  paidAt        DateTime?
+  bankReference String?   // Reference bankovního převodu
+
+  createdAt DateTime @default(now())
+
+  @@index([vehicleId])
+  @@index([paymentId])
+  @@index([status])
+}
+
+model BrokerPayout {
+  id       String @id @default(cuid())
+  brokerId String
+  broker   User   @relation("BrokerPayouts", fields: [brokerId], references: [id])
+  period   String // "2026-03" (rok-měsíc)
+
+  commissions   Commission[] // Provize zahrnuté v této výplatě
+  totalAmount   Int          // Celková částka k výplatě (50% z provizí)
+  invoiceUrl    String?      // URL nahrané faktury od makléře
+  invoiceNumber String?      // Číslo faktury
+
+  status       String    @default("PENDING_INVOICE") // PENDING_INVOICE, INVOICE_UPLOADED, APPROVED, PAID
+  approvedById String?
+  approvedBy   User?     @relation("PayoutApprover", fields: [approvedById], references: [id])
+  paidAt       DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([brokerId])
+  @@index([period])
+  @@index([status])
+}
+
+// ============================================
+// CRM PRODEJCŮ
+// ============================================
+
+model SellerContact {
+  id       String @id @default(cuid())
+  brokerId String
+  broker   User   @relation("BrokerContacts", fields: [brokerId], references: [id])
+
+  name    String
+  phone   String
+  email   String?
+  address String?
+  city    String?
+  note    String?
+
+  // Propojení s vozidly
+  vehicles Vehicle[]
+
+  // Statistiky
+  totalVehicles Int @default(0)
+  totalSold     Int @default(0)
+  lastContactAt DateTime?
+
+  // Follow-up
+  nextFollowUp DateTime?
+  followUpNote String?
+
+  // Komunikace
+  communications SellerCommunication[]
+
+  // Notifikace prodejce
+  notificationToken         String?                      @unique
+  smsOptOut                 Boolean                      @default(false)
+  emailOptOut               Boolean                      @default(false)
+  notificationPreferences   SellerNotificationPreference[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([brokerId])
+  @@index([phone])
+  @@index([nextFollowUp])
+}
+
+model SellerCommunication {
+  id        String        @id @default(cuid())
+  contactId String
+  contact   SellerContact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  brokerId  String
+  broker    User          @relation("BrokerCommunications", fields: [brokerId], references: [id])
+
+  type      String  // CALL, SMS, EMAIL, MEETING, NOTE
+  direction String? // OUTGOING, INCOMING
+  summary   String
+  duration  Int?    // Délka hovoru v sekundách
+  result    String? // INTERESTED, NOT_NOW, REJECTED, FOLLOW_UP
+
+  createdAt DateTime @default(now())
+
+  @@index([contactId])
+  @@index([brokerId])
+}
+
+model SellerNotificationPreference {
+  id              String        @id @default(cuid())
+  sellerContactId String
+  sellerContact   SellerContact @relation(fields: [sellerContactId], references: [id], onDelete: Cascade)
+  eventType       String        // VEHICLE_APPROVED, NEW_INQUIRY, VIEWING_SCHEDULED, VEHICLE_SOLD, PRICE_REDUCTION
+  smsEnabled      Boolean       @default(true)
+  emailEnabled    Boolean       @default(true)
+
+  @@unique([sellerContactId, eventType])
+  @@index([sellerContactId])
+}
+
+// ============================================
+// GAMIFIKACE
+// ============================================
+
+model UserAchievement {
+  id             String @id @default(cuid())
+  userId         String
+  user           User   @relation(fields: [userId], references: [id])
+  achievementKey String // FIRST_VEHICLE, FIRST_SALE, QUICK_SALE, FIVE_SALES, TEN_SALES, MILLIONAIRE, PHOTO_PRO, PERFECTIONIST, LOYAL_CLIENT
+  unlockedAt     DateTime @default(now())
+
+  @@unique([userId, achievementKey])
+  @@index([userId])
+}
+
+model PriceReduction {
+  id             String   @id @default(cuid())
+  vehicleId      String
+  vehicle        Vehicle  @relation(fields: [vehicleId], references: [id])
+  currentPrice   Int
+  suggestedPrice Int
+  reason         String   // Důvod návrhu snížení
+  status         String   @default("PENDING") // PENDING, ACCEPTED, REJECTED, MODIFIED
+  acceptedPrice  Int?     // Cena po úpravě makléřem
+  respondedAt    DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([vehicleId])
+  @@index([status])
+}
+
+// ============================================
+// ESKALACE
+// ============================================
+
+model Escalation {
+  id        String @id @default(cuid())
+  brokerId  String
+  broker    User   @relation("BrokerEscalations", fields: [brokerId], references: [id])
+  managerId String?
+  manager   User?  @relation("ManagerEscalations", fields: [managerId], references: [id])
+
+  vehicleId String?
+  vehicle   Vehicle? @relation(fields: [vehicleId], references: [id])
+
+  contactId   String?
+
+  type        String  // SELLER_ISSUE, FRAUD_SUSPICION, TECHNICAL, EXCLUSIVITY_VIOLATION, OTHER
+  urgency     String  @default("NORMAL") // NORMAL, URGENT
+  description String
+  attachments String? // JSON array of URLs
+  status      String  @default("OPEN") // OPEN, IN_PROGRESS, RESOLVED, CLOSED
+  resolution  String?
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  resolvedAt DateTime?
+
+  @@index([brokerId])
+  @@index([managerId])
+  @@index([vehicleId])
+  @@index([status])
+}
+
+// ============================================
+// EMAIL LOG
+// ============================================
+
+model EmailLog {
+  id        String   @id @default(cuid())
+  senderId  String?
+  sender    User?    @relation("SenderEmails", fields: [senderId], references: [id])
+  vehicleId String?
+  vehicle   Vehicle? @relation(fields: [vehicleId], references: [id])
+
+  recipientEmail String
+  recipientName  String?
+  subject        String
+  templateType   String  // PRESENTATION, CONTRACT_OFFER, FOLLOWUP, INSURANCE, FINANCING, PRICE_CHANGE, VEHICLE_SOLD, VEHICLE_APPROVED, NEW_INQUIRY, VIEWING_SCHEDULED, PRICE_REDUCTION, DAILY_SUMMARY, WELCOME
+  customText     String? // Vlastní text přidaný makléřem
+  status         String  @default("SENT") // SENT, DELIVERED, OPENED, FAILED, BOUNCED
+  resendId       String? // ID z Resend API
+
+  createdAt DateTime @default(now())
+
+  @@index([senderId])
+  @@index([vehicleId])
+  @@index([templateType])
+  @@index([createdAt])
+}
+
+// ============================================
+// NOTIFIKAČNÍ PREFERENCE + SMS LOG
+// ============================================
+
+model NotificationPreference {
+  id           String  @id @default(cuid())
+  userId       String
+  user         User    @relation(fields: [userId], references: [id])
+  eventType    String  // NEW_LEAD, NEW_INQUIRY, VEHICLE_APPROVED, VEHICLE_REJECTED, VEHICLE_SOLD, DAILY_SUMMARY, VEHICLE_30_DAYS, ACHIEVEMENT, LEADERBOARD
+  pushEnabled  Boolean @default(true)
+  emailEnabled Boolean @default(true)
+  smsEnabled   Boolean @default(false)
+
+  @@unique([userId, eventType])
+  @@index([userId])
+}
+
+model SmsLog {
+  id             String   @id @default(cuid())
+  recipientPhone String
+  message        String
+  vehicleId      String?
+  status         String   // SENT, DELIVERED, FAILED
+  cost           Float?
+  createdAt      DateTime @default(now())
+
+  @@index([recipientPhone])
+  @@index([createdAt])
+}
+
+// ============================================
+// FEED IMPORT/EXPORT
+// ============================================
+
+model FeedImportConfig {
+  id     String @id @default(cuid())
+  userId String
+
+  name     String  // Pojmenování feedu (např. "Můj Sauto export")
+  url      String  // URL XML/CSV souboru
+  format   String  // SAUTO_XML, TIPCARS_XML, CSV
+  mapping  String? // JSON — vlastní mapování sloupců (pro CSV)
+  active   Boolean @default(true)
+
+  // Statistiky
+  lastRunAt     DateTime?
+  lastRunStatus String?   // SUCCESS, PARTIAL, FAILED
+  lastRunCount  Int?      // Počet importovaných/aktualizovaných
+
+  // Relace
+  logs FeedImportLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([active])
+}
+
+model FeedImportLog {
+  id       String @id @default(cuid())
+  configId String
+  config   FeedImportConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+
+  status     String   // SUCCESS, PARTIAL, FAILED
+  created    Int      @default(0) // Počet nově vytvořených
+  updated    Int      @default(0) // Počet aktualizovaných
+  skipped    Int      @default(0) // Počet přeskočených (duplikáty)
+  errors     Int      @default(0) // Počet chyb
+  errorLog   String?  // JSON array chybových zpráv
+  duration   Int?     // Délka importu v ms
+
+  createdAt DateTime @default(now())
+
+  @@index([configId])
+  @@index([createdAt])
+}
+
+// ============================================
+// ESHOP — FEED IMPORT DÍLŮ (VELKOOBCHOD)
+// ============================================
+
+model PartsFeedConfig {
+  id              String  @id @default(cuid())
+  supplierId      String
+  supplier        User    @relation(fields: [supplierId], references: [id])
+  name            String                     // "Auto Kelly katalog"
+  feedUrl         String                     // URL feedu
+  feedFormat      String  @default("XML")    // XML, CSV, JSON
+  fieldMapping    String?                    // JSON: { name: "nazev", price: "cena_s_dph", ... }
+  updateFrequency String  @default("DAILY")  // DAILY, WEEKLY, MANUAL
+  markupType      String  @default("PERCENT") // PERCENT, FIXED
+  markupValue     Float   @default(25)        // 25% nebo 25 Kč
+  categoryMarkups String?                    // JSON: { "BRAKES": 15, "BODY": 35 }
+  defaultPartType String  @default("AFTERMARKET") // NEW, AFTERMARKET
+  isActive        Boolean @default(true)
+  lastImportAt    DateTime?
+  lastImportCount Int?
+  lastImportErrors Int?
+
+  // Relace
+  parts      Part[]
+  importLogs PartsFeedImportLog[]
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([supplierId])
+  @@index([isActive])
+  @@index([updateFrequency])
+}
+
+model PartsFeedImportLog {
+  id           String          @id @default(cuid())
+  feedConfigId String
+  feedConfig   PartsFeedConfig @relation(fields: [feedConfigId], references: [id], onDelete: Cascade)
+  status       String          // SUCCESS, PARTIAL, FAILED
+  totalItems   Int             @default(0)
+  created      Int             @default(0)
+  updated      Int             @default(0)
+  deactivated  Int             @default(0)
+  errors       Int             @default(0)
+  errorDetails String?         // JSON: [{ line, error }]
+  duration     Int             @default(0) // ms
+  createdAt    DateTime        @default(now())
+
+  @@index([feedConfigId])
+  @@index([createdAt])
+}
+
+// ============================================
+// PARTNERSKY MODUL
+// ============================================
+
+model Partner {
+  id              String   @id @default(cuid())
+  name            String                           // Nazev firmy
+  type            String                           // AUTOBAZAR | VRAKOVISTE
+  ico             String?  @unique                 // ICO
+  address         String?                          // Ulice + cislo
+  city            String?                          // Mesto
+  region          String?                          // Kraj
+  zip             String?                          // PSC
+  latitude        Float?                           // GPS
+  longitude       Float?                           // GPS
+  phone           String?
+  email           String?
+  web             String?
+  contactPerson   String?                          // Jmeno kontaktni osoby
+  estimatedSize   String?                          // SMALL | MEDIUM | LARGE
+  googleRating    Float?
+  googleReviewCount Int?
+  source          String?                          // FIRMY_CZ | GOOGLE | SAUTO | TIPCARS | BAZOS | MANUAL
+  notes           String?                          // Poznamky
+  logo            String?                          // URL loga
+  description     String?                          // Popis firmy
+  openingHours    String?                          // JSON - oteviraci doba
+  slug            String   @unique                 // Pro verejny profil
+
+  // Akvizice
+  status          String @default("NEOSLOVENY")    // NEOSLOVENY | PRIRAZENY | OSLOVEN | JEDNAME | AKTIVNI_PARTNER | ODMITNUTO | POZASTAVENO
+  score           Int @default(0)                  // Prioritizacni skore
+  rejectionReason String?
+  managerId       String?
+  manager         User? @relation("PartnerManager", fields: [managerId], references: [id])
+
+  // Partnersky ucet (vytvoren pri aktivaci)
+  userId          String? @unique
+  user            User? @relation("PartnerUser", fields: [userId], references: [id])
+
+  commissionRate    Decimal  @default(15.00) @db.Decimal(4, 2)
+  commissionRateAt  DateTime @default(now())
+  stripeAccountId   String?
+
+  // Stripe Connect Express onboarding state — mirror account.updated webhooku.
+  stripeOnboardingStartedAt      DateTime?
+  stripeOnboardingCompletedAt    DateTime?
+  stripeDetailsSubmitted         Boolean  @default(false)
+  stripePayoutsEnabled           Boolean  @default(false)
+  stripeChargesEnabled           Boolean  @default(false)
+  stripeRequirementsCurrentlyDue String[] @default([])
+  stripeDisabledReason           String?
+  stripeAccountUpdatedAt         DateTime?
+
+  activities      PartnerActivity[]
+  leads           PartnerLead[]
+  commissionLog   PartnerCommissionLog[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([type])
+  @@index([status])
+  @@index([managerId])
+  @@index([city])
+  @@index([region])
+  @@index([score])
+  @@index([stripeAccountId])
+  @@index([stripePayoutsEnabled])
+}
+
+model PartnerCommissionLog {
+  id           String   @id @default(cuid())
+  partnerId    String
+  partner      Partner  @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  oldRate      Decimal  @db.Decimal(4, 2)
+  newRate      Decimal  @db.Decimal(4, 2)
+  reason       String
+  changedById  String
+  changedBy    User     @relation("PartnerCommissionChanger", fields: [changedById], references: [id])
+  changedAt    DateTime @default(now())
+
+  @@index([partnerId, changedAt])
+}
+
+model PartnerActivity {
+  id              String   @id @default(cuid())
+  partnerId       String
+  partner         Partner  @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  type            String   // POZNAMKA | NAVSTEVA | TELEFONAT | EMAIL | ZMENA_STAVU | SYSTEM
+  title           String
+  description     String?
+  oldStatus       String?
+  newStatus       String?
+  nextContactDate DateTime?
+  createdAt       DateTime @default(now())
+
+  @@index([partnerId])
+  @@index([createdAt])
+}
+
+model PartnerLead {
+  id          String   @id @default(cuid())
+  partnerId   String
+  partner     Partner  @relation(fields: [partnerId], references: [id])
+  vehicleId   String?
+  vehicle     Vehicle? @relation(fields: [vehicleId], references: [id])
+  name        String
+  phone       String?
+  email       String?
+  message     String?
+  status      String @default("NOVY")              // NOVY | KONTAKTOVAN | DOMLUVENO | PRODANO | NEZAJEM
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([partnerId])
+  @@index([status])
+}
+
+// ============================================
+// PASSWORD RESET
+// ============================================
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([token])
+  @@index([expiresAt])
+}
+
+// ============================================
+// EMAIL VERIFICATION
+// ============================================
+
+model EmailVerificationToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([token])
+}

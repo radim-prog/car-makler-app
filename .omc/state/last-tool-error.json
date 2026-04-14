@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"mv README.md _planning/README-planning.md && rsync -a --exclude='.git' /root/Projects/cmklv2/ /root/Projects/car-makler-app/ && ls -la | head -25 && echo \\\"---size---\\\" && du -sh . node_mo...",
+  "error": "Exit code 1\ncelkem 1084\ndrwxrwxr-x+ 18 root root   4096 dub 14 10:09 .\ndrwxrwxrwx+ 29 root root   4096 dub 14 10:09 ..\n-rw-rw-r--+  1 root root  11648 dub 14 10:09 AGENT-TEAM-WORKFLOW.md\ndrwxrwxr-x+ 10 root root   4096 dub 14 10:09 app\n-rw-rw-r--+  1 root root  93386 dub 14 10:09 carmakler-design-system.html\ndrwxrwxr-x+  3 root root   4096 dub 14 10:09 .claude\ndrwxrwxr-x+  4 root root   4096 dub 14 10:09 .claude-context\n-rw-rw-r--+  1 root root   3847 dub 14 10:09 CLAUDE.md\ndrwxrwxr-x+ 14 root r...",
+  "timestamp": "2026-04-14T08:16:23.390Z",
+  "retry_count": 2
+}
