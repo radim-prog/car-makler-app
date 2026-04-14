@@ -131,6 +131,11 @@ model User {
   // Auth
   emailVerified DateTime?
 
+  // GDPR Art. 17 erasure (F-032)
+  erasureRequestedAt DateTime?
+  erasureScheduledAt DateTime?  // 7-day cooling-off; po tomto datu cron erasure provede
+  deletedAt          DateTime?  // anonymizace dokončena
+
   // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -138,6 +143,8 @@ model User {
   @@index([role])
   @@index([status])
   @@index([managerId])
+  @@index([erasureScheduledAt])
+  @@index([deletedAt])
 }
 
 model Region {

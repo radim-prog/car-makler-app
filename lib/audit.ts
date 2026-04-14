@@ -12,7 +12,29 @@
  */
 
 import { prisma } from "@/lib/prisma";
-import type { AuditAction } from "@prisma/client";
+
+// Drží se ručně sync se schema.prisma `enum AuditAction`.
+// Záměrně nepoužíváme `import type { AuditAction } from "@prisma/client"`,
+// protože některé buildy klienta nezpřístupňují enum jako pojmenovaný export.
+export type AuditAction =
+  | "LOGIN_SUCCESS"
+  | "LOGIN_FAILED"
+  | "LOGOUT"
+  | "PASSWORD_CHANGED"
+  | "PASSWORD_RESET_REQUESTED"
+  | "PASSWORD_RESET_COMPLETED"
+  | "EMAIL_VERIFIED"
+  | "ACCOUNT_CREATED"
+  | "ROLE_CHANGED"
+  | "STATUS_CHANGED"
+  | "ERASURE_REQUESTED"
+  | "ERASURE_EXECUTED"
+  | "ERASURE_DENIED"
+  | "DATA_EXPORTED"
+  | "LISTING_CREATED"
+  | "LISTING_PUBLISHED"
+  | "LISTING_DELETED"
+  | "ADMIN_ACTION";
 
 export type LogAuditParams = {
   action: AuditAction;
@@ -39,7 +61,8 @@ export async function logAudit(params: LogAuditParams): Promise<LogAuditResult> 
 
     const record = await prisma.auditLog.create({
       data: {
-        action: params.action,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        action: params.action as any,
         userId: params.userId ?? null,
         actorId: params.actorId ?? params.userId ?? null,
         entityType: params.entityType ?? null,
@@ -78,7 +101,3 @@ export function extractClientInfo(req: Request): {
   return { ipAddress, userAgent };
 }
 
-/**
- * Re-export pro pohodlí callerů (aby nemuseli importovat z @prisma/client).
- */
-export type { AuditAction };
