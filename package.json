@@ -13,7 +13,8 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "analyze": "ANALYZE=true next build --webpack",
-    "seed:seo": "npx tsx scripts/generate-parts-seo-content.ts"
+    "seed:seo": "npx tsx scripts/generate-parts-seo-content.ts",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",
