@@ -59,3 +59,7 @@ ALTER TABLE "AuditLog" ADD CONSTRAINT "AuditLog_userId_fkey" FOREIGN KEY ("userI
 
 -- AddForeignKey
 ALTER TABLE "AuditLog" ADD CONSTRAINT "AuditLog_actorId_fkey" FOREIGN KEY ("actorId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- F-031 follow-up (FIX-033): carmakler DB user potřebuje práva pro zápis
+-- (migrace běží jako postgres/superuser, ale app user je carmakler)
+GRANT INSERT, SELECT, UPDATE ON TABLE "AuditLog" TO carmakler;
