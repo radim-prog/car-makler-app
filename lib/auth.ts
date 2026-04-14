@@ -48,7 +48,13 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   cookies: {
     sessionToken: {
-      name: "next-auth.session-token",
+      // V HTTPS (produkce) NextAuth standard čte/zapisuje `__Secure-next-auth.session-token`,
+      // middleware `getToken()` bez cookieName očekává totéž. V dev (HTTP) oba strany čtou `next-auth.session-token`.
+      // Fixes F-013 (cookie name mismatch blokuje chráněné routy).
+      name:
+        process.env.NODE_ENV === "production"
+          ? "__Secure-next-auth.session-token"
+          : "next-auth.session-token",
       options: {
         httpOnly: true,
         sameSite: "lax",
