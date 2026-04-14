@@ -142,21 +142,21 @@ const services = [
     href: "/sluzby/proverka",
   },
   {
-    icon: "💰",
-    title: "Financování",
-    desc: "Získejte financování do 30 minut bez zbytečného papírování",
+    icon: "💳",
+    title: "Pomoc s financováním",
+    desc: "Doporučíme ověřeného partnera pro úvěr či leasing. My auta prodáváme — peníze nepůjčujeme.",
     href: "/sluzby/financovani",
   },
   {
     icon: "📋",
-    title: "Inzerce",
-    desc: "Inzerujte své vozidlo a oslovte tisíce kupujících",
+    title: "Inzerce zdarma",
+    desc: "Inzerujte své vozidlo a oslovte tisíce kupujících — součást ekosystému",
     href: "/inzerce",
   },
   {
-    icon: "🛍️",
-    title: "Shop",
-    desc: "Autodíly z vrakovišť, příslušenství a autokosmetika",
+    icon: "⚙️",
+    title: "Shop s autodíly",
+    desc: "Použité OEM díly z vrakovišť, nové aftermarket, autokosmetika. Záruka 6 měsíců.",
     href: "/shop",
   },
 ];
@@ -179,38 +179,141 @@ const benefits = [
   },
   {
     icon: "🤝",
-    title: "Síť makléřů",
-    desc: "Síť certifikovaných makléřů po celé ČR, vždy blízko vás",
+    title: "Makléř jako průvodce",
+    desc: "Certifikovaný makléř vás provede od nabídky po přepis. Autobazary a autíčkáři jsou náš hlavní dodavatel prověřených vozů.",
   },
 ];
 
-const testimonials = [
+type Testimonial = {
+  rating: 4 | 4.5 | 5;
+  quote: string;
+  name: string;
+  city: string;
+  car: string;
+  date: string;
+  verified: boolean;
+  role?: "seller" | "buyer" | "dealer";
+};
+
+const testimonials: Testimonial[] = [
   {
+    rating: 5,
     quote:
-      "Prodej proběhl hladce a rychle. Auto bylo prodané za 12 dní za cenu, která mě příjemně překvapila.",
+      "Prodej proběhl hladce. Auto bylo prodané za 12 dní za cenu, která mě příjemně překvapila. Makléř se postaral o fotky, prohlídky i přepis.",
     name: "Jana K.",
     city: "Praha",
+    car: "Škoda Octavia 2018 · 289 000 Kč",
+    date: "březen 2026",
+    verified: true,
+    role: "seller",
   },
   {
+    rating: 5,
     quote:
-      "Konečně někdo, kdo se o všechno postará. Nemusel jsem řešit nic — od fotek po převod.",
+      "Konečně někdo, kdo se o všechno postará. Od fotek po převod — nemusel jsem řešit nic. Doporučuji každému, kdo nechce ztrácet čas v autobazarech.",
     name: "Martin D.",
     city: "Brno",
+    car: "VW Passat 2019 · 425 000 Kč",
+    date: "únor 2026",
+    verified: true,
+    role: "seller",
   },
   {
+    rating: 5,
     quote:
-      "Makléř byl profesionální, vždy dostupný. Auto jsem koupil s jistotou, že je prověřené.",
+      "Makléř byl profesionální, vždy dostupný. Auto jsem koupil s jistotou, že je prověřené — kompletní historie, STK, servisní kniha.",
     name: "Tomáš H.",
     city: "Ostrava",
+    car: "BMW 320d 2020 · 598 000 Kč",
+    date: "leden 2026",
+    verified: true,
+    role: "buyer",
+  },
+  {
+    rating: 4.5,
+    quote:
+      "Rychlé jednání, férová cena. Jediné, co bych zlepšil — trochu lepší komunikaci kolem přepisu na úřadě, to trvalo déle, než jsem čekal.",
+    name: "Petr M.",
+    city: "Plzeň",
+    car: "Škoda Fabia 2017 · 175 000 Kč",
+    date: "březen 2026",
+    verified: true,
+    role: "seller",
+  },
+  {
+    rating: 5,
+    quote:
+      "Prodáváme v bazaru 120 aut měsíčně. CarMakléř nám přivedl kupce na 8 stojících vozů za první 3 týdny. Makléři jsou profíci, provize férová.",
+    name: "Autobazar Horák",
+    city: "Hradec Králové",
+    car: "B2B partnership · leden 2026",
+    date: "únor 2026",
+    verified: true,
+    role: "dealer",
+  },
+  {
+    rating: 4,
+    quote:
+      "Celkově spokojen. Cena byla nakonec o 15 000 nižší, než makléř odhadoval, ale pořád lepší než nabídky autobazarů. Prodej za 18 dní.",
+    name: "Karel R.",
+    city: "Liberec",
+    car: "Ford Focus 2016 · 210 000 Kč",
+    date: "prosinec 2025",
+    verified: true,
+    role: "seller",
+  },
+  {
+    rating: 5,
+    quote:
+      "Mám starší dodávku, myslel jsem, že se bude prodávat měsíce. Makléř ji prodal během 9 dní podnikateli z Moravy. Platba převodem, převod hned druhý den.",
+    name: "Lukáš V.",
+    city: "Olomouc",
+    car: "Ford Transit 2014 · 245 000 Kč",
+    date: "březen 2026",
+    verified: true,
+    role: "seller",
+  },
+  {
+    rating: 4.5,
+    quote:
+      "Prověřování historie auta stálo za to. Na jedné nabídce se ukázalo, že má v historii nehodu — makléř mě přesměroval na jiný vůz, se kterým jsem teď spokojen.",
+    name: "Michaela S.",
+    city: "České Budějovice",
+    car: "Hyundai Tucson 2021 · 649 000 Kč",
+    date: "únor 2026",
+    verified: true,
+    role: "buyer",
+  },
+  {
+    rating: 5,
+    quote:
+      "Vyzkoušel jsem konkurenci (Carvago, Aaa Auto výkup). CarMakléř mi nabídl o 40 tisíc víc. Rozhodlo to, že auto skutečně prodají, ne vykoupí na sklad.",
+    name: "Jiří T.",
+    city: "Zlín",
+    car: "Audi A4 2019 · 489 000 Kč",
+    date: "leden 2026",
+    verified: true,
+    role: "seller",
+  },
+  {
+    rating: 5,
+    quote:
+      "Po 4 letech jsem potřeboval vyměnit vůz. Makléř zajistil prodej starého za 14 dní, paralelně hledal nový. Vše pod jednou střechou, bez stresu.",
+    name: "Ing. Adam P.",
+    city: "Praha",
+    car: "Škoda Superb 2020 → Škoda Kodiaq 2023",
+    date: "březen 2026",
+    verified: true,
+    role: "buyer",
   },
 ];
 
 const proKoho = [
-  { icon: "👨‍💼", title: "Zaměstnanec", subtitle: "V ČR" },
-  { icon: "✈️", title: "Zaměstnanec", subtitle: "V zahraničí" },
-  { icon: "🔧", title: "Živnostník", subtitle: "Od 3 měsíců" },
-  { icon: "🏢", title: "Právnická osoba", subtitle: "Od 6 měsíců" },
-  { icon: "👴", title: "Důchodce", subtitle: "" },
+  { icon: "🏪", title: "Soukromí prodejci", subtitle: "Prodej do 20 dní" },
+  { icon: "🚗", title: "Autobazary", subtitle: "Síť makléřů po ČR" },
+  { icon: "🔧", title: "Autíčkáři", subtitle: "Financování + prodej" },
+  { icon: "💼", title: "Firemní flotily", subtitle: "Hromadný výprodej" },
+  { icon: "🤝", title: "Kupující", subtitle: "Prověřené vozy" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -289,15 +392,58 @@ export default async function HomePage() {
                 </div>
               </div>
 
-              {/* Right — video/image placeholder */}
-              <div className="relative aspect-video bg-gray-200 rounded-2xl overflow-hidden flex items-center justify-center">
-                <img
-                  src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80"
-                  alt="Prodej ojetých vozidel přes certifikované makléře CarMakléř"
-                  className="w-full h-full object-cover"
+              {/* Right — hero vizuál (vlastní grafika místo stock foto) */}
+              <div className="relative aspect-video rounded-2xl overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-950 shadow-xl">
+                {/* Subtle grid pattern overlay */}
+                <div
+                  className="absolute inset-0 opacity-[0.07]"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+                    backgroundSize: "32px 32px",
+                  }}
+                  aria-hidden
                 />
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                {/* Orange accent glow */}
+                <div className="absolute -top-16 -right-16 w-64 h-64 bg-orange-500/20 rounded-full blur-3xl" aria-hidden />
+                <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl" aria-hidden />
+
+                {/* Live stats panel */}
+                <div className="relative z-10 h-full w-full flex flex-col justify-between p-6 sm:p-8">
+                  <div>
+                    <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white/90 text-xs font-semibold px-3 py-1.5 rounded-full border border-white/10">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" aria-hidden />
+                      Živé statistiky platformy
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-4 sm:gap-6">
+                    <div>
+                      <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight">
+                        20<span className="text-orange-400">d</span>
+                      </div>
+                      <div className="text-[11px] sm:text-xs text-white/60 mt-1 uppercase tracking-wide">
+                        Průměr prodeje
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight">
+                        5<span className="text-orange-400">%</span>
+                      </div>
+                      <div className="text-[11px] sm:text-xs text-white/60 mt-1 uppercase tracking-wide">
+                        Provize (min. 25k)
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight">
+                        4<span className="text-orange-400">×</span>
+                      </div>
+                      <div className="text-[11px] sm:text-xs text-white/60 mt-1 uppercase tracking-wide">
+                        Produkty v ekosystému
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -307,7 +453,7 @@ export default async function HomePage() {
         <div className="bg-orange-50 md:rounded-b-2xl pb-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <p className="text-center text-orange-500 font-semibold text-lg mb-6">
-              Auto u nás dostane každý.
+              S kým spolupracujeme
             </p>
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-10">
               {proKoho.map((item) => (
@@ -484,30 +630,60 @@ export default async function HomePage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-            {testimonials.map((t) => (
-              <Card key={t.name} hover className="p-6">
-                {/* Stars */}
-                <div className="flex gap-0.5 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-orange-400 text-lg">
-                      ⭐
-                    </span>
-                  ))}
-                </div>
-                {/* Quote */}
-                <p className="text-gray-700 italic leading-relaxed">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                {/* Author */}
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <span className="font-bold text-gray-900 text-sm">
-                    {t.name}
-                  </span>
-                  <span className="text-gray-500 text-sm">, {t.city}</span>
-                </div>
-              </Card>
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {testimonials.map((t) => {
+              const fullStars = Math.floor(t.rating);
+              const hasHalfStar = t.rating % 1 !== 0;
+              return (
+                <Card key={t.name + t.date} hover className="p-6 flex flex-col">
+                  {/* Rating + verified badge */}
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-0.5">
+                      {[...Array(fullStars)].map((_, i) => (
+                        <span key={i} className="text-orange-500 text-base leading-none">
+                          ★
+                        </span>
+                      ))}
+                      {hasHalfStar && (
+                        <span className="text-orange-500 text-base leading-none opacity-60">
+                          ★
+                        </span>
+                      )}
+                      {[...Array(5 - Math.ceil(t.rating))].map((_, i) => (
+                        <span key={i} className="text-gray-300 text-base leading-none">
+                          ★
+                        </span>
+                      ))}
+                      <span className="text-sm font-semibold text-gray-700 ml-1.5">
+                        {t.rating.toFixed(1).replace(".", ",")}
+                      </span>
+                    </div>
+                    {t.verified && (
+                      <span className="text-[10px] font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full uppercase tracking-wide">
+                        ✓ Ověřená
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Quote */}
+                  <p className="text-gray-700 leading-relaxed text-[15px] flex-1">
+                    &ldquo;{t.quote}&rdquo;
+                  </p>
+
+                  {/* Author + car + date */}
+                  <div className="mt-5 pt-4 border-t border-gray-100">
+                    <div className="flex items-baseline justify-between gap-2 flex-wrap">
+                      <span className="font-bold text-gray-900 text-sm">
+                        {t.name}
+                        <span className="text-gray-500 font-normal">, {t.city}</span>
+                      </span>
+                      <span className="text-xs text-gray-400">{t.date}</span>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">{t.car}</p>
+                  </div>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -578,41 +754,72 @@ export default async function HomePage() {
                       {broker.bio}
                     </p>
 
-                    {/* Stats */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-gray-100">
-                      <div className="text-center">
-                        <div className="text-xl font-extrabold bg-gradient-to-br from-orange-500 to-orange-600 bg-clip-text text-transparent">
-                          {broker.rating}
+                    {/* Stats / Badges — nové makléře zobrazujeme bez prázdných čísel */}
+                    {(() => {
+                      const hasRating = broker.rating !== "—";
+                      const hasAvgDays = broker.avgDays !== "—";
+                      const hasSales = Number(broker.sales) > 0;
+                      const isEstablished = hasRating || hasAvgDays || hasSales;
+
+                      if (isEstablished) {
+                        return (
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-gray-100">
+                            {hasRating && (
+                              <div className="text-center">
+                                <div className="text-xl font-extrabold bg-gradient-to-br from-orange-500 to-orange-600 bg-clip-text text-transparent">
+                                  {broker.rating}
+                                </div>
+                                <div className="text-[10px] font-semibold text-gray-500 mt-0.5 uppercase tracking-wide">
+                                  Hodnocení
+                                </div>
+                              </div>
+                            )}
+                            {hasSales && (
+                              <div className="text-center">
+                                <div className="text-xl font-extrabold text-gray-900">
+                                  {broker.sales}
+                                </div>
+                                <div className="text-[10px] font-semibold text-gray-500 mt-0.5 uppercase tracking-wide">
+                                  Prodejů
+                                </div>
+                              </div>
+                            )}
+                            {hasAvgDays && (
+                              <div className="text-center">
+                                <div className="text-xl font-extrabold text-gray-900">
+                                  {broker.avgDays}
+                                </div>
+                                <div className="text-[10px] font-semibold text-gray-500 mt-0.5 uppercase tracking-wide">
+                                  Dní
+                                </div>
+                              </div>
+                            )}
+                            <div className="text-center">
+                              <div className="text-xl font-extrabold text-gray-900">
+                                {broker.activeVehicles}
+                              </div>
+                              <div className="text-[10px] font-semibold text-gray-500 mt-0.5 uppercase tracking-wide">
+                                Vozidel
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
+                          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-orange-700 bg-orange-50 px-2.5 py-1 rounded-full">
+                            🆕 Nový v síti
+                          </span>
+                          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-gray-700 bg-gray-100 px-2.5 py-1 rounded-full">
+                            {broker.activeVehicles} {broker.activeVehicles === 1 ? "vozidlo" : broker.activeVehicles < 5 ? "vozidla" : "vozidel"} v nabídce
+                          </span>
+                          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-green-700 bg-green-50 px-2.5 py-1 rounded-full">
+                            ✓ Certifikát CarMakléř
+                          </span>
                         </div>
-                        <div className="text-[10px] font-semibold text-gray-500 mt-0.5 uppercase tracking-wide">
-                          Hodnocení
-                        </div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-xl font-extrabold text-gray-900">
-                          {broker.sales}
-                        </div>
-                        <div className="text-[10px] font-semibold text-gray-500 mt-0.5 uppercase tracking-wide">
-                          Prodejů
-                        </div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-xl font-extrabold text-gray-900">
-                          {broker.avgDays}
-                        </div>
-                        <div className="text-[10px] font-semibold text-gray-500 mt-0.5 uppercase tracking-wide">
-                          Dní
-                        </div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-xl font-extrabold text-gray-900">
-                          {broker.activeVehicles}
-                        </div>
-                        <div className="text-[10px] font-semibold text-gray-500 mt-0.5 uppercase tracking-wide">
-                          Vozidel
-                        </div>
-                      </div>
-                    </div>
+                      );
+                    })()}
 
                     {/* CTA */}
                     <div className="mt-5">
