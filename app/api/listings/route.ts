@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { generateListingSlug } from "@/lib/listings";
 import { autoFlagListing } from "@/lib/listing-flagging";
 import { getQuickFilterBySlug, quickFilterToWhere } from "@/lib/listing-quick-filters";
+import { sendListingConfirmEmail } from "@/lib/listing-confirm";
 
 /* ------------------------------------------------------------------ */
 /*  Zod schemas                                                        */
@@ -92,30 +93,73 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Nepřihlášený uživatel — vytvořit anonymní účet (ADVERTISER)
+    // FIX-017 (Volba C): Nepřihlášený uživatel — anon DRAFT + magic link e-mail confirm
+    let requiresEmailConfirm = false;
     if (!userId) {
-      const email = data.contactEmail || `anon-${Date.now()}@carmakler.local`;
-      let anonUser = await prisma.user.findUnique({ where: { email } });
-
-      if (!anonUser) {
-        anonUser = await prisma.user.create({
-          data: {
-            email,
-            firstName: data.contactName.split(" ")[0] || "Anonym",
-            lastName: data.contactName.split(" ").slice(1).join(" ") || "Inzerent",
-            phone: data.contactPhone,
-            passwordHash: "", // Bez hesla — uživatel se může zaregistrovat později
-            role: "ADVERTISER",
-            status: "ACTIVE",
+      const email = data.contactEmail?.trim().toLowerCase();
+      if (!email) {
+        return NextResponse.json(
+          {
+            error: "Email je povinný",
+            details: [
+              { path: ["contactEmail"], message: "Pro nepřihlášené inzerenty je email povinný — pošleme potvrzovací odkaz." },
+            ],
           },
-        });
+          { status: 400 }
+        );
       }
 
+      // Existující ověřený user → odmítnout (musí se přihlásit, jinak by někdo mohl vytvářet inzeráty pod cizím účtem)
+      const existing = await prisma.user.findUnique({
+        where: { email },
+        select: { id: true, emailVerified: true, passwordHash: true },
+      });
+
+      if (existing?.emailVerified) {
+        return NextResponse.json(
+          {
+            error: "Účet existuje",
+            requiresLogin: true,
+            details: [
+              { path: ["contactEmail"], message: `S adresou ${email} už existuje účet. Přihlas se prosím a inzerát vytvoř znovu.` },
+            ],
+          },
+          { status: 409 }
+        );
+      }
+
+      // Reuse non-verified anon user (multiple drafts pre-confirm) nebo vytvoř
+      const anonUser = existing
+        ? await prisma.user.update({
+            where: { id: existing.id },
+            data: {
+              firstName: data.contactName.split(" ")[0] || "Anonym",
+              lastName: data.contactName.split(" ").slice(1).join(" ") || "Inzerent",
+              phone: data.contactPhone,
+              status: "PENDING",
+            },
+          })
+        : await prisma.user.create({
+            data: {
+              email,
+              firstName: data.contactName.split(" ")[0] || "Anonym",
+              lastName: data.contactName.split(" ").slice(1).join(" ") || "Inzerent",
+              phone: data.contactPhone,
+              passwordHash: "",
+              role: "ADVERTISER",
+              status: "PENDING", // Aktivuje se až po e-mail confirm
+              emailVerified: null,
+            },
+          });
+
       userId = anonUser.id;
+      requiresEmailConfirm = true;
     }
 
-    // Resolve požadovaný status (z klienta DRAFT/ACTIVE, default ACTIVE)
-    const requestedStatus = data.status || "ACTIVE";
+    // Resolve požadovaný status:
+    // - Anonymní (vyžaduje confirm) → vždy DRAFT
+    // - Přihlášený → klient si volí (default ACTIVE)
+    const requestedStatus = requiresEmailConfirm ? "DRAFT" : data.status || "ACTIVE";
 
     const slug = generateListingSlug(data.brand, data.model, data.year);
 
@@ -166,8 +210,30 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Auto-flag po vytvoření
-    const flagResult = await autoFlagListing(listing.id);
+    // Auto-flag po vytvoření (přeskočit pro DRAFT — flag až při publishi)
+    const flagResult = requiresEmailConfirm ? null : await autoFlagListing(listing.id);
+
+    // FIX-017: Pro anon flow odeslat magic link e-mail a vrátit instrukci klientovi
+    if (requiresEmailConfirm) {
+      const sendResult = await sendListingConfirmEmail({
+        email: data.contactEmail!.trim().toLowerCase(),
+        firstName: listing.contactName.split(" ")[0] || "Inzerente",
+        listingTitle: `${listing.brand} ${listing.model} ${listing.year}`,
+      });
+
+      return NextResponse.json(
+        {
+          listing,
+          flagResult: null,
+          requiresEmailConfirm: true,
+          emailSent: sendResult.success,
+          message: sendResult.success
+            ? `Tvůj inzerát je uložen jako koncept. Otevři e-mail (${data.contactEmail}) a klikni na potvrzovací odkaz — inzerát se ihned zveřejní.`
+            : "Inzerát uložen jako koncept, ale potvrzovací e-mail se nepodařilo odeslat. Kontaktuj nás na info@carmakler.cz.",
+        },
+        { status: 201 }
+      );
+    }
 
     return NextResponse.json({ listing, flagResult }, { status: 201 });
   } catch (error) {
