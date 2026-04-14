@@ -49,7 +49,7 @@ const dropdownItems = {
       ),
     },
     {
-      href: "/o-nas",
+      href: "/o-nas#tym",
       title: "Náš tým",
       description: "Seznamte se s lidmi za CarMakléřem",
       icon: (
