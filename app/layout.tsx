@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit } from "next/font/google";
+import { Outfit, Fraunces, JetBrains_Mono } from "next/font/google";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { Analytics } from "@/components/web/Analytics";
 import "./globals.css";
@@ -8,6 +8,23 @@ const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+// FIX-022: Editorial B2B typography (AUDIT-028b sec 8.2)
+// Fraunces = serif display font pro hero/sekční nadpisy (editorial aesthetic)
+// JetBrains Mono = monospace pro číselné statistiky (ceny, VIN, ROI)
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin", "latin-ext"],
+  weight: ["500", "600", "700", "900"],
+  display: "swap",
+});
+
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -82,7 +99,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="cs">
-      <body className={`${outfit.variable} font-sans antialiased overflow-x-hidden`}>
+      <body className={`${outfit.variable} ${fraunces.variable} ${jetbrains.variable} font-sans antialiased overflow-x-hidden`}>
         <AuthProvider>{children}</AuthProvider>
         <Analytics />
       </body>

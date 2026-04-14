@@ -61,6 +61,34 @@
   /* Theme */
   --background: #ffffff;
   --foreground: #18181B;
+
+  /* === FIX-022: Editorial B2B — Midnight palette (per AUDIT-028b sec 8) === */
+  --midnight-50:  #F4F6FB;
+  --midnight-100: #E4E9F2;
+  --midnight-200: #C5CFE0;
+  --midnight-300: #94A3BE;
+  --midnight-400: #5C7194;
+  --midnight-500: #2D4669;
+  --midnight-600: #1A2F52;
+  --midnight-700: #0D1F3C;
+  --midnight-800: #081530;
+  --midnight-900: #040B1F;
+
+  /* === FIX-022: Data viz accents (pro stats, ekosystém diagram) === */
+  --data-investor: #6366F1;
+  --data-broker:   #F97316;
+  --data-shop:     #10B981;
+  --data-listing:  #94A3BE;
+
+  /* === FIX-022: Editorial gradients === */
+  --gradient-midnight:     linear-gradient(135deg, #0D1F3C 0%, #040B1F 100%);
+  --gradient-hero-editor:  linear-gradient(180deg, #0D1F3C 0%, #1A2F52 100%);
+
+  /* === FIX-022: Editorial shadows (midnight-tinted, sophisticated) === */
+  --shadow-editor-card: 0 1px 3px rgba(13,31,60,0.06), 0 1px 2px rgba(13,31,60,0.04);
+  --shadow-editor-elev: 0 8px 24px rgba(13,31,60,0.08), 0 2px 4px rgba(13,31,60,0.04);
+  --shadow-editor-pop:  0 24px 48px rgba(13,31,60,0.12), 0 8px 16px rgba(13,31,60,0.06);
+  --shadow-glow-orange: 0 0 0 4px rgba(249,115,22,0.12);
 }
 
 @theme inline {
@@ -119,6 +147,28 @@
   --radius-full: var(--radius-full);
 
   --font-sans: var(--font-outfit);
+
+  /* === FIX-022: Editorial B2B typography === */
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-mono:    var(--font-jetbrains), ui-monospace, monospace;
+
+  /* === FIX-022: Midnight color tokens exposed to Tailwind === */
+  --color-midnight-50:  var(--midnight-50);
+  --color-midnight-100: var(--midnight-100);
+  --color-midnight-200: var(--midnight-200);
+  --color-midnight-300: var(--midnight-300);
+  --color-midnight-400: var(--midnight-400);
+  --color-midnight-500: var(--midnight-500);
+  --color-midnight-600: var(--midnight-600);
+  --color-midnight-700: var(--midnight-700);
+  --color-midnight-800: var(--midnight-800);
+  --color-midnight-900: var(--midnight-900);
+
+  /* === FIX-022: Data viz color tokens === */
+  --color-data-investor: var(--data-investor);
+  --color-data-broker:   var(--data-broker);
+  --color-data-shop:     var(--data-shop);
+  --color-data-listing:  var(--data-listing);
 }
 
 @keyframes pulse-dot {
