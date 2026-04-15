@@ -14,6 +14,20 @@ import {
   marketplaceGateOpen,
 } from "@/lib/marketplace-gate";
 import { WaitlistComingSoon } from "@/components/marketplace/WaitlistComingSoon";
+import type { ComponentType } from "react";
+import {
+  SearchIcon,
+  CashIcon,
+  WrenchIcon,
+  PartyIcon,
+  BuildingIcon,
+  LockIcon,
+  CheckIcon,
+  ChartIcon,
+  WarningIcon,
+  CarIcon,
+  HandshakeIcon,
+} from "@/components/ui/Icons";
 
 export const metadata: Metadata = {
   title: "Marketplace | Propojujeme realizátory a investory",
@@ -27,28 +41,33 @@ export const metadata: Metadata = {
   alternates: pageCanonical("/marketplace"),
 };
 
-const howItWorks = [
+const howItWorks: Array<{
+  step: number;
+  icon: ComponentType<{ className?: string }>;
+  title: string;
+  desc: string;
+}> = [
   {
     step: 1,
-    icon: "🔍",
+    icon: SearchIcon,
     title: "Realizátor najde auto",
     desc: "Ověřený realizátor najde auto s potenciálem — podceněné, po leasingu, nebo na opravu.",
   },
   {
     step: 2,
-    icon: "💰",
+    icon: CashIcon,
     title: "Investor financuje",
     desc: "Investoři financují nákup a opravu. Minimální investice 10 000 Kč.",
   },
   {
     step: 3,
-    icon: "🔧",
+    icon: WrenchIcon,
     title: "Oprava a příprava",
     desc: "Realizátor auto opraví, připraví a nafotí pro prodej. Vše pod dohledem CarMakléř.",
   },
   {
     step: 4,
-    icon: "🎉",
+    icon: PartyIcon,
     title: "Prodej a dělení zisku",
     desc: "Auto se prodá za tržní cenu. Zisk se dělí: 40 % investor, 40 % realizátor, 20 % CarMakléř.",
   },
@@ -109,11 +128,15 @@ const faqs = [
   },
 ];
 
-const guarantees = [
-  { icon: "🏢", title: "Auto na firmu CarMakléř", desc: "Každé auto se kupuje na naši firmu. Minimalizace rizika." },
-  { icon: "🔒", title: "Smlouva s každým investorem", desc: "Jasné podmínky, práva a povinnosti. Žádné překvapení." },
-  { icon: "✅", title: "Ověření realizátoři", desc: "Každý realizátor prochází ověřovacím procesem a má historii flipů." },
-  { icon: "📊", title: "Transparentní kalkulace", desc: "Všechny náklady a zisky jsou viditelné. Žádné skryté poplatky." },
+const guarantees: Array<{
+  icon: ComponentType<{ className?: string }>;
+  title: string;
+  desc: string;
+}> = [
+  { icon: BuildingIcon, title: "Auto na firmu CarMakléř", desc: "Každé auto se kupuje na naši firmu. Minimalizace rizika." },
+  { icon: LockIcon, title: "Smlouva s každým investorem", desc: "Jasné podmínky, práva a povinnosti. Žádné překvapení." },
+  { icon: CheckIcon, title: "Ověření realizátoři", desc: "Každý realizátor prochází ověřovacím procesem a má historii flipů." },
+  { icon: ChartIcon, title: "Transparentní kalkulace", desc: "Všechny náklady a zisky jsou viditelné. Žádné skryté poplatky." },
 ];
 
 const faqJsonLd = {
@@ -195,7 +218,7 @@ export default async function MarketplacePage({ searchParams }: MarketplacePageP
                 Ověření realizátoři nacházejí příležitosti. Investoři je financují. Auto se opraví, prodá a zisk se dělí férově.
               </p>
               <div className="mt-5 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-100/90 text-sm leading-relaxed">
-                <strong className="block font-semibold mb-1">⚠️ Upozornění na riziko</strong>
+                <strong className="flex items-center gap-2 font-semibold mb-1"><WarningIcon className="w-4 h-4 shrink-0" /> Upozornění na riziko</strong>
                 Spolupráce na flippingu aut je podnikatelská činnost spojená s rizikem ztráty vložených prostředků. CarMakléř neposkytuje investiční poradenství a nepředstavuje veřejnou nabídku investičních nástrojů.
               </div>
               <div className="mt-8 flex flex-wrap gap-4">
@@ -242,7 +265,9 @@ export default async function MarketplacePage({ searchParams }: MarketplacePageP
               <div className="relative">
                 <div className="aspect-square bg-gradient-to-br from-orange-500/20 to-orange-600/10 rounded-3xl flex items-center justify-center">
                   <div className="text-center p-8">
-                    <div className="text-6xl mb-4">🤝</div>
+                    <div className="flex justify-center mb-4">
+                      <HandshakeIcon className="w-14 h-14 text-orange-400" />
+                    </div>
                     <div className="text-2xl font-extrabold text-white mb-2">Transparentní spolupráce</div>
                     <div className="text-white/60">realizátor · investor · CarMakléř</div>
                   </div>
@@ -269,8 +294,8 @@ export default async function MarketplacePage({ searchParams }: MarketplacePageP
                 <div className="absolute top-4 right-4 text-[40px] font-extrabold text-gray-100">
                   {item.step}
                 </div>
-                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-[32px] mx-auto mb-4">
-                  {item.icon}
+                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <item.icon className="w-8 h-8 text-orange-500" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900">{item.title}</h3>
                 <p className="text-sm text-gray-500 mt-2 leading-relaxed">{item.desc}</p>
@@ -348,8 +373,8 @@ export default async function MarketplacePage({ searchParams }: MarketplacePageP
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {guarantees.map((g) => (
               <Card key={g.title} hover className="p-6">
-                <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center text-[28px] mb-4">
-                  {g.icon}
+                <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                  <g.icon className="w-7 h-7 text-orange-500" />
                 </div>
                 <h3 className="font-bold text-gray-900">{g.title}</h3>
                 <p className="text-sm text-gray-500 mt-2 leading-relaxed">{g.desc}</p>
@@ -392,12 +417,12 @@ export default async function MarketplacePage({ searchParams }: MarketplacePageP
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href="/marketplace/apply?role=investor" className="no-underline">
               <Button variant="primary" size="lg">
-                💰 Chci investovat
+                <CashIcon className="w-5 h-5 mr-2 inline-block" />Chci investovat
               </Button>
             </Link>
             <Link href="/marketplace/apply?role=dealer" className="no-underline">
               <Button variant="outline" size="lg">
-                🚗 Jsem realizátor
+                <CarIcon className="w-5 h-5 mr-2 inline-block" />Jsem realizátor
               </Button>
             </Link>
           </div>

@@ -9,6 +9,24 @@ import { Card } from "@/components/ui/Card";
 import { prisma } from "@/lib/prisma";
 import { pageCanonical } from "@/lib/canonical";
 import { EcosystemCycle } from "@/components/illustrations/EcosystemCycle";
+import type { ComponentType } from "react";
+import {
+  CarIcon,
+  CartIcon,
+  SearchIcon,
+  CreditCardIcon,
+  ClipboardIcon,
+  GearIcon,
+  ClockIcon,
+  DocumentIcon,
+  ShieldIcon,
+  HandshakeIcon,
+  StoreIcon,
+  WrenchIcon,
+  BriefcaseIcon,
+  MapPinIcon,
+  BoltIcon,
+} from "@/components/ui/Icons";
 
 export const metadata: Metadata = {
   title: "CarMakléř | Prodej aut přes certifikované makléře",
@@ -124,63 +142,72 @@ async function getFeaturedBrokers() {
   return [];
 }
 
-const services = [
+const services: Array<{
+  icon: ComponentType<{ className?: string }>;
+  title: string;
+  desc: string;
+  href: string;
+}> = [
   {
-    icon: "🚗",
+    icon: CarIcon,
     title: "Prodej vozidla",
     desc: "Prodáme vaše auto rychleji za férovou tržní cenu",
     href: "/chci-prodat",
   },
   {
-    icon: "🛒",
+    icon: CartIcon,
     title: "Koupě vozidla",
     desc: "Najděte si z naší nabídky prověřených vozidel",
     href: "/nabidka",
   },
   {
-    icon: "🔍",
+    icon: SearchIcon,
     title: "Prověrka vozidla",
     desc: "Kupujeme a prodáváme jen kvalitní a prověřená vozidla",
     href: "/sluzby/proverka",
   },
   {
-    icon: "💳",
+    icon: CreditCardIcon,
     title: "Pomoc s financováním",
     desc: "Doporučíme ověřeného partnera pro úvěr či leasing. My auta prodáváme — peníze nepůjčujeme.",
     href: "/sluzby/financovani",
   },
   {
-    icon: "📋",
+    icon: ClipboardIcon,
     title: "Inzerce zdarma",
     desc: "Inzerujte své vozidlo a oslovte tisíce kupujících — součást ekosystému",
     href: "/inzerce",
   },
   {
-    icon: "⚙️",
+    icon: GearIcon,
     title: "Shop s autodíly",
     desc: "Použité OEM díly z vrakovišť, nové aftermarket, autokosmetika. Záruka 6 měsíců.",
     href: "/shop",
   },
 ];
 
-const benefits = [
+const benefits: Array<{
+  icon: ComponentType<{ className?: string }>;
+  title: string;
+  desc: string;
+}> = [
   {
-    icon: "⏱️",
+    icon: ClockIcon,
     title: "Šetříme váš čas",
     desc: "Auto prodáme rychleji díky kvalitní inzerci na všech portálech",
   },
   {
-    icon: "📄",
+    icon: DocumentIcon,
     title: "Vyřídíme vše za vás",
     desc: "Smlouvy, financování, pojištění, prověrka — my to zařídíme",
   },
   {
-    icon: "🛡️",
+    icon: ShieldIcon,
     title: "Bezpečnost",
     desc: "Každé vozidlo prochází důkladnou prověrkou historie i technického stavu",
   },
   {
-    icon: "🤝",
+    icon: HandshakeIcon,
     title: "Makléř jako průvodce",
     desc: "Certifikovaný makléř vás provede od nabídky po přepis. Autobazary a autíčkáři jsou náš hlavní dodavatel prověřených vozů.",
   },
@@ -310,12 +337,16 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-const proKoho = [
-  { icon: "🏪", title: "Soukromí prodejci", subtitle: "Prodej do 20 dní" },
-  { icon: "🚗", title: "Autobazary", subtitle: "Síť makléřů po ČR" },
-  { icon: "🔧", title: "Autíčkáři", subtitle: "Financování + prodej" },
-  { icon: "💼", title: "Firemní flotily", subtitle: "Hromadný výprodej" },
-  { icon: "🤝", title: "Kupující", subtitle: "Prověřené vozy" },
+const proKoho: Array<{
+  icon: ComponentType<{ className?: string }>;
+  title: string;
+  subtitle: string;
+}> = [
+  { icon: StoreIcon, title: "Soukromí prodejci", subtitle: "Prodej do 20 dní" },
+  { icon: CarIcon, title: "Autobazary", subtitle: "Síť makléřů po ČR" },
+  { icon: WrenchIcon, title: "Autíčkáři", subtitle: "Financování + prodej" },
+  { icon: BriefcaseIcon, title: "Firemní flotily", subtitle: "Hromadný výprodej" },
+  { icon: HandshakeIcon, title: "Kupující", subtitle: "Prověřené vozy" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -463,7 +494,7 @@ export default async function HomePage() {
                   key={item.title + item.subtitle}
                   className="flex items-center gap-3 text-center"
                 >
-                  <span className="text-3xl">{item.icon}</span>
+                  <item.icon className="w-8 h-8 text-orange-500 shrink-0" />
                   <div className="text-left">
                     <div className="font-bold text-gray-900 text-sm">
                       {item.title}
@@ -543,8 +574,8 @@ export default async function HomePage() {
             {services.map((service) => (
               <Link key={service.title} href={service.href} className="no-underline block">
                 <Card hover className="p-8 text-center h-full">
-                  <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-[32px] mx-auto">
-                    {service.icon}
+                  <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto">
+                    <service.icon className="w-8 h-8 text-orange-500" />
                   </div>
                   <h3 className="text-lg font-bold text-gray-900 mt-5 flex items-center justify-center gap-2">
                     {service.title}
@@ -599,7 +630,7 @@ export default async function HomePage() {
                       {car.badge === "verified" ? (
                         <Badge variant="verified">✓ Ověřeno</Badge>
                       ) : (
-                        <Badge variant="top">⭐ TOP</Badge>
+                        <Badge variant="top">TOP</Badge>
                       )}
                     </div>
                     <div className="absolute bottom-3 left-3">
@@ -618,10 +649,10 @@ export default async function HomePage() {
 
                     <div className="flex gap-2 flex-wrap mt-3">
                       <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 rounded-[10px] text-[13px] font-medium text-gray-600">
-                        📍 {car.city}
+                        <MapPinIcon className="w-3.5 h-3.5 shrink-0" /> {car.city}
                       </span>
                       <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 rounded-[10px] text-[13px] font-medium text-gray-600">
-                        ⚡ {car.hp}
+                        <BoltIcon className="w-3.5 h-3.5 shrink-0" /> {car.hp}
                       </span>
                     </div>
 
@@ -659,8 +690,8 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {benefits.map((benefit) => (
               <Card key={benefit.title} hover className="p-5 sm:p-6">
-                <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center text-[28px] mb-4">
-                  {benefit.icon}
+                <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                  <benefit.icon className="w-7 h-7 text-orange-500" />
                 </div>
                 <h3 className="font-bold text-gray-900">{benefit.title}</h3>
                 <p className="text-sm text-gray-500 mt-2 leading-relaxed">
@@ -794,8 +825,8 @@ export default async function HomePage() {
                           <h3 className="text-xl font-extrabold text-white">
                             {broker.name}
                           </h3>
-                          <p className="text-sm text-white/70">
-                            📍 {broker.region}
+                          <p className="text-sm text-white/70 flex items-center gap-1">
+                            <MapPinIcon className="w-3.5 h-3.5 shrink-0" /> {broker.region}
                           </p>
                         </div>
                       </div>

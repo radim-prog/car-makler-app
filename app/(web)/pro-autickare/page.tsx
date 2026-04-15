@@ -5,6 +5,16 @@ import { EcosystemCycle } from "@/components/illustrations/EcosystemCycle";
 import { RoiCalculator } from "@/components/web/pro-autickare/RoiCalculator";
 import { WaitlistForm } from "@/components/web/pro-autickare/WaitlistForm";
 import { pageCanonical } from "@/lib/canonical";
+import {
+  CashIcon,
+  UsersIcon,
+  ScaleIcon,
+  TrendUpIcon,
+  HandshakeIcon,
+  RocketIcon,
+  TrophyIcon,
+  WarningIcon,
+} from "@/components/ui/Icons";
 
 export const revalidate = 3600;
 
@@ -151,21 +161,21 @@ export default function ProAutickare() {
           {/* Trust bullets */}
           <ul className="space-y-3 mb-10 max-w-xl">
             <li className="flex items-start gap-3">
-              <span className="text-orange-400 text-lg mt-0.5 shrink-0">💰</span>
+              <CashIcon className="w-5 h-5 text-orange-400 mt-0.5 shrink-0" />
               <span className="text-gray-200 text-sm">
                 <strong className="text-white">Kapitál od 200 000 do 3 000 000 Kč</strong> na
                 jeden deal. Splatnost po prodeji vozu.
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-orange-400 text-lg mt-0.5 shrink-0">👥</span>
+              <UsersIcon className="w-5 h-5 text-orange-400 mt-0.5 shrink-0" />
               <span className="text-gray-200 text-sm">
                 <strong className="text-white">Síť 142 makléřů</strong> prodává vaše auta za vás.
                 Průměrná doba prodeje 24 dní.
               </span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="text-orange-400 text-lg mt-0.5 shrink-0">⚖️</span>
+              <ScaleIcon className="w-5 h-5 text-orange-400 mt-0.5 shrink-0" />
               <span className="text-gray-200 text-sm">
                 <strong className="text-white">Dělení zisku 40/40/20</strong> — vy, investor,
                 platforma. Transparentní smlouva, auditní stopa.
@@ -210,7 +220,7 @@ export default function ProAutickare() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-orange-50 rounded-2xl p-6">
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-orange-500 text-lg">📈</span>
+                <TrendUpIcon className="w-5 h-5 text-orange-500 shrink-0" />
                 <h3 className="font-bold text-gray-900">Marketplace</h3>
               </div>
               <p className="text-sm text-gray-600 leading-relaxed">
@@ -221,7 +231,7 @@ export default function ProAutickare() {
             </div>
             <div className="bg-orange-50 rounded-2xl p-6">
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-orange-500 text-lg">🤝</span>
+                <HandshakeIcon className="w-5 h-5 text-orange-500 shrink-0" />
                 <h3 className="font-bold text-gray-900">Makléřská síť</h3>
               </div>
               <p className="text-sm text-gray-600 leading-relaxed">
@@ -232,7 +242,7 @@ export default function ProAutickare() {
             </div>
             <div className="bg-orange-50 rounded-2xl p-6">
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-orange-500 text-lg">🚀</span>
+                <RocketIcon className="w-5 h-5 text-orange-500 shrink-0" />
                 <h3 className="font-bold text-gray-900">Po prodeji</h3>
               </div>
               <p className="text-sm text-gray-600 leading-relaxed">
@@ -249,7 +259,7 @@ export default function ProAutickare() {
         <div className="max-w-6xl mx-auto px-4">
           {/* Disclaimer banner */}
           <div className="bg-yellow-50 border border-yellow-300 rounded-xl px-5 py-3 mb-10 flex items-start gap-3">
-            <span className="text-yellow-600 text-lg leading-none mt-0.5">⚠</span>
+            <WarningIcon className="w-5 h-5 text-yellow-600 shrink-0 mt-0.5" />
             <p className="text-sm text-yellow-800 font-medium">
               Modelový scénář. Po launchu nahradíme skutečnými case studies se souhlasem klientů.
             </p>
@@ -352,7 +362,7 @@ export default function ProAutickare() {
             <p className="text-gray-700 italic text-sm leading-relaxed">
               „Měl jsem auta, věděl jsem kde nakoupit, ale chyběl mi kapitál a čas na inzerci.
               Marketplace mi dal oboje — do 9 dní od registrace jsem měl 2,1 milionu na účtu
-              a tři makléře, kteří prodávali za mě."
+              a tři makléře, kteří prodávali za mě.&rdquo;
             </p>
             <footer className="mt-2 text-xs text-gray-400">— Modelová citace, autíčkář z Kolína</footer>
           </blockquote>
@@ -445,7 +455,9 @@ export default function ProAutickare() {
       {/* ── 8. CTA BAND ── */}
       <section className="py-16 md:py-24 bg-gray-950 text-white text-center">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="text-4xl mx-auto mb-5 text-center">🏆</div>
+          <div className="flex justify-center mb-5">
+            <TrophyIcon className="w-10 h-10 text-orange-400" />
+          </div>
           <h2 className="font-fraunces text-3xl md:text-4xl font-bold mb-4">
             Začneme pilotním dealem do 500 000 Kč
           </h2>

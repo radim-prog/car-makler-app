@@ -3,6 +3,18 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/web/Breadcrumbs";
 import { pageCanonical } from "@/lib/canonical";
 import { IncomeCalculator } from "@/components/web/pro-makleri/IncomeCalculator";
+import type { ComponentType } from "react";
+import {
+  CoinIcon,
+  CalendarIcon,
+  GraduationCapIcon,
+  MonitorIcon,
+  InboxIcon,
+  ScaleIcon,
+  BotIcon,
+  MegaphoneIcon,
+  XIcon,
+} from "@/components/ui/Icons";
 
 export const revalidate = 3600;
 
@@ -50,34 +62,38 @@ const leadSteps = [
   "Po přijetí má makléř 48 hodin na první kontakt s klientem.",
 ];
 
-const benefits = [
+const benefits: Array<{
+  icon: ComponentType<{ className?: string }>;
+  title: string;
+  desc: string;
+}> = [
   {
-    emoji: "🖥",
+    icon: MonitorIcon,
     title: "CRM a dashboard",
     desc: "Vlastní administrace s přehledem klientů, rezervací, rozjednaných obchodů, provizí. Export dat kdykoli. Mobilní aplikace (PWA) funguje offline — v terénu bez signálu.",
   },
   {
-    emoji: "📥",
+    icon: InboxIcon,
     title: "Flow leadů",
     desc: "Platforma vám denně přiváže 2–5 kvalifikovaných poptávek (podle regionu a kapacity). Mimo to si vedete vlastní síť z osobních kontaktů.",
   },
   {
-    emoji: "⚖️",
+    icon: ScaleIcon,
     title: "Právní podpora",
     desc: "Všechny smlouvy (kupní, rezervační, o zprostředkování) jsou šablony schválené advokátní kanceláří. V případě sporu s klientem řeší právní tým centrály, ne vy osobně.",
   },
   {
-    emoji: "🤖",
+    icon: BotIcon,
     title: "AI asistent makléře",
     desc: 'Ve vaší aplikaci je Claude-based asistent. Napište \u201EZkontroluj mi tuhle inzerci Octavie 2019 za 285\u00a0000\u201C \u2014 dostanete tržní odhad, rizika a návrhy argumentů. Napište \u201ENapiš popis na tenhle vůz\u201C \u2014 dostanete marketingový text.',
   },
   {
-    emoji: "🎓",
+    icon: GraduationCapIcon,
     title: "Školení a růst",
     desc: "Kvartální workshop (obchodní dovednosti, tržní trendy, novinky platformy). Roční konference s celou sítí. Mentoring program pro top 10 % makléřů v síti.",
   },
   {
-    emoji: "📣",
+    icon: MegaphoneIcon,
     title: "Marketing",
     desc: "Centrální PPC, SEO, sociální sítě. Váš osobní profil na carmakler.cz s fotkou, specializací, recenzemi. Co-marketingové balíčky (sdílený budget na lokální PPC).",
   },
@@ -158,20 +174,20 @@ export default function ProMakleriPage() {
         {/* Trust bullets */}
         <ul className="flex flex-col sm:flex-row gap-4 mb-10">
           <li className="flex items-start gap-3 text-sm text-gray-600">
-            <span className="text-orange-500 text-lg shrink-0 mt-0.5">🪙</span>
+            <CoinIcon className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
             <span>
               Průměrný roční příjem zkušeného makléře (3+ vozy měsíčně):{" "}
               <strong className="text-gray-800">660\u00a0000 – 1\u00a0200\u00a0000\u00a0Kč</strong>
             </span>
           </li>
           <li className="flex items-start gap-3 text-sm text-gray-600">
-            <span className="text-orange-500 text-lg shrink-0 mt-0.5">📅</span>
+            <CalendarIcon className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
             <span>
               Bez pevné pracovní doby. Bez manažera nad vámi. Bez fixního platu, ale bez stropu.
             </span>
           </li>
           <li className="flex items-start gap-3 text-sm text-gray-600">
-            <span className="text-orange-500 text-lg shrink-0 mt-0.5">🎓</span>
+            <GraduationCapIcon className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
             <span>
               Dvoudenní certifikace + 60denní pilot s mentorem. Nábor průběžný po celé ČR.
             </span>
@@ -241,7 +257,7 @@ export default function ProMakleriPage() {
             {/* Co NEnabízíme */}
             <div className="bg-white rounded-2xl border border-gray-200 p-8">
               <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <span className="text-red-500 text-lg">✕</span>
+                <XIcon className="w-5 h-5 text-red-500 shrink-0" />
                 Co NEnabízíme
               </h3>
               <ul className="space-y-3 text-sm text-gray-700">
@@ -363,7 +379,7 @@ export default function ProMakleriPage() {
                 key={benefit.title}
                 className="bg-white rounded-2xl border border-gray-200 p-6"
               >
-                <div className="text-2xl mb-3">{benefit.emoji}</div>
+                <div className="mb-3"><benefit.icon className="w-6 h-6 text-orange-500" /></div>
                 <h3 className="font-bold text-gray-900 mb-2">{benefit.title}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{benefit.desc}</p>
               </div>
