@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
-import Anthropic from "@anthropic-ai/sdk";
 import { authOptions } from "@/lib/auth";
+import {
+  createMessageWithRetry,
+  extractText,
+  errorMessageForUser,
+  httpStatusForError,
+} from "@/lib/anthropic";
 
 // Zod schema pro request body
 const generateDescriptionSchema = z.object({
@@ -70,17 +75,23 @@ ${data.color ? `Barva: ${data.color}` : ""}
 ${data.equipment?.length ? `Výbava: ${data.equipment.join(", ")}` : ""}
 ${data.highlights?.length ? `Hlavní přednosti: ${data.highlights.join(", ")}` : ""}`;
 
-    // Volání Claude API
-    const anthropic = new Anthropic();
-    const response = await anthropic.messages.create({
+    // Volání Claude API (FIX-047a — retry/backoff na 503/529)
+    const aiResult = await createMessageWithRetry({
       model: "claude-sonnet-4-6-20250514",
       max_tokens: 1000,
       system: systemPrompt,
       messages: [{ role: "user", content: userPrompt }],
     });
 
-    const description =
-      response.content[0].type === "text" ? response.content[0].text : "";
+    if (!aiResult.ok || !aiResult.message) {
+      const code = aiResult.errorCode ?? "UNKNOWN";
+      return NextResponse.json(
+        { error: errorMessageForUser(code), code },
+        { status: httpStatusForError(code) }
+      );
+    }
+
+    const description = extractText(aiResult.message);
 
     return NextResponse.json({ description });
   } catch (error) {
