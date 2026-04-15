@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { companyInfo } from "@/lib/company-info";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
@@ -579,14 +580,19 @@ export default async function HomePage() {
 
           {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {cars.map((car) => (
+            {cars.map((car, index) => (
               <Link key={car.slug} href={`/nabidka/${car.slug}`} className="no-underline block">
                 <Card hover className="group">
                   {/* Image */}
                   <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
-                    <img
+                    <Image
                       src={car.photo}
                       alt={car.name}
+                      width={400}
+                      height={300}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      priority={index === 0}
+                      loading={index === 0 ? "eager" : "lazy"}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-3 left-3 flex gap-2">
@@ -762,10 +768,12 @@ export default async function HomePage() {
                   {/* Header s fotkou a gradient overlay */}
                   <div className="relative h-[200px] bg-gradient-to-br from-gray-900 to-gray-800 overflow-hidden">
                     {broker.photo && (
-                    <img
+                    <Image
                       src={broker.photo}
                       alt={broker.name}
-                      className="w-full h-full object-cover opacity-40 group-hover:opacity-50 group-hover:scale-105 transition-all duration-500"
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover opacity-40 group-hover:opacity-50 group-hover:scale-105 transition-all duration-500"
                     />
                     )}
                     {/* Badges */}

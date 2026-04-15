@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Breadcrumbs } from "@/components/web/Breadcrumbs";
@@ -123,10 +124,13 @@ export default async function MakleriPage() {
 
                       <div className="flex items-center gap-4 mb-5">
                         {broker.avatar ? (
-                          <img
+                          <Image
                             src={broker.avatar}
                             alt={`${broker.firstName} ${broker.lastName}`}
-                            className="w-[60px] h-[60px] rounded-xl object-cover shrink-0"
+                            width={60}
+                            height={60}
+                            sizes="60px"
+                            className="rounded-xl object-cover shrink-0"
                           />
                         ) : (
                           <div className="w-[60px] h-[60px] bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center text-[22px] font-extrabold text-white shrink-0">
