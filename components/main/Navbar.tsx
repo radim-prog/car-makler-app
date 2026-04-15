@@ -37,6 +37,48 @@ const dropdownItems = {
       ),
     },
   ],
+  proKoho: [
+    {
+      href: "/pro-bazary",
+      title: "Pro autobazary",
+      description: "Makléři, inzerce a prodej stojících vozů",
+      icon: (
+        <svg className="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15l-.75 18H5.25L4.5 3Zm4.5 4.5h6m-6 4.5h6m-6 4.5h6" />
+        </svg>
+      ),
+    },
+    {
+      href: "/pro-autickare",
+      title: "Pro autíčkáře",
+      description: "Kapitál, díly, inzerce a makléřská síť",
+      icon: (
+        <svg className="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+        </svg>
+      ),
+    },
+    {
+      href: "/pro-investory",
+      title: "Pro investory",
+      description: "Krátkodobé projekty s ověřenými realizátory",
+      icon: (
+        <svg className="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.5 4.5L21.75 7.5m0 0h-6m6 0v6" />
+        </svg>
+      ),
+    },
+    {
+      href: "/pro-makleri",
+      title: "Pro makléře",
+      description: "Kariéra v síti CarMakléř",
+      icon: (
+        <svg className="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128A6.375 6.375 0 0 0 2.25 19.125 12.318 12.318 0 0 0 8.624 21c2.331 0 4.512-.645 6.374-1.766l.002-.106ZM12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+        </svg>
+      ),
+    },
+  ],
   oNas: [
     {
       href: "/o-nas",
@@ -106,6 +148,39 @@ export function MainNavbar() {
           </Link>
 
           <PlatformSwitcher current="main" hideCurrent />
+
+          <div className="relative group">
+            <button
+              type="button"
+              className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors no-underline px-4 py-2 rounded-lg hover:bg-gray-50 inline-flex items-center bg-transparent border-none cursor-pointer"
+            >
+              Pro koho
+              <ChevronDownIcon />
+            </button>
+            <div className="absolute top-full left-0 mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out z-50">
+              <div className="bg-white rounded-xl shadow-xl border border-gray-200 p-2 min-w-[320px]">
+                {dropdownItems.proKoho.map((item) => (
+                  <Link
+                    key={item.title}
+                    href={item.href}
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors no-underline group/item"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center shrink-0">
+                      {item.icon}
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-900 text-sm group-hover/item:text-orange-600 transition-colors">
+                        {item.title}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-0.5">
+                        {item.description}
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
 
           <div className="relative group">
             <button

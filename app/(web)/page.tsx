@@ -397,20 +397,21 @@ export default async function HomePage() {
               {/* Left — text */}
               <div>
                 <span className="inline-block bg-orange-100 text-orange-600 text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
-                  Nová éra prodeje aut
+                  Ekosystém pro auta
                 </span>
                 <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-                  Vaše auto prodáme v průměru{" "}
-                  <span className="text-orange-500">do 20 dní</span>
+                  Auta, kapitál, prodej i díly{" "}
+                  <span className="text-orange-500">v jednom systému</span>
                 </h1>
                 <p className="text-lg text-gray-500 mt-5 leading-relaxed max-w-lg">
-                  Nechte to na nás. Prodej, koupě, financování i prověrka —
-                  vše na jednom místě.
+                  Propojujeme makléře, autobazary, autíčkáře, investory a
+                  katalog autodílů. Každá část funguje samostatně, dohromady
+                  ale přivádí auta na trh rychleji.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-4">
-                  <Link href="/nabidka" className="no-underline">
+                  <Link href="/pro-bazary" className="no-underline">
                     <Button variant="primary" size="lg">
-                      Koupit auto
+                      Pro bazary a autíčkáře
                     </Button>
                   </Link>
                   <Link href="/chci-prodat" className="no-underline">
@@ -895,7 +896,7 @@ export default async function HomePage() {
                       return (
                         <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
                           <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-orange-700 bg-orange-50 px-2.5 py-1 rounded-full">
-                            🆕 Nový v síti
+                            Nový v síti
                           </span>
                           <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-gray-700 bg-gray-100 px-2.5 py-1 rounded-full">
                             {broker.activeVehicles} {broker.activeVehicles === 1 ? "vozidlo" : broker.activeVehicles < 5 ? "vozidla" : "vozidel"} v nabídce

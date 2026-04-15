@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ComponentType } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -7,6 +8,16 @@ import { ProductCard } from "@/components/web/ProductCard";
 import { prisma } from "@/lib/prisma";
 import { PART_CATEGORIES } from "@/lib/parts-categories";
 import { pageCanonical } from "@/lib/canonical";
+import {
+  BoltIcon,
+  CarIcon,
+  CheckIcon,
+  ClockIcon,
+  GearIcon,
+  ShieldIcon,
+  StoreIcon,
+  WrenchIcon,
+} from "@/components/ui/Icons";
 
 export const metadata: Metadata = {
   title: "Shop — autodíly a příslušenství",
@@ -26,40 +37,40 @@ export const metadata: Metadata = {
 
 const benefits = [
   {
-    icon: "🏭",
+    icon: StoreIcon,
     title: "Přímý dovoz z vrakovišť",
     desc: "Spolupracujeme s ověřenými vrakovišti po celé ČR",
   },
   {
-    icon: "✅",
+    icon: CheckIcon,
     title: "Garantovaná kvalita",
     desc: "Každý díl kontrolujeme a hodnotíme",
   },
   {
-    icon: "🚚",
+    icon: ClockIcon,
     title: "Rychlé doručení",
     desc: "Expedice do 24h, doprava od 69 Kč",
   },
   {
-    icon: "🔄",
+    icon: ShieldIcon,
     title: "6 měsíců záruka",
     desc: "Na funkčnost použitých dílů",
   },
 ];
 
-const categoryIcons: Record<string, string> = {
-  ENGINE: "⚙️",
-  TRANSMISSION: "🔧",
-  BRAKES: "🛑",
-  SUSPENSION: "🔩",
-  BODY: "🚗",
-  ELECTRICAL: "💡",
-  INTERIOR: "🛋️",
-  WHEELS: "🛞",
-  EXHAUST: "💨",
-  COOLING: "❄️",
-  FUEL: "⛽",
-  OTHER: "📦",
+const categoryIcons: Record<string, ComponentType<{ className?: string }>> = {
+  ENGINE: GearIcon,
+  TRANSMISSION: WrenchIcon,
+  BRAKES: ShieldIcon,
+  SUSPENSION: WrenchIcon,
+  BODY: CarIcon,
+  ELECTRICAL: BoltIcon,
+  INTERIOR: CarIcon,
+  WHEELS: CarIcon,
+  EXHAUST: GearIcon,
+  COOLING: GearIcon,
+  FUEL: GearIcon,
+  OTHER: StoreIcon,
 };
 
 /* ------------------------------------------------------------------ */
@@ -87,7 +98,7 @@ export default async function ShopPage() {
   const countMap = new Map(categoryCounts.map((c) => [c.category, c._count]));
 
   const categories = PART_CATEGORIES.map((cat) => ({
-    icon: categoryIcons[cat.value] ?? "📦",
+    icon: categoryIcons[cat.value] ?? StoreIcon,
     title: cat.label,
     count: countMap.get(cat.value) ?? 0,
     slug: cat.value.toLowerCase(),
@@ -145,8 +156,8 @@ export default async function ShopPage() {
                 className="no-underline block"
               >
                 <Card hover className="p-6 text-center group">
-                  <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center text-[28px] mx-auto group-hover:scale-110 transition-transform duration-300">
-                    {cat.icon}
+                  <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300">
+                    <cat.icon className="w-7 h-7 text-orange-600" />
                   </div>
                   <h3 className="font-bold text-gray-900 mt-4 text-[15px]">
                     {cat.title}
@@ -229,8 +240,8 @@ export default async function ShopPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {benefits.map((benefit) => (
               <Card key={benefit.title} hover className="p-6">
-                <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center text-[28px] mb-4">
-                  {benefit.icon}
+                <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                  <benefit.icon className="w-7 h-7 text-orange-600" />
                 </div>
                 <h3 className="font-bold text-gray-900">{benefit.title}</h3>
                 <p className="text-sm text-gray-500 mt-2 leading-relaxed">

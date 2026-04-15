@@ -12,6 +12,13 @@ const serviceItems = [
   { href: "/sluzby/pojisteni", title: "Pojištění" },
 ];
 
+const audienceItems = [
+  { href: "/pro-bazary", title: "Pro autobazary" },
+  { href: "/pro-autickare", title: "Pro autíčkáře" },
+  { href: "/pro-investory", title: "Pro investory" },
+  { href: "/pro-makleri", title: "Pro makléře" },
+];
+
 const aboutItems = [
   { href: "/o-nas", title: "O CarMakléři" },
   { href: "/o-nas#tym", title: "Náš tým" },
@@ -89,6 +96,39 @@ export function MainMobileMenu() {
           hideCurrent
           onLinkClick={closeMenu}
         />
+
+        <div className="border-b border-gray-100">
+          <button
+            type="button"
+            className="flex items-center justify-between w-full text-lg font-semibold text-gray-900 hover:text-orange-500 transition-colors py-4 bg-transparent border-none cursor-pointer text-left min-h-[44px]"
+            onClick={() => toggleSection("pro-koho")}
+          >
+            <span>Pro koho</span>
+            <svg
+              className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${openSection === "pro-koho" ? "rotate-180" : ""}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+          {openSection === "pro-koho" && (
+            <div className="pl-4 pb-3">
+              {audienceItems.map((item) => (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  className="block text-base text-gray-600 hover:text-orange-500 transition-colors py-2.5 no-underline"
+                  onClick={closeMenu}
+                >
+                  {item.title}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
 
         <div className="border-b border-gray-100">
           <button

@@ -116,7 +116,7 @@ const faqs = [
   },
   {
     q: "Co když se auto neprodá?",
-    a: "CarMakléř garantuje odkup za minimální cenu po 120 dnech. Investor nikdy nepřijde o více než 10 % investice.",
+    a: "Před financováním musí být jasně popsaný scénář neprodeje, odpovědnosti a maximální přijatelná ztráta. Konkrétní podmínky se řeší smlouvou k danému projektu.",
   },
   {
     q: "Jak se stanu dealerem nebo investorem?",

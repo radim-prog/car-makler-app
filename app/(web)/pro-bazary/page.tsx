@@ -307,7 +307,7 @@ export default function ProBazaryPage() {
                 <p className="text-gray-700 italic text-sm leading-relaxed mb-3">
                   „Čekal jsem, že se do toho budu muset zapojit sám. Místo toho makléři pracují
                   za nás — my řešíme jen prohlídky a papíry. Síť není konkurence bazaru,
-                  je to prodejní kanál navíc."
+                  je to prodejní kanál navíc.“
                 </p>
                 <cite className="text-xs text-gray-500 not-italic">— Karel Horák, Autobazar Horák, Brno</cite>
               </blockquote>
