@@ -22,6 +22,28 @@ Self-contained React server component renderující modelový scénář autíčk
 ### `pavelStoryStyles.ts`
 Scoped CSS pod `.pavel-scope` prefixem. Používá CSS variables z globals.css s fallback hodnotami, takže komponenta funguje i mimo Next.js app scope (např. v Storybooku nebo standalone render pipelinech).
 
+### `RoiCalculator.tsx`
+**FIX-041** — client component (`"use client"`) ROI kalkulačka pro B2B landing (`/pro-autickare` + `/pro-bazary`):
+
+- **Inputs:** slider počet vozů ročně (1–50), slider průměrná marže (20–200 tis. Kč), tabs kanál (broker / self / shop)
+- **Outputs:** velké Fraunces číslo ročního čistého zisku, 12-měsíční bar chart s ramp-up křivkou, řádkový breakdown (hrubá marže → poplatek → čistý zisk)
+- **Disclaimer:** amber aside `role="note"` — „Modelový scénář — nejedná se o nabídku"
+- **Mock logika:** provize per kanál (broker 20 %, self 5 %, shop 15 %) + MONTHLY_SHAPE křivka (nábor tišší, prodeje Q3 peak). Implementátor nahradí business pravidly dle AUDIT-028c §2.4.
+
+Props minimum:
+```ts
+interface RoiCalculatorProps {
+  headingId?: string;
+  className?: string;
+  defaultCount?: number;
+  defaultMargin?: number;
+  defaultChannel?: "broker" | "self" | "shop";
+}
+```
+
+### `roiCalculatorStyles.ts`
+Scoped CSS pod `.roi-scope` prefixem. Obsahuje slider styling (WebKit + Moz), channel tab states s per-kanál accent barvou, 12-bar chart grid, amber disclaimer banner, responsive 880px breakpoint a prefers-reduced-motion respekt.
+
 ---
 
 ## Použití
@@ -54,8 +76,8 @@ interface PavelStoryProps {
 
 ## Co zbývá (implementátor, ne designer)
 
-1. **Vytvořit page** `app/(web)/pro-autickare/page.tsx` s full AUDIT-028c copy (hero, value props, `<PavelStory />`, ROI kalkulačka, ověřovací protokol, waitlist formulář, FAQ, legal disclaimers).
-2. **ROI kalkulačka** (AUDIT-028c §2.4) — interaktivní client component (`"use client"`) s React Hook Form + Zod. Default hodnoty: 10 vozů/měsíc, 270 000 Kč, 20 % marže, 90 % kapitálu od investora.
+1. **Vytvořit page** `app/(web)/pro-autickare/page.tsx` s full AUDIT-028c copy (hero, value props, `<PavelStory />`, `<RoiCalculator />`, ověřovací protokol, waitlist formulář, FAQ, legal disclaimers).
+2. **ROI kalkulačka business logika** (AUDIT-028c §2.4) — UI hotové ve `RoiCalculator.tsx` (FIX-041, mock formulas). Implementátor nahradí: reálné provize per kanál, historická ramp-up křivka MONTHLY_SHAPE, kanálové korekce pro sezónnost, ev. propojení na zadaný VIN/model pro přesnější marži.
 3. **Waitlist formulář** (AUDIT-028c §2.6) — napojit na `/api/waitlist` endpoint (FIX-020 gated flow).
 4. **SEO meta** — title/description/OG image dle AUDIT-028c §6.3.
 5. **Legal review** kompletní stránky před publikací — ČNB fráze explicitně vyloučit.
