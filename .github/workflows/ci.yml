@@ -13,6 +13,7 @@ concurrency:
 
 env:
   NODE_VERSION: "20"
+  DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
 
 jobs:
   # ==========================================
