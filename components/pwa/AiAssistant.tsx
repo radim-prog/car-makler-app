@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { LazyMotion, domAnimation, m, AnimatePresence } from "framer-motion";
 import { useOnlineStatusContext } from "@/components/pwa/OnlineStatusProvider";
 
 // ============================================
@@ -156,7 +156,7 @@ export function AiAssistant() {
   );
 
   return (
-    <>
+    <LazyMotion features={domAnimation} strict>
       {/* Plovoucí bubble */}
       <button
         onClick={() => setIsOpen(true)}
@@ -184,7 +184,7 @@ export function AiAssistant() {
         {isOpen && (
           <>
             {/* Overlay */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -194,7 +194,7 @@ export function AiAssistant() {
             />
 
             {/* Panel */}
-            <motion.div
+            <m.div
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
@@ -391,10 +391,10 @@ export function AiAssistant() {
                   </button>
                 </div>
               </form>
-            </motion.div>
+            </m.div>
           </>
         )}
       </AnimatePresence>
-    </>
+    </LazyMotion>
   );
 }

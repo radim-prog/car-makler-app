@@ -1,15 +1,17 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+// FIX-049a — LazyMotion: `m.div` + tree-shaken domAnimation features (~34KB úspora).
+import { LazyMotion, domAnimation, m, AnimatePresence } from "framer-motion";
 import { useOnlineStatusContext } from "./OnlineStatusProvider";
 
 export function OfflineBanner() {
   const { isOnline } = useOnlineStatusContext();
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <AnimatePresence>
       {!isOnline && (
-        <motion.div
+        <m.div
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
@@ -22,8 +24,9 @@ export function OfflineBanner() {
               synchronizovány po připojení
             </p>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
+    </LazyMotion>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, Suspense } from "react";
-import { motion, useInView } from "framer-motion";
+import { LazyMotion, domAnimation, m, useInView } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { companyInfo } from "@/lib/company-info";
@@ -27,14 +27,14 @@ function AnimatedSection({
         className
       )}
     >
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 40 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.7, ease: "easeOut" }}
         className="w-full max-w-5xl"
       >
         {children}
-      </motion.div>
+      </m.div>
     </section>
   );
 }
@@ -55,6 +55,7 @@ function PrezentaceContent() {
   const managerSlug = searchParams.get("manager");
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <div className="h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth">
       {/* 1. Kdo jsme */}
       <AnimatedSection id="who" className="bg-gray-900">
@@ -115,7 +116,7 @@ function PrezentaceContent() {
                 desc: "Makler domlvi prodej, CarMakléř zajisti platbu",
               },
             ].map((step) => (
-              <motion.div
+              <m.div
                 key={step.title}
                 whileHover={{ scale: 1.05 }}
                 className="flex flex-col items-center"
@@ -127,7 +128,7 @@ function PrezentaceContent() {
                   {step.title}
                 </h3>
                 <p className="text-gray-500 text-sm">{step.desc}</p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -148,14 +149,14 @@ function PrezentaceContent() {
               "Provize jen z uspesneho prodeje",
               "Bonus za zprostredkovani financovani",
             ].map((item) => (
-              <motion.div
+              <m.div
                 key={item}
                 whileHover={{ scale: 1.02 }}
                 className="flex items-start gap-3 bg-white/10 rounded-xl p-4"
               >
                 <span className="text-xl mt-0.5">&#10003;</span>
                 <span className="text-lg font-semibold">{item}</span>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -176,14 +177,14 @@ function PrezentaceContent() {
               "85% z kazdeho prodeje pro vas",
               "Profesionalni profil na webu",
             ].map((item) => (
-              <motion.div
+              <m.div
                 key={item}
                 whileHover={{ scale: 1.02 }}
                 className="flex items-start gap-3 bg-white/10 rounded-xl p-4"
               >
                 <span className="text-xl mt-0.5">&#10003;</span>
                 <span className="text-lg font-semibold">{item}</span>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -196,7 +197,7 @@ function PrezentaceContent() {
             Provizni model
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <motion.div
+            <m.div
               whileHover={{ scale: 1.02 }}
               className="bg-orange-50 rounded-2xl p-8 border-2 border-orange-200"
             >
@@ -216,8 +217,8 @@ function PrezentaceContent() {
                 </li>
                 <li>Bonus za zprostredkovani financovani</li>
               </ul>
-            </motion.div>
-            <motion.div
+            </m.div>
+            <m.div
               whileHover={{ scale: 1.02 }}
               className="bg-gray-900 rounded-2xl p-8 text-white"
             >
@@ -235,7 +236,7 @@ function PrezentaceContent() {
                 </li>
                 <li>Mesicni vyuctovani</li>
               </ul>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </AnimatedSection>
@@ -258,7 +259,7 @@ function PrezentaceContent() {
               { value: "2 500+", label: "Prodanych vozu" },
               { value: "98 %", label: "Spokojenost" },
             ].map((stat) => (
-              <motion.div
+              <m.div
                 key={stat.label}
                 whileHover={{ scale: 1.05 }}
                 className="bg-white rounded-2xl p-6 shadow-sm"
@@ -267,7 +268,7 @@ function PrezentaceContent() {
                   {stat.value}
                 </div>
                 <div className="text-sm text-gray-500 mt-1">{stat.label}</div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -303,7 +304,7 @@ function PrezentaceContent() {
                     &rarr;
                   </div>
                 )}
-                <motion.div
+                <m.div
                   whileHover={{ scale: 1.05 }}
                   className="flex flex-col items-center bg-gray-50 rounded-xl px-6 py-6"
                 >
@@ -316,7 +317,7 @@ function PrezentaceContent() {
                   <span className="text-xs text-gray-500 text-center">
                     {step.desc}
                   </span>
-                </motion.div>
+                </m.div>
               </div>
             ))}
           </div>
@@ -388,6 +389,7 @@ function PrezentaceContent() {
         ))}
       </div>
     </div>
+    </LazyMotion>
   );
 }
 
