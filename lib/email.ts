@@ -107,9 +107,33 @@ function getWedosTransport(): Transporter | null {
       secure: false, // STARTTLS
       requireTLS: true,
       auth: { user, pass },
+      // AUDIT-031: connection pooling — reuse SMTP connections napříč transactional e-maily.
+      // Wedos má limity na počet paralelních spojení, takže zvoleno konzervativně.
+      pool: true,
+      maxConnections: Number(process.env.WEDOS_SMTP_MAX_CONNECTIONS) || 3,
+      maxMessages: Number(process.env.WEDOS_SMTP_MAX_MESSAGES) || 50,
+      // Rate limit: ochrana před Wedos AUP, 5 msg/s per connection je bezpečné.
+      rateDelta: 1000,
+      rateLimit: Number(process.env.WEDOS_SMTP_RATE_LIMIT) || 5,
     });
   }
   return _wedosTransport;
+}
+
+/**
+ * AUDIT-031: Graceful shutdown hook — uzavře SMTP pool při SIGTERM/SIGINT,
+ * aby server čekal na dokončení probíhajících sendů a uvolnil TCP spojení.
+ * Voláno z instrumentation.ts.
+ */
+export async function closeWedosTransport(): Promise<void> {
+  if (_wedosTransport) {
+    try {
+      _wedosTransport.close();
+      _wedosTransport = null;
+    } catch (err) {
+      console.error("[email] Wedos transport close failed:", err);
+    }
+  }
 }
 
 async function sendViaWedos(params: SendEmailParams): Promise<SendEmailResult> {

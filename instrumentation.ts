@@ -3,9 +3,16 @@ export async function register() {
     await import("./sentry.server.config");
 
     const { prisma } = await import("./lib/prisma");
+    const { closeWedosTransport } = await import("./lib/email");
 
     const shutdown = async (signal: string) => {
-      console.log(`[shutdown] ${signal} received, disconnecting Prisma...`);
+      console.log(`[shutdown] ${signal} received, cleaning up...`);
+      try {
+        await closeWedosTransport();
+        console.log("[shutdown] Wedos SMTP pool closed");
+      } catch (err) {
+        console.error("[shutdown] Wedos pool close failed:", err);
+      }
       try {
         await prisma.$disconnect();
         console.log("[shutdown] Prisma disconnected");
