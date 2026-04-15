@@ -47,3 +47,4 @@ dev.db
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+.audit-reports/
