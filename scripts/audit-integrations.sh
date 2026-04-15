@@ -45,7 +45,8 @@ fi
 state() {
   local key="$1"
   local required="${2:-optional}"
-  local value="${!key:-${FILE_ENV[$key]:-}}"
+  local value
+  value="$(value_for "$key")"
 
   if [[ -n "$value" ]]; then
     echo "[integrations] OK      $key is set"
@@ -55,6 +56,11 @@ state() {
   else
     echo "[integrations] EMPTY   $key is optional"
   fi
+}
+
+value_for() {
+  local key="$1"
+  printf '%s' "${!key:-${FILE_ENV[$key]:-}}"
 }
 
 group() {
@@ -80,7 +86,7 @@ state MARKETPLACE_GATE_DISABLED optional
 group "Upload"
 state UPLOAD_DIR optional
 state UPLOAD_BASE_URL optional
-if [[ -n "${UPLOAD_DIR:-}" && -n "${UPLOAD_BASE_URL:-}" ]]; then
+if [[ -n "$(value_for UPLOAD_DIR)" && -n "$(value_for UPLOAD_BASE_URL)" ]]; then
   echo "[integrations] OK      uploads use self-hosted storage"
 else
   echo "[integrations] WARN    uploads fall back to placeholder/dev behavior"
@@ -92,7 +98,7 @@ state SMTP_PORT optional
 state SMTP_USER optional
 state SMTP_PASSWORD optional
 state SMTP_FROM optional
-if [[ -n "${SMTP_USER:-}" && -n "${SMTP_PASSWORD:-}" ]]; then
+if [[ -n "$(value_for SMTP_USER)" && -n "$(value_for SMTP_PASSWORD)" ]]; then
   echo "[integrations] OK      SMTP can send transactional email"
 else
   echo "[integrations] WARN    SMTP is not configured; sendEmail returns NOT_CONFIGURED"
