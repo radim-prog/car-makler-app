@@ -170,8 +170,12 @@ test.describe("BATCH 2 — Další stránky", () => {
 });
 
 test.describe("BATCH 2 — Soubory (Analytics, CI)", () => {
-  test("lib/resend.ts existuje", async ({ page }) => {
-    expect(fs.existsSync("lib/resend.ts")).toBeTruthy();
+  test("lib/email.ts existuje (FIX-037 Wedos-only provider)", async ({ page }) => {
+    expect(fs.existsSync("lib/email.ts")).toBeTruthy();
+  });
+
+  test("lib/resend.ts NEexistuje (FIX-037 Resend demontáž)", async ({ page }) => {
+    expect(fs.existsSync("lib/resend.ts")).toBeFalsy();
   });
 
   test("lib/cloudinary.ts existuje", async ({ page }) => {

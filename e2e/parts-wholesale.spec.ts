@@ -9,7 +9,7 @@ import { test, expect, Page } from "@playwright/test";
  *   4. Public detail render manufacturer + warranty (z seedu Commit E)
  */
 
-const BASE = "http://localhost:3000";
+const BASE = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
 const WHOLESALE_EMAIL = "velkoobchod@carmakler.cz";
 const WHOLESALE_PASS = "heslo123";
 
