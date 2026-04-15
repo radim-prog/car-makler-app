@@ -28,7 +28,7 @@ export async function generateMetadata({
 
     if (broker) {
       return {
-        title: `${broker.firstName} ${broker.lastName} — CarMakléř`,
+        title: `${broker.firstName} ${broker.lastName}`,
         description: `Profil certifikovaného automakléře ${broker.firstName} ${broker.lastName}. Hodnocení, aktivní vozidla a kontakt.`,
         alternates: pageCanonical(`/makler/${slug}`),
       };
@@ -38,7 +38,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: "Profil makléře — CarMakléř",
+    title: "Profil makléře",
     description:
       "Profil certifikovaného automakléře CarMakléř. Hodnocení, recenze, aktivní vozidla a kontakt.",
     alternates: pageCanonical(`/makler/${slug}`),

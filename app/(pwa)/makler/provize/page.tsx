@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { BrokerPayoutsContent } from "@/components/pwa/BrokerPayoutsContent";
 
 export const metadata = {
-  title: "Provize | CarMakléř",
+  title: "Provize",
 };
 
 export default async function BrokerPayoutsPage() {

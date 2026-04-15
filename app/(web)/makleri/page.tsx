@@ -9,7 +9,7 @@ import { pageCanonical } from "@/lib/canonical";
 export const revalidate = 3600; // ISR: 1 hodina
 
 export const metadata: Metadata = {
-  title: "Naši makléři — CarMakléř",
+  title: "Naši makléři",
   description:
     "Certifikovaní automakléři po celé ČR. Najděte svého makléře a prodejte auto rychle a bezpečně.",
   openGraph: {

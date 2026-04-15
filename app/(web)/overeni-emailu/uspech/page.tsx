@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const metadata = { title: "Email ověřen — CarMakléř" };
+export const metadata = { title: "Email ověřen" };
 
 export default function VerifyEmailSuccessPage() {
   return (
