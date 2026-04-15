@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Utility scripts (node-only, CommonJS require() OK)
+    "scripts/**",
   ]),
   // Downgrade pre-existing errors to warnings (to be fixed incrementally)
   {
