@@ -22,15 +22,14 @@ AUTH_COOKIE="${LH_COOKIE:-}"
 URLS=(
   "/"
   "/pro-bazary"
+  "/pro-autickare"
+  "/pro-investory"
+  "/pro-makleri"
   "/chci-prodat"
-  "/pro-dealery"
   "/marketplace"
-  "/inzerat/podat"
   "/admin/login"
-  "/broker/dashboard"
   "/shop"
   "/dily"
-  "/404"
 )
 
 DEVICES=("desktop" "mobile")
