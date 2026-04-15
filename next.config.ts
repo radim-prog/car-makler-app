@@ -56,6 +56,9 @@ const cspDirectives = [
   // Prevence iframe embedding (ekvivalent X-Frame-Options: DENY)
   "frame-ancestors 'none'",
 
+  // AUDIT-010 P1#T-010-002 — auto-upgrade http://asset → https://asset (mixed content prevention)
+  "upgrade-insecure-requests",
+
   // CSP violation reporting
   "report-uri /api/csp-report",
 ].join("; ");
@@ -114,7 +117,7 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "X-XSS-Protection", value: "1; mode=block" },
+          // AUDIT-010 P1#T-010-001 — X-XSS-Protection removed (deprecated, viz MDN); moderní CSP frame-ancestors/object-src pokryje
           {
             key: "Permissions-Policy",
             // AUDIT-027: Allowed = self (naše PWA fotí auto + geolocation při nabírání; payment bude potřeba pro Stripe Connect; fullscreen a clipboard-write pro report export / share). Zbytek explicit deny aby prohlížeč zamezil third-party pokusům.
@@ -163,6 +166,27 @@ const nextConfig: NextConfig = {
             value: cspDirectives,
           },
         ],
+      },
+      // AUDIT-010 P1#T-010-007 — Cache-Control per route type
+      {
+        // Hashed Next.js static bundles (JS/CSS chunks, fonts) — immutable 1 rok
+        source: "/_next/static/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+      {
+        // Next/Image optimized responses — krátká browser cache, respekt revalidate
+        source: "/_next/image",
+        headers: [{ key: "Cache-Control", value: "public, max-age=86400, must-revalidate" }],
+      },
+      {
+        // API routes — no-store default; routes můžou přepsat vlastním `headers.set()`
+        source: "/api/:path*",
+        headers: [{ key: "Cache-Control", value: "no-store" }],
+      },
+      {
+        // Serwist service worker — NIKDY cachovat (jinak update mechanismus se rozbije)
+        source: "/sw.js",
+        headers: [{ key: "Cache-Control", value: "no-cache, no-store, must-revalidate" }],
       },
     ];
   },
