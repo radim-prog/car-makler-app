@@ -13,6 +13,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "coverage/**",
+    "test-results/**",
+    "playwright-report/**",
+    "public/sw.js",
     // Utility scripts (node-only, CommonJS require() OK)
     "scripts/**",
   ]),
