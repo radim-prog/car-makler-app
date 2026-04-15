@@ -64,6 +64,8 @@ const cspDirectives = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  // FIX-051 — security: skrýt X-Powered-By hlavičku (information disclosure)
+  poweredByHeader: false,
   turbopack: {},
   images: {
     remotePatterns: [
