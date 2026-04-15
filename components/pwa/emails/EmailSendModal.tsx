@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import DOMPurify from "isomorphic-dompurify";
+// FIX-049f — DOMPurify lazy-loaded v useEffect (interakce-triggered, ne LCP)
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
@@ -51,6 +51,7 @@ export function EmailSendModal({
   const [recipientName, setRecipientName] = useState(defaultRecipientName || "");
   const [customText, setCustomText] = useState("");
   const [previewHtml, setPreviewHtml] = useState("");
+  const [sanitizedPreviewHtml, setSanitizedPreviewHtml] = useState("");
   const [previewSubject, setPreviewSubject] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -84,6 +85,21 @@ export function EmailSendModal({
       setReason("");
     }
   }, [open, defaultTemplate, defaultRecipientEmail, defaultRecipientName]);
+
+  // FIX-049f — dynamic import DOMPurify až když je previewHtml k dispozici
+  useEffect(() => {
+    if (!previewHtml) {
+      setSanitizedPreviewHtml("");
+      return;
+    }
+    let cancelled = false;
+    import("isomorphic-dompurify").then(({ default: DOMPurify }) => {
+      if (!cancelled) setSanitizedPreviewHtml(DOMPurify.sanitize(previewHtml));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [previewHtml]);
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -285,7 +301,7 @@ export function EmailSendModal({
           </div>
           <div
             className="border border-gray-200 rounded-lg overflow-hidden max-h-[400px] overflow-y-auto"
-            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(previewHtml) }}
+            dangerouslySetInnerHTML={{ __html: sanitizedPreviewHtml /* DOMPurify sanitized */ }}
           />
           <div className="flex gap-3">
             <Button

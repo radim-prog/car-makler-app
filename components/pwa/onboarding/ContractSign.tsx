@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import DOMPurify from "isomorphic-dompurify";
+// FIX-049f — DOMPurify lazy-loaded v useEffect (interakce-triggered, ne LCP)
 import { SignatureCanvas } from "@/components/pwa/contracts/SignatureCanvas";
 import { Button } from "@/components/ui/Button";
 import { Checkbox } from "@/components/ui/Checkbox";
@@ -11,6 +11,7 @@ import { Alert } from "@/components/ui/Alert";
 export function ContractSign() {
   const router = useRouter();
   const [contractHtml, setContractHtml] = useState("");
+  const [sanitizedHtml, setSanitizedHtml] = useState("");
   const [loadingContract, setLoadingContract] = useState(true);
   const [signature, setSignature] = useState<string | null>(null);
   const [agreed, setAgreed] = useState(false);
@@ -36,6 +37,18 @@ export function ContractSign() {
     }
     loadContract();
   }, []);
+
+  // FIX-049f — dynamic import DOMPurify až po fetch smlouvy (user už čeká na I/O)
+  useEffect(() => {
+    if (!contractHtml) return;
+    let cancelled = false;
+    import("isomorphic-dompurify").then(({ default: DOMPurify }) => {
+      if (!cancelled) setSanitizedHtml(DOMPurify.sanitize(contractHtml));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [contractHtml]);
 
   const handleSubmit = async () => {
     setError("");
@@ -96,9 +109,10 @@ export function ContractSign() {
 
       {/* Contract text */}
       <div className="bg-white rounded-2xl shadow-card p-6 max-h-[400px] overflow-y-auto">
+        {/* FIX-049f — sanitizedHtml je výstup DOMPurify.sanitize (viz useEffect výše) */}
         <div
           className="prose prose-sm max-w-none text-gray-700"
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(contractHtml) }}
+          dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
         />
       </div>
 
