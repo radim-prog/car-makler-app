@@ -7,6 +7,7 @@ import { TrustScore } from "@/components/ui/TrustScore";
 import { Card } from "@/components/ui/Card";
 import { prisma } from "@/lib/prisma";
 import { pageCanonical } from "@/lib/canonical";
+import { EcosystemCycle } from "@/components/illustrations/EcosystemCycle";
 
 export const metadata: Metadata = {
   title: "CarMakléř | Prodej aut přes certifikované makléře",
@@ -475,6 +476,52 @@ export default async function HomePage() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* Section 2 — Ekosystém CarMakléř (AUDIT-028 T-028-029)        */}
+      {/* ============================================================ */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10 sm:mb-12">
+            <p className="text-orange-500 font-semibold text-sm uppercase tracking-wide mb-2">
+              Ekosystém
+            </p>
+            <h2 className="font-fraunces text-3xl sm:text-4xl lg:text-5xl font-semibold text-gray-900 leading-tight">
+              Čtyři propojené platformy, jedna značka
+            </h2>
+            <p className="text-gray-600 mt-4 max-w-2xl mx-auto text-base sm:text-lg">
+              Makléřská síť, inzerce, eshop autodílů a investiční marketplace —
+              fungují samostatně, ale navzájem se posilují.
+            </p>
+          </div>
+
+          <div className="flex justify-center">
+            <EcosystemCycle
+              className="w-full max-w-3xl h-auto"
+              title="Diagram ekosystému CarMakléř: 4 propojené produkty (Makléřská síť, Inzerce, Eshop autodílů, Marketplace)"
+            />
+          </div>
+
+          <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
+            <Link href="/pro-bazary" className="no-underline text-center p-4 rounded-lg hover:bg-white hover:shadow-md transition">
+              <div className="text-xs uppercase tracking-wide text-orange-500 font-semibold">Pro bazary</div>
+              <div className="font-bold text-gray-900 text-sm mt-1">Napojení skladu</div>
+            </Link>
+            <Link href="/pro-autickare" className="no-underline text-center p-4 rounded-lg hover:bg-white hover:shadow-md transition">
+              <div className="text-xs uppercase tracking-wide text-orange-500 font-semibold">Pro autíčkáře</div>
+              <div className="font-bold text-gray-900 text-sm mt-1">Marketplace + síť</div>
+            </Link>
+            <Link href="/pro-investory" className="no-underline text-center p-4 rounded-lg hover:bg-white hover:shadow-md transition">
+              <div className="text-xs uppercase tracking-wide text-orange-500 font-semibold">Pro investory</div>
+              <div className="font-bold text-gray-900 text-sm mt-1">Spolumajitelství</div>
+            </Link>
+            <Link href="/pro-makleri" className="no-underline text-center p-4 rounded-lg hover:bg-white hover:shadow-md transition">
+              <div className="text-xs uppercase tracking-wide text-orange-500 font-semibold">Pro makléře</div>
+              <div className="font-bold text-gray-900 text-sm mt-1">Kariéra 5 % provize</div>
+            </Link>
           </div>
         </div>
       </section>
