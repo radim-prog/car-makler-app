@@ -69,6 +69,12 @@ const nextConfig: NextConfig = {
         hostname: "files.carmakler.cz",
       },
       {
+        // FIX-047e — sandbox uploads se servíruji z /uploads/ na car.zajcon.cz
+        protocol: "https",
+        hostname: "car.zajcon.cz",
+        pathname: "/uploads/**",
+      },
+      {
         protocol: "https",
         hostname: "res.cloudinary.com",
       },
