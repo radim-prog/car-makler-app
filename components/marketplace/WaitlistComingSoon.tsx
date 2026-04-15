@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import type { ComponentType } from "react";
 import { Button } from "@/components/ui/Button";
+import { LockIcon, DocumentIcon, ScaleIcon, CheckIcon } from "@/components/ui/Icons";
 
 export function WaitlistComingSoon() {
   const [email, setEmail] = useState("");
@@ -50,16 +52,16 @@ export function WaitlistComingSoon() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 mb-12">
-          {[
-            { icon: "🔒", title: "Uzavřená komunita", desc: "Pouze ověření investoři a realizátoři" },
-            { icon: "📝", title: "Smlouva ke každé transakci", desc: "Žádné překvapení, vše transparentně" },
-            { icon: "⚖️", title: "Regulatorní příprava", desc: "Spolupráce s právníky před veřejným spuštěním" },
-          ].map((item) => (
+          {([
+            { icon: LockIcon, title: "Uzavřená komunita", desc: "Pouze ověření investoři a realizátoři" },
+            { icon: DocumentIcon, title: "Smlouva ke každé transakci", desc: "Žádné překvapení, vše transparentně" },
+            { icon: ScaleIcon, title: "Regulatorní příprava", desc: "Spolupráce s právníky před veřejným spuštěním" },
+          ] as Array<{ icon: ComponentType<{ className?: string }>; title: string; desc: string }>).map((item) => (
             <div
               key={item.title}
               className="bg-white/5 border border-white/10 rounded-xl p-6 text-center"
             >
-              <div className="text-3xl mb-3">{item.icon}</div>
+              <item.icon className="w-8 h-8 mx-auto mb-3 text-orange-400" />
               <div className="font-semibold mb-1">{item.title}</div>
               <div className="text-sm text-white/60">{item.desc}</div>
             </div>
@@ -68,7 +70,7 @@ export function WaitlistComingSoon() {
 
         {status === "ok" ? (
           <div className="bg-green-500/10 border border-green-500/40 rounded-2xl p-8 text-center">
-            <div className="text-4xl mb-3">✅</div>
+            <CheckIcon className="w-10 h-10 mx-auto mb-3 text-green-400" />
             <h2 className="text-2xl font-bold mb-2">Jste na seznamu</h2>
             <p className="text-white/70">
               Děkujeme. Ozveme se, jakmile pro vás budeme mít místo v další vlně.
