@@ -8,10 +8,10 @@ import { pageCanonical } from "@/lib/canonical";
 const city = CITIES.find((c) => c.slug === "praha");
 
 export const metadata: Metadata = city ? {
-  title: `Autobazar ${city.name} | Ojeté vozy ${city.inLocative} — CarMakler`,
+  title: `Autobazar ${city.name} | Ojeté vozy ${city.inLocative}`,
   description: `Prověřené ojeté vozy ${city.inLocative} od certifikovaných makléřů. Osobní prohlídka, prověrka CEBIA, bezpečný nákup.`,
   openGraph: {
-    title: `Ojeté vozy ${city.inLocative} | CarMakler`,
+    title: `Ojeté vozy ${city.inLocative}`,
     description: `Prověřené ojeté vozy ${city.inLocative}. Bezpečný nákup od makléřů.`,
   },
   alternates: pageCanonical("/nabidka/praha"),
@@ -48,7 +48,7 @@ export default function Page() {
 
   return (
     <VehicleLandingPage
-      title={`Autobazar ${city.name} | Ojeté vozy ${city.inLocative} — CarMakler`}
+      title={`Autobazar ${city.name} | Ojeté vozy ${city.inLocative}`}
       description={city.description}
       h1={`Ojeté vozy ${city.inLocative}`}
       filterDescription={`Prověřené ojeté vozy od certifikovaných makléřů ${city.inLocative} a okolí.`}
@@ -56,11 +56,11 @@ export default function Page() {
       quickFacts={city.quickFacts}
       seoText={
         <div>
-          <h2>Ojeté vozy {city.inLocative} na CarMakler</h2>
+          <h2>Ojeté vozy {city.inLocative} na CarMakléř</h2>
           <p>{city.description}</p>
-          <h3>Proč kupovat přes CarMakler {city.inLocative}?</h3>
+          <h3>Proč kupovat přes CarMakléř {city.inLocative}?</h3>
           <p>
-            CarMakler nabízí síť certifikovaných makléřů přímo {city.inLocative}. Makléř vám osobně
+            CarMakléř nabízí síť certifikovaných makléřů přímo {city.inLocative}. Makléř vám osobně
             ukáže vybraný vůz, provede důkladnou prohlídku a prověří historii přes CEBIA. Celý
             proces nákupu probíhá lokálně — od výběru přes prohlídku až po přepis na registru vozidel.
             Nemusíte nikam cestovat, vše vyřídíme {city.inLocative}.

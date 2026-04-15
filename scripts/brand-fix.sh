@@ -13,9 +13,10 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-# Seznam souborů: obsahují Carmakler/CarMakler (word boundary),
-# ale vyloučené ty, kde je to jen technický identifikátor.
-FILES=$(grep -rlE '\b[Cc]armakler\b' \
+# Seznam souborů: obsahují Carmakler/CarMakler/carmakler (word boundary).
+# Pozn.: character class `[Cc]armakler` by NEMATCHOVAL `CarMakler` (velké M uprostřed),
+# proto explicit alternation se 3 variantami.
+FILES=$(grep -rlE '\b(Carmakler|CarMakler|carmakler)\b' \
     app/ components/ lib/ \
     --include='*.tsx' --include='*.ts' --include='*.html' --include='*.md' 2>/dev/null || true)
 

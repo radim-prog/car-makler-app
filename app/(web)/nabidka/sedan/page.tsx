@@ -8,10 +8,10 @@ import { pageCanonical } from "@/lib/canonical";
 const bodyType = BODY_TYPES.find((b) => b.slug === "sedan");
 
 export const metadata: Metadata = bodyType ? {
-  title: `${bodyType.name} bazar | Ojeté ${bodyType.name.toLowerCase()} vozy — CarMakler`,
+  title: `${bodyType.name} bazar | Ojeté ${bodyType.name.toLowerCase()} vozy`,
   description: `Prověřené ojeté ${bodyType.name.toLowerCase()} vozy od certifikovaných makléřů. Široký výběr značek a modelů. Bezpečný nákup s garancí.`,
   openGraph: {
-    title: `Ojeté ${bodyType.name} vozy | CarMakler`,
+    title: `Ojeté ${bodyType.name} vozy`,
     description: `Prověřené ojeté ${bodyType.name.toLowerCase()} vozy. Bezpečný nákup od makléřů.`,
   },
   alternates: pageCanonical("/nabidka/sedan"),
@@ -57,7 +57,7 @@ export default function Page() {
 
   return (
     <VehicleLandingPage
-      title={`${bodyType.name} bazar | Ojeté ${bodyType.name.toLowerCase()} vozy — CarMakler`}
+      title={`${bodyType.name} bazar | Ojeté ${bodyType.name.toLowerCase()} vozy`}
       description={bodyType.description}
       h1={`Ojeté ${bodyType.name.toLowerCase()} vozy`}
       filterDescription={`Prověřené ojeté ${bodyType.name.toLowerCase()} vozy od certifikovaných makléřů. Široký výběr značek a modelů.`}
@@ -65,11 +65,11 @@ export default function Page() {
       quickFacts={bodyType.quickFacts}
       seoText={
         <div>
-          <h2>Proč koupit ojeté {bodyType.name.toLowerCase()} na CarMakler?</h2>
+          <h2>Proč koupit ojeté {bodyType.name.toLowerCase()} na CarMakléř?</h2>
           <p>{bodyType.description}</p>
           <h3>Bezpečný nákup s garancí</h3>
           <p>
-            Každý ojetý vůz na CarMakler prochází důkladnou kontrolou. Ověřujeme historii přes CEBIA,
+            Každý ojetý vůz na CarMakléř prochází důkladnou kontrolou. Ověřujeme historii přes CEBIA,
             kontrolujeme stav tachometru a původ vozu. Certifikovaný makléř provede fyzickou prohlídku
             a zajistí kompletní administrativu nákupu včetně financování a pojištění.
           </p>

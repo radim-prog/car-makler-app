@@ -66,7 +66,7 @@ export function ModelLandingContent({ model }: ModelLandingContentProps) {
 
   return (
     <VehicleLandingPage
-      title={`${model.fullName} bazar | Ojeté ${model.name} — CarMakler`}
+      title={`${model.fullName} bazar | Ojeté ${model.name} — CarMakléř`}
       description={`Prověřené ojeté ${model.fullName} od certifikovaných makléřů. Varianty ${model.variants.join(", ")}. Bezpečný nákup s garancí.`}
       h1={`${model.fullName} — ojeté vozy v nabídce`}
       filterDescription={`Prověřené ojeté vozy ${model.fullName} v různých variantách a cenových kategoriích.`}
@@ -109,12 +109,12 @@ export function ModelLandingContent({ model }: ModelLandingContentProps) {
 function ModelSeoText({ model }: { model: ModelData }) {
   return (
     <div>
-      <h2>Proč koupit ojeté {model.fullName} na CarMakler?</h2>
+      <h2>Proč koupit ojeté {model.fullName} na CarMakléř?</h2>
       <p>{model.description}</p>
 
       <h3>Dostupné varianty {model.fullName}</h3>
       <p>
-        Na CarMakler nabízíme {model.fullName} ve variantách:{" "}
+        Na CarMakléř nabízíme {model.fullName} ve variantách:{" "}
         {model.variants.join(", ")}. Každá varianta má své specifické vlastnosti —
         od základních verzí pro ekonomicky orientované kupce po sportovní
         a luxusní varianty pro náročné zákazníky. Naši makléři vám poradí,
@@ -126,13 +126,13 @@ function ModelSeoText({ model }: { model: ModelData }) {
         {model.fullName} konkuruje modelům {model.competitors.join(", ")}.
         Oproti konkurenci nabízí {model.fullName} specifické výhody —
         naši makléři vám pomohou porovnat jednotlivé modely a vybrat ten pravý.
-        Každý vůz na CarMakler prochází důkladnou kontrolou historie a technického stavu,
+        Každý vůz na CarMakléř prochází důkladnou kontrolou historie a technického stavu,
         takže kupujete s jistotou bez ohledu na zvolenou značku.
       </p>
 
-      <h3>Bezpečný nákup přes CarMakler</h3>
+      <h3>Bezpečný nákup přes CarMakléř</h3>
       <p>
-        Koupě ojetého {model.fullName} přes CarMakler je bezpečná a transparentní.
+        Koupě ojetého {model.fullName} přes CarMakléř je bezpečná a transparentní.
         Certifikovaný makléř prověří historii vozu přes CEBIA, zkontroluje technický stav,
         ověří stav tachometru a zajistí kompletní administrativu. Nabízíme také
         financování, pojištění a rozšířenou záruku pro maximální klid při nákupu.

@@ -67,7 +67,7 @@ export function BrandLandingContent({ brand }: BrandLandingContentProps) {
 
   return (
     <VehicleLandingPage
-      title={`${brand.displayName} bazar | Ojeté vozy ${brand.displayName} — CarMakler`}
+      title={`${brand.displayName} bazar | Ojeté vozy ${brand.displayName} — CarMakléř`}
       description={`Prověřené ojeté vozy ${brand.displayName} od certifikovaných makléřů. ${brand.topModels.map((m) => m.name).join(", ")} a další. Bezpečný nákup s garancí.`}
       h1={`Ojeté vozy ${brand.displayName}`}
       filterDescription={`Prověřené vozy ${brand.displayName} od certifikovaných makléřů. ${brand.topModels.map((m) => m.name).join(", ")} a další modely v nabídce.`}
@@ -119,10 +119,10 @@ export function BrandLandingContent({ brand }: BrandLandingContentProps) {
 function BrandSeoText({ brand }: { brand: BrandData }) {
   return (
     <div>
-      <h2>Proč koupit ojeté {brand.displayName} na CarMakler?</h2>
+      <h2>Proč koupit ojeté {brand.displayName} na CarMakléř?</h2>
       <p>{brand.description}</p>
 
-      <h3>Jak funguje nákup ojetého {brand.displayName} přes CarMakler?</h3>
+      <h3>Jak funguje nákup ojetého {brand.displayName} přes CarMakléř?</h3>
       <p>
         Proces je jednoduchý a bezpečný. Vyberte si vůz {brand.displayName} z naší nabídky,
         kontaktujte certifikovaného makléře a domluvte si prohlídku. Makléř za vás prověří
@@ -133,7 +133,7 @@ function BrandSeoText({ brand }: { brand: BrandData }) {
 
       <h3>Nejpopulárnější modely {brand.displayName}</h3>
       <p>
-        V nabídce CarMakler najdete všechny populární modely {brand.displayName}:{" "}
+        V nabídce CarMakléř najdete všechny populární modely {brand.displayName}:{" "}
         {brand.topModels.map((m) => m.name).join(", ")} a mnoho dalších. Každý model
         má své specifické vlastnosti a naši makléři vám rádi poradí, který model
         nejlépe vyhovuje vašim potřebám a rozpočtu.
@@ -141,7 +141,7 @@ function BrandSeoText({ brand }: { brand: BrandData }) {
 
       <h3>Garance kvality a bezpečnosti</h3>
       <p>
-        Každý ojetý vůz {brand.displayName} na CarMakler prochází důkladnou kontrolou.
+        Každý ojetý vůz {brand.displayName} na CarMakléř prochází důkladnou kontrolou.
         Ověřujeme historii havárií, stav tachometru, zástavy a exekuce přes systém CEBIA.
         Certifikovaný makléř provede fyzickou prohlídku vozu a zkontroluje technický stav.
         Díky tomu kupujete s jistotou a bez rizika. Navíc vám makléř pomůže

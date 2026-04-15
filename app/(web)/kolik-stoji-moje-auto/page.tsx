@@ -6,7 +6,7 @@ import { BASE_URL } from "@/lib/seo-data";
 import { pageCanonical } from "@/lib/canonical";
 
 export const metadata: Metadata = {
-  title: "Kolik stojí moje auto? | Kalkulačka ceny vozidla — CarMakler",
+  title: "Kolik stojí moje auto? | Kalkulačka ceny vozidla",
   description:
     "Zjistěte orientační cenu vašeho ojetého auta online. Kalkulačka ceny vozidla na základě značky, modelu, roku výroby a stavu. Profesionální ocenění makléřem zdarma.",
   openGraph: {
@@ -89,7 +89,7 @@ export default function KolikStojiMojeAutoPage() {
 
           <h3>Proč nechat auto ocenit makléřem?</h3>
           <p>
-            Certifikovaný makléř CarMakler přijede přímo k vám, prohlédne vůz osobně a stanoví
+            Certifikovaný makléř CarMakléř přijede přímo k vám, prohlédne vůz osobně a stanoví
             reálnou tržní cenu na základě aktuálních dat z trhu. Služba je zcela zdarma a nezávazná.
             Makléř zohlední faktory, které online kalkulačka nemůže posoudit — celkový stav laku,
             kvalitu interiéru, stav techniky a specifickou výbavu vašeho vozu.

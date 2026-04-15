@@ -169,7 +169,7 @@ export function OrderForm({
                 {/* PICKUP info box */}
                 {isSelected && m.method === "PICKUP" && (
                   <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-900">
-                    Objednávku si vyzvednete v sídle CarMakler v Praze.
+                    Objednávku si vyzvednete v sídle CarMakléř v Praze.
                     Přesnou adresu a otevírací dobu najdete v potvrzovacím emailu.
                   </div>
                 )}

@@ -6,10 +6,10 @@ import { pageCanonical } from "@/lib/canonical";
 
 export const metadata: Metadata = {
   title: "Zásady cookies",
-  description: "Informace o používání cookies na platformě CarMakler. Přehled cookies, účely a způsob správy.",
+  description: "Informace o používání cookies na platformě CarMakléř. Přehled cookies, účely a způsob správy.",
   openGraph: {
-    title: "Zásady cookies | CarMakler",
-    description: "Informace o používání cookies na platformě CarMakler.",
+    title: "Zásady cookies",
+    description: "Informace o používání cookies na platformě CarMakléř.",
   },
   alternates: pageCanonical("/zasady-cookies"),
 };
