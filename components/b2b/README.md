@@ -44,6 +44,38 @@ interface RoiCalculatorProps {
 ### `roiCalculatorStyles.ts`
 Scoped CSS pod `.roi-scope` prefixem. Obsahuje slider styling (WebKit + Moz), channel tab states s per-kanál accent barvou, 12-bar chart grid, amber disclaimer banner, responsive 880px breakpoint a prefers-reduced-motion respekt.
 
+### `B2BHeroAccent.tsx` + `b2bHeroAccentStyles.ts`
+**FIX-055** — Editorial visual asset pro hero sekce 3 B2B landing pages (`/pro-makleri`, `/pro-investory`, `/pro-bazary`). Self-contained SVG komponent, 480×380 viewBox, midnight gradient pozadí + grid noise overlay + caption glass card (backdrop-filter blur).
+
+**3 persona varianty:**
+- `variant="makleri"` — síť 4 agent nodů (Praha / Brno / Plzeň / Ostrava) s dashed connection lines k centrálnímu orange hubu „CarMakléř", provize 5 % badge, drobný car icon.
+- `variant="investory"` — §1115 OZ banner nahoře, scale fulcrum (váhy) s dvěma pány: levá indigo coin stack „KAPITÁL", pravá orange car silueta. Dole pill „ROZDĚLENÍ ZISKU 40 / 40 / 20".
+- `variant="bazary"` — grid 20 car siluet (opacity stagger) v dashed frame pro stock visual, throughput arrow na dashboard card s mini bar chart, volume pill „30+ vozů".
+
+Props:
+```ts
+interface B2BHeroAccentProps {
+  variant: "makleri" | "investory" | "bazary";
+  className?: string;
+  hideCaption?: boolean; // skryje overlay caption card (pure SVG only)
+}
+```
+
+Usage v hero 2-col gridu:
+```tsx
+<section className="py-16 md:py-24 bg-white">
+  <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
+    <div>
+      <h1>Příležitosti pro podílnictví v automotive segmentu.</h1>
+      {/* existing text, CTAs */}
+    </div>
+    <B2BHeroAccent variant="investory" />
+  </div>
+</section>
+```
+
+**Integrace NENÍ součástí této commity** — implementátor napojí v samostatném passu po Radimově review.
+
 ---
 
 ## Použití
