@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { invitationSchema } from "@/lib/validators/onboarding";
 import { randomUUID } from "crypto";
 import { z } from "zod";
-import { sendEmail } from "@/lib/resend";
+import { sendEmail } from "@/lib/email";
 
 const MANAGER_ROLES = ["MANAGER", "REGIONAL_DIRECTOR", "ADMIN", "BACKOFFICE"];
 

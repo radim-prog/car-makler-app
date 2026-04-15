@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getStripe, STRIPE_WEBHOOK_SECRET, createPayoutRecords } from "@/lib/stripe";
-import { sendEmail } from "@/lib/resend";
+import { sendEmail } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {

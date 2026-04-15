@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createNotification } from "@/lib/notifications";
-import { sendEmail } from "@/lib/resend";
+import { sendEmail } from "@/lib/email";
 import {
   dailySummaryHtml,
   dailySummaryText,

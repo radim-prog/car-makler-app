@@ -1,6 +1,6 @@
 import { randomBytes } from "crypto";
 import { prisma } from "@/lib/prisma";
-import { sendEmail } from "@/lib/resend";
+import { sendEmail } from "@/lib/email";
 
 const TOKEN_EXPIRY_HOURS = 24;
 

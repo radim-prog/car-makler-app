@@ -1520,7 +1520,7 @@ model EmailLog {
   templateType   String  // PRESENTATION, CONTRACT_OFFER, FOLLOWUP, INSURANCE, FINANCING, PRICE_CHANGE, VEHICLE_SOLD, VEHICLE_APPROVED, NEW_INQUIRY, VIEWING_SCHEDULED, PRICE_REDUCTION, DAILY_SUMMARY, WELCOME
   customText     String? // Vlastní text přidaný makléřem
   status         String  @default("SENT") // SENT, DELIVERED, OPENED, FAILED, BOUNCED
-  resendId       String? // ID z Resend API
+  messageId      String? @map("resendId") // SMTP message-id (DB sloupec zachován kvůli zpětné kompatibilitě — FIX-037)
 
   createdAt DateTime @default(now())
 

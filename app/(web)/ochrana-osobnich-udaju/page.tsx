@@ -159,7 +159,7 @@ export default function OchranaOsobnichUdajuPage() {
             <p>Vaše údaje mohou být předány následujícím kategoriím příjemců:</p>
             <ul>
               <li><strong>Poskytovatelé hostingu a infrastruktury:</strong> Vercel Inc. (hosting aplikace).</li>
-              <li><strong>E-mailové služby:</strong> Resend (odesílání transakčních e-mailů).</li>
+              <li><strong>E-mailové služby:</strong> Wedos a.s. (SMTP smtp.wedos.net — odesílání transakčních e-mailů).</li>
               <li><strong>Úložiště obrázků:</strong> Cloudinary (fotografie vozidel a dílů).</li>
               <li><strong>Analytické nástroje:</strong> Plausible Analytics (anonymizovaná analytika, bez cookies).</li>
               <li><strong>Prověrka vozidel:</strong> Cebia s.r.o. (VIN prověrky).</li>

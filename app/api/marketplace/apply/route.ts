@@ -3,7 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { applySchema } from "@/lib/validators/marketplace";
 import { rateLimit } from "@/lib/rate-limit";
-import { sendEmail } from "@/lib/resend";
+import { sendEmail } from "@/lib/email";
 import {
   marketplaceApplicationAdminHtml,
   marketplaceApplicationAdminText,
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // 7. Poslat email adminům (dry-run fallback je v lib/resend.ts)
+    // 7. Poslat email adminům (NOT_CONFIGURED no-op je v lib/email.ts)
     const admins = await prisma.user.findMany({
       where: { role: "ADMIN", status: "ACTIVE" },
       select: { id: true, email: true },

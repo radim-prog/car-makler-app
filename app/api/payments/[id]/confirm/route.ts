@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { createPayoutRecords } from "@/lib/stripe";
-import { sendEmail } from "@/lib/resend";
+import { sendEmail } from "@/lib/email";
 
 export async function PUT(
   request: NextRequest,

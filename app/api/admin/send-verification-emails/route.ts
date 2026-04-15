@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
       try {
         await sendVerificationEmail(user.email, user.firstName);
         sent++;
-        // Rate limit: 2 emaily/sekunda (Resend limit)
+        // Rate limit: 2 emaily/sekunda (Wedos SMTP AUP safety)
         await new Promise((r) => setTimeout(r, 500));
       } catch (error) {
         errors.push(user.email);

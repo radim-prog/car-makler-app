@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
-import { sendEmail } from "@/lib/resend";
+import { sendEmail } from "@/lib/email";
 import { logAudit } from "@/lib/audit";
 
 const schema = z.object({

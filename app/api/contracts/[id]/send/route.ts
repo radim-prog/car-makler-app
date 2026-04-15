@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { sendEmail, RESEND_FROM_CONTRACTS } from "@/lib/resend";
+import { sendEmail, EMAIL_FROM_CONTRACTS } from "@/lib/email";
 
 /* ------------------------------------------------------------------ */
 /*  POST /api/contracts/[id]/send — Odeslání smlouvy emailem           */
@@ -87,9 +87,9 @@ export async function POST(
         ? "Zprostředkovatelská smlouva"
         : "Předávací protokol";
 
-    // Send email via Resend
+    // Send email via Wedos SMTP
     const emailResult = await sendEmail({
-      from: RESEND_FROM_CONTRACTS,
+      from: EMAIL_FROM_CONTRACTS,
       to: contract.sellerEmail,
       subject: `${contractType} - ${vehicleName} | CarMakléř`,
       html: `

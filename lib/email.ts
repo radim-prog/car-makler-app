@@ -1,25 +1,26 @@
 /**
- * FIX-019: Unified e-mail dispatcher s providerem na výběr.
+ * FIX-037 (F-048): E-mail dispatcher — Wedos SMTP jediný provider.
  *
- * EMAIL_PROVIDER env switch:
- *   - "resend" (default, pokud RESEND_API_KEY je nastaven)
- *   - "wedos"  (SMTP fallback přes nodemailer; vyžaduje WEDOS_SMTP_USER + WEDOS_SMTP_PASSWORD)
- *   - "dev"    (pouze console.warn, nic neodesílá — pro lokální dev/CI)
+ * Resend byl odstraněn 2026-04-15 (Radim: „nebudeme používat resend... koupíme
+ * si emaily normálně na wedosu"). Žádný fallback, žádný switch.
  *
- * Auto-fallback strategie když EMAIL_PROVIDER není explicitní:
- *   1) RESEND_API_KEY existuje → resend
- *   2) WEDOS_SMTP_USER+WEDOS_SMTP_PASSWORD existují → wedos
- *   3) jinak → dev (no-op log)
+ * ENV:
+ *   - SMTP_USER, SMTP_PASSWORD   — Wedos mailbox creds (povinné)
+ *   - SMTP_FROM                  — výchozí From: adresa (default info@carmakler.cz)
+ *   - SMTP_HOST                  — default smtp.wedos.net
+ *   - SMTP_PORT                  — default 587 (STARTTLS)
+ *   - SMTP_MAX_CONNECTIONS       — default 3 (pool)
+ *   - SMTP_MAX_MESSAGES          — default 50 per connection
+ *   - SMTP_RATE_LIMIT            — default 5 msg/s per connection
  *
- * Backward-compat: lib/resend.ts re-exportuje sendEmail z tohoto modulu,
- * takže žádný caller se nemusí měnit.
+ * Bez SMTP_USER/SMTP_PASSWORD → sendEmail vrátí `[EMAIL:NOT_CONFIGURED]` warning
+ * a nic neodešle (ne „dev fallback").
  */
 
-import { Resend } from "resend";
 import nodemailer from "nodemailer";
 import type { Transporter } from "nodemailer";
 
-export type EmailProvider = "resend" | "wedos" | "dev";
+export type EmailProvider = "wedos" | "not_configured";
 
 export type SendEmailParams = {
   from?: string;
@@ -37,92 +38,41 @@ export type SendEmailResult = {
   provider?: EmailProvider;
 };
 
-export const EMAIL_FROM = process.env.RESEND_FROM_EMAIL || "info@carmakler.cz";
+export const EMAIL_FROM =
+  process.env.SMTP_FROM || process.env.EMAIL_FROM || "info@carmakler.cz";
 export const EMAIL_FROM_CONTRACTS =
-  process.env.RESEND_FROM_EMAIL || "smlouvy@carmakler.cz";
-
-/* ------------------------------------------------------------------ */
-/*  Provider resolution                                                */
-/* ------------------------------------------------------------------ */
-
-export function resolveEmailProvider(): EmailProvider {
-  const explicit = process.env.EMAIL_PROVIDER?.toLowerCase().trim();
-  if (explicit === "resend" || explicit === "wedos" || explicit === "dev") {
-    return explicit;
-  }
-  if (process.env.RESEND_API_KEY) return "resend";
-  if (process.env.WEDOS_SMTP_USER && process.env.WEDOS_SMTP_PASSWORD) return "wedos";
-  return "dev";
-}
-
-/* ------------------------------------------------------------------ */
-/*  Resend transport                                                   */
-/* ------------------------------------------------------------------ */
-
-let _resend: Resend | null = null;
-function getResend(): Resend | null {
-  const key = process.env.RESEND_API_KEY;
-  if (!key) return null;
-  if (!_resend) _resend = new Resend(key);
-  return _resend;
-}
-
-async function sendViaResend(params: SendEmailParams): Promise<SendEmailResult> {
-  const resend = getResend();
-  if (!resend) {
-    return { success: false, error: "RESEND_API_KEY not configured", provider: "resend" };
-  }
-  try {
-    const result = await resend.emails.send({
-      from: params.from || EMAIL_FROM,
-      to: params.to,
-      subject: params.subject,
-      html: params.html,
-      text: params.text,
-      attachments: params.attachments,
-    });
-    return { success: true, id: result.data?.id ?? undefined, provider: "resend" };
-  } catch (error) {
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : "Unknown error",
-      provider: "resend",
-    };
-  }
-}
+  process.env.SMTP_FROM_CONTRACTS || "smlouvy@carmakler.cz";
 
 /* ------------------------------------------------------------------ */
 /*  Wedos SMTP transport (nodemailer)                                  */
 /* ------------------------------------------------------------------ */
 
 let _wedosTransport: Transporter | null = null;
+
 function getWedosTransport(): Transporter | null {
-  const user = process.env.WEDOS_SMTP_USER;
-  const pass = process.env.WEDOS_SMTP_PASSWORD;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASSWORD;
   if (!user || !pass) return null;
   if (!_wedosTransport) {
     _wedosTransport = nodemailer.createTransport({
-      host: process.env.WEDOS_SMTP_HOST || "smtp.wedos.net",
-      port: Number(process.env.WEDOS_SMTP_PORT) || 587,
+      host: process.env.SMTP_HOST || "smtp.wedos.net",
+      port: Number(process.env.SMTP_PORT) || 587,
       secure: false, // STARTTLS
       requireTLS: true,
       auth: { user, pass },
-      // AUDIT-031: connection pooling — reuse SMTP connections napříč transactional e-maily.
-      // Wedos má limity na počet paralelních spojení, takže zvoleno konzervativně.
+      // AUDIT-031: connection pooling
       pool: true,
-      maxConnections: Number(process.env.WEDOS_SMTP_MAX_CONNECTIONS) || 3,
-      maxMessages: Number(process.env.WEDOS_SMTP_MAX_MESSAGES) || 50,
-      // Rate limit: ochrana před Wedos AUP, 5 msg/s per connection je bezpečné.
+      maxConnections: Number(process.env.SMTP_MAX_CONNECTIONS) || 3,
+      maxMessages: Number(process.env.SMTP_MAX_MESSAGES) || 50,
       rateDelta: 1000,
-      rateLimit: Number(process.env.WEDOS_SMTP_RATE_LIMIT) || 5,
+      rateLimit: Number(process.env.SMTP_RATE_LIMIT) || 5,
     });
   }
   return _wedosTransport;
 }
 
 /**
- * AUDIT-031: Graceful shutdown hook — uzavře SMTP pool při SIGTERM/SIGINT,
- * aby server čekal na dokončení probíhajících sendů a uvolnil TCP spojení.
+ * AUDIT-031: Graceful shutdown — uzavře SMTP pool při SIGTERM/SIGINT.
  * Voláno z instrumentation.ts.
  */
 export async function closeWedosTransport(): Promise<void> {
@@ -136,15 +86,27 @@ export async function closeWedosTransport(): Promise<void> {
   }
 }
 
-async function sendViaWedos(params: SendEmailParams): Promise<SendEmailResult> {
+/* ------------------------------------------------------------------ */
+/*  Public API                                                         */
+/* ------------------------------------------------------------------ */
+
+export function isEmailConfigured(): boolean {
+  return Boolean(process.env.SMTP_USER && process.env.SMTP_PASSWORD);
+}
+
+export async function sendEmail(params: SendEmailParams): Promise<SendEmailResult> {
   const transport = getWedosTransport();
   if (!transport) {
+    console.warn(
+      `[EMAIL:NOT_CONFIGURED] SMTP_USER/SMTP_PASSWORD chybí. to=${params.to} subject="${params.subject}"`
+    );
     return {
       success: false,
-      error: "WEDOS_SMTP_USER / WEDOS_SMTP_PASSWORD not configured",
-      provider: "wedos",
+      error: "SMTP not configured (SMTP_USER/SMTP_PASSWORD missing)",
+      provider: "not_configured",
     };
   }
+
   try {
     const info = await transport.sendMail({
       from: params.from || EMAIL_FROM,
@@ -166,31 +128,4 @@ async function sendViaWedos(params: SendEmailParams): Promise<SendEmailResult> {
       provider: "wedos",
     };
   }
-}
-
-/* ------------------------------------------------------------------ */
-/*  Public API                                                         */
-/* ------------------------------------------------------------------ */
-
-export async function sendEmail(params: SendEmailParams): Promise<SendEmailResult> {
-  const provider = resolveEmailProvider();
-
-  if (provider === "dev") {
-    console.warn(
-      `[Email:DEV] No provider configured. Would send to: ${params.to}, subject: "${params.subject}"`
-    );
-    return { success: false, error: "No e-mail provider configured", provider: "dev" };
-  }
-
-  if (provider === "resend") {
-    const result = await sendViaResend(params);
-    // Soft-fallback: pokud Resend selže (např. domain not verified) a Wedos je nakonfigurovaný, zkus ho
-    if (!result.success && process.env.WEDOS_SMTP_USER && process.env.WEDOS_SMTP_PASSWORD) {
-      console.warn(`[Email] Resend failed (${result.error}), trying Wedos fallback`);
-      return sendViaWedos(params);
-    }
-    return result;
-  }
-
-  return sendViaWedos(params);
 }

@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { sendEmailSchema } from "@/lib/validators/email";
 import { generateEmail } from "@/lib/email-templates";
 import type { BrokerSignatureData } from "@/lib/email-templates";
-import { sendEmail } from "@/lib/resend";
+import { sendEmail } from "@/lib/email";
 
 /* ------------------------------------------------------------------ */
 /*  POST /api/emails/send — Odeslání emailu z PWA                     */
@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
       customText,
     });
 
-    // Send via Resend
+    // Send via Wedos SMTP
     const result = await sendEmail({
       to: recipientEmail,
       subject: email.subject,
@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
       });
       return NextResponse.json({ error: "Chyba pri odesilani emailu" }, { status: 500 });
     }
-    const resendId = result.id;
+    const messageId = result.id;
 
     // Log success
     const log = await prisma.emailLog.create({
@@ -152,7 +152,7 @@ export async function POST(request: NextRequest) {
         subject: email.subject,
         customText,
         status: "SENT",
-        resendId,
+        messageId,
       },
     });
 

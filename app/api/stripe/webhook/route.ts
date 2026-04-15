@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getStripe, STRIPE_WEBHOOK_SECRET } from "@/lib/stripe";
 import { syncAccountToDb } from "@/lib/stripe-connect";
-import { sendEmail } from "@/lib/resend";
+import { sendEmail } from "@/lib/email";
 import { createShipmentForOrder } from "@/lib/shipping/dispatcher";
 import type { CreateShipmentResult } from "@/lib/shipping/types";
 import {

@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { sendEmail } from "@/lib/resend";
+import { sendEmail } from "@/lib/email";
 import {
   watchdogMatchSubject,
   watchdogMatchHtml,
