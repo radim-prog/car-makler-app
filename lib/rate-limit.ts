@@ -1,4 +1,16 @@
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+let lastCleanup = 0;
+
+function cleanupExpired(now: number) {
+  if (now - lastCleanup < 60_000) return;
+  lastCleanup = now;
+
+  for (const [key, entry] of rateLimitStore.entries()) {
+    if (now > entry.resetTime) {
+      rateLimitStore.delete(key);
+    }
+  }
+}
 
 export function rateLimit(
   ip: string,
@@ -6,6 +18,8 @@ export function rateLimit(
   windowMs: number
 ): { success: boolean; remaining: number } {
   const now = Date.now();
+  cleanupExpired(now);
+
   const entry = rateLimitStore.get(ip);
 
   if (!entry || now > entry.resetTime) {

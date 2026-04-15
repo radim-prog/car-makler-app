@@ -3,6 +3,26 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
 import { logAudit } from "./audit";
+import { rateLimit } from "./rate-limit";
+
+function getHeader(headers: unknown, name: string): string | null {
+  if (!headers || typeof headers !== "object") return null;
+
+  if (headers instanceof Headers) {
+    return headers.get(name);
+  }
+
+  const record = headers as Record<string, string | string[] | undefined>;
+  const value = record[name] ?? record[name.toLowerCase()];
+  if (Array.isArray(value)) return value[0] ?? null;
+  return value ?? null;
+}
+
+function getClientIp(headers: unknown): string {
+  const forwardedFor = getHeader(headers, "x-forwarded-for");
+  const realIp = getHeader(headers, "x-real-ip");
+  return forwardedFor?.split(",")[0]?.trim() || realIp || "unknown";
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -12,17 +32,28 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Heslo", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, request) {
         if (!credentials?.email || !credentials?.password) return null;
+        const email = credentials.email.trim().toLowerCase();
+        const ip = getClientIp(request.headers);
+        const loginLimit = rateLimit(`login:${ip}:${email}`, 10, 15 * 60 * 1000);
+
+        if (!loginLimit.success) {
+          await logAudit({
+            action: "LOGIN_FAILED",
+            metadata: { email, reason: "rate_limited", ip },
+          });
+          return null;
+        }
 
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: { email },
         });
 
         if (!user) {
           await logAudit({
             action: "LOGIN_FAILED",
-            metadata: { email: credentials.email, reason: "user_not_found" },
+            metadata: { email, reason: "user_not_found" },
           });
           return null;
         }
@@ -32,7 +63,7 @@ export const authOptions: NextAuthOptions = {
           await logAudit({
             action: "LOGIN_FAILED",
             userId: user.id,
-            metadata: { email: credentials.email, reason: "no_password_set" },
+            metadata: { email, reason: "no_password_set" },
           });
           return null;
         }
@@ -42,7 +73,7 @@ export const authOptions: NextAuthOptions = {
           await logAudit({
             action: "LOGIN_FAILED",
             userId: user.id,
-            metadata: { email: credentials.email, reason: `status_${user.status}` },
+            metadata: { email, reason: `status_${user.status}` },
           });
           return null;
         }
@@ -55,7 +86,7 @@ export const authOptions: NextAuthOptions = {
           await logAudit({
             action: "LOGIN_FAILED",
             userId: user.id,
-            metadata: { email: credentials.email, reason: "bad_password" },
+            metadata: { email, reason: "bad_password" },
           });
           return null;
         }
