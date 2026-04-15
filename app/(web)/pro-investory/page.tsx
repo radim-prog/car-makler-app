@@ -15,8 +15,11 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Pro investory — podílnictví ve vozidlech | CarMakléř",
+  // FIX-052 — meta description nesmí obsahovat číselné výnosové sliby (SERP snippet
+  // je zobrazuje BEZ okolních disclaimerů = regulatorní riziko, ČNB by to mohla
+  // hodnotit jako reklama na investici). Neutrální, procesně orientovaný text.
   description:
-    "Spolumajitelský model §1115 OZ, zajištění VIN, modelový podíl na zisku 35–45 % p. a. Marketplace v přípravě, registrace k ranému přístupu.",
+    "Spolumajitelský model podle §1115 OZ, transparentní due diligence, VIN verifikace. Marketplace CarMakléř v přípravě — registrace k ranému přístupu.",
   alternates: pageCanonical("/pro-investory"),
 };
 
