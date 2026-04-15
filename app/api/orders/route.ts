@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { createOrderSchema } from "@/lib/validators/parts";
-import { getStripe } from "@/lib/stripe";
+import { getStripe, requireStripeConfigured } from "@/lib/stripe";
 import { getShippingPrice } from "@/lib/shipping/prices";
 
 /* ------------------------------------------------------------------ */
@@ -28,6 +28,13 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const data = createOrderSchema.parse(body);
+
+    // FIX-047b — pokud žádá kartovou platbu a Stripe není nakonfigurován, fail-fast
+    // před vytvořením DB objednávky (jinak bychom měli order bez checkout session).
+    if (data.paymentMethod === "CARD") {
+      const stripeGuard = requireStripeConfigured();
+      if (stripeGuard) return stripeGuard;
+    }
 
     // Načíst díly a ověřit dostupnost
     const partIds = data.items.map((i) => i.partId);

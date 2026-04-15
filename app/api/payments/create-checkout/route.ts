@@ -2,7 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getStripe, generateVariableSymbol, CARMAKLER_BANK } from "@/lib/stripe";
+import {
+  getStripe,
+  generateVariableSymbol,
+  CARMAKLER_BANK,
+  requireStripeConfigured,
+} from "@/lib/stripe";
 import { createCheckoutSchema } from "@/lib/validators/payment";
 
 export async function POST(request: NextRequest) {
@@ -51,6 +56,10 @@ export async function POST(request: NextRequest) {
     const amount = vehicle.reservedPrice || vehicle.price;
 
     if (method === "CARD") {
+      // FIX-047b — Stripe empty key guard
+      const stripeGuard = requireStripeConfigured();
+      if (stripeGuard) return stripeGuard;
+
       // Stripe Checkout Session
       const session = await getStripe().checkout.sessions.create({
         payment_method_types: ["card"],

@@ -1,16 +1,61 @@
 import Stripe from "stripe";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 let _stripe: Stripe | null = null;
 
 /**
+ * FIX-047b — typed error pro chybějící Stripe konfiguraci. Umožňuje
+ * volajícím rozlišit "Stripe není nakonfigurován" (503) od skutečných
+ * Stripe API chyb (502/500).
+ */
+export class StripeNotConfiguredError extends Error {
+  constructor() {
+    super("STRIPE_SECRET_KEY není nastaven");
+    this.name = "StripeNotConfiguredError";
+  }
+}
+
+/**
+ * Early guard — true pokud je STRIPE_SECRET_KEY nastaven (nenulový string).
+ * Používej před voláním `getStripe()` abys mohl vrátit čitelnou 503 místo
+ * generické 500 chyby z nekompletního deploymentu.
+ */
+export function isStripeConfigured(): boolean {
+  return Boolean(process.env.STRIPE_SECRET_KEY);
+}
+
+/**
+ * Route-level guard — vrací NextResponse s 503 pokud Stripe není configured,
+ * jinak null. Callers:
+ *   const guard = requireStripeConfigured();
+ *   if (guard) return guard;
+ *   const stripe = getStripe();
+ */
+export function requireStripeConfigured(): NextResponse | null {
+  if (!isStripeConfigured()) {
+    console.warn("[Stripe:NOT_CONFIGURED] STRIPE_SECRET_KEY chybí — vracím 503");
+    return NextResponse.json(
+      {
+        error: "Platební služba momentálně není dostupná. Zkuste to prosím později.",
+        code: "STRIPE_NOT_CONFIGURED",
+      },
+      { status: 503 }
+    );
+  }
+  return null;
+}
+
+/**
  * Lazy Stripe instance — inicializuje se až při prvním volání,
  * aby nedošlo k chybě při buildu bez env proměnných.
+ * Hází `StripeNotConfiguredError` pokud klíč chybí — preferuj
+ * `requireStripeConfigured()` na začátku route handleru.
  */
 export function getStripe(): Stripe {
   if (!_stripe) {
     if (!process.env.STRIPE_SECRET_KEY) {
-      throw new Error("STRIPE_SECRET_KEY is not set in environment variables");
+      throw new StripeNotConfiguredError();
     }
     _stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
       apiVersion: "2026-02-25.clover",

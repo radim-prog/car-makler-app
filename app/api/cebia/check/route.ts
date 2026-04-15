@@ -3,7 +3,7 @@ import { z } from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getStripe } from "@/lib/stripe";
+import { getStripe, requireStripeConfigured } from "@/lib/stripe";
 import { orderCebiaReport } from "@/lib/cebia";
 
 /* ------------------------------------------------------------------ */
@@ -54,6 +54,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Ostatní uživatelé — platba přes Stripe
+    // FIX-047b — Stripe guard fail-fast před vytvořením orphan PENDING reportu
+    const stripeGuard = requireStripeConfigured();
+    if (stripeGuard) return stripeGuard;
+
     const report = await prisma.cebiaReport.create({
       data: {
         vin: data.vin,

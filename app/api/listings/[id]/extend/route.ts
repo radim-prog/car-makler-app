@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getStripe } from "@/lib/stripe";
+import { getStripe, requireStripeConfigured } from "@/lib/stripe";
 
 /* ------------------------------------------------------------------ */
 /*  POST /api/listings/[id]/extend — Prodloužení inzerátu přes Stripe  */
@@ -20,6 +20,10 @@ export async function POST(
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Nepřihlášený" }, { status: 401 });
     }
+
+    // FIX-047b — Stripe empty key guard
+    const stripeGuard = requireStripeConfigured();
+    if (stripeGuard) return stripeGuard;
 
     const { id } = await params;
 

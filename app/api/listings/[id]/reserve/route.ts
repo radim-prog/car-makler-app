@@ -3,7 +3,7 @@ import { z } from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getStripe } from "@/lib/stripe";
+import { getStripe, requireStripeConfigured } from "@/lib/stripe";
 
 /* ------------------------------------------------------------------ */
 /*  POST /api/listings/[id]/reserve — Rezervace inzerátu (kauce 5000)  */
@@ -26,6 +26,10 @@ export async function POST(
     const { id } = await params;
     const body = await request.json();
     const data = reserveSchema.parse(body);
+
+    // FIX-047b — Stripe empty key guard (fail-fast před vytvořením rezervace)
+    const stripeGuard = requireStripeConfigured();
+    if (stripeGuard) return stripeGuard;
 
     // Ověřit, že inzerát existuje, je aktivní a je makléřský/partnerský
     const listing = await prisma.listing.findUnique({

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getStripe } from "@/lib/stripe";
+import { getStripe, requireStripeConfigured } from "@/lib/stripe";
 
 /* ------------------------------------------------------------------ */
 /*  Cenové balíčky pro zvýraznění                                      */
@@ -39,6 +39,10 @@ export async function POST(
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Nepřihlášený" }, { status: 401 });
     }
+
+    // FIX-047b — Stripe empty key guard
+    const stripeGuard = requireStripeConfigured();
+    if (stripeGuard) return stripeGuard;
 
     const { id } = await params;
     const body = await request.json();

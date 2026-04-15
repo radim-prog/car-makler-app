@@ -7,6 +7,7 @@ import {
   createOrGetConnectAccount,
   resolvePartnerForConnect,
 } from "@/lib/stripe-connect";
+import { requireStripeConfigured } from "@/lib/stripe";
 
 /**
  * POST /api/stripe/connect/onboard-link
@@ -21,6 +22,10 @@ export async function POST(request: NextRequest) {
     if (!session) {
       return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     }
+
+    // FIX-047b — Stripe empty key guard
+    const stripeGuard = requireStripeConfigured();
+    if (stripeGuard) return stripeGuard;
 
     const resolved = await resolvePartnerForConnect(request, session);
     if (!resolved.ok) {
