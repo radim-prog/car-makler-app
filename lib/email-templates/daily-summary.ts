@@ -40,7 +40,7 @@ export interface DailySummaryData {
 }
 
 export function dailySummarySubject(data: DailySummaryData): string {
-  return `Denni shrnuti ${data.date} | Carmakler`;
+  return `Denni shrnuti ${data.date} | CarMakléř`;
 }
 
 export function dailySummaryHtml(data: DailySummaryData): string {

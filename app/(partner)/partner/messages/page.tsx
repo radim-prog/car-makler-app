@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/Card";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Zpravy | Carmakler Partner",
+  title: "Zpravy | CarMakléř Partner",
   description: "Zpravy a notifikace pro partnery.",
 };
 

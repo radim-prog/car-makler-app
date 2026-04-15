@@ -88,9 +88,9 @@ export async function POST(request: NextRequest) {
             : "vozidlo";
           await sendEmail({
             to: payment.buyerEmail,
-            subject: "Potvrzení platby | Carmakler",
-            html: `<p>Vaše platba ${payment.amount.toLocaleString("cs-CZ")} Kč za ${vehicleName} byla přijata.</p><p>Děkujeme za nákup přes Carmakler.</p>`,
-            text: `Vaše platba ${payment.amount.toLocaleString("cs-CZ")} Kč za ${vehicleName} byla přijata. Děkujeme za nákup přes Carmakler.`,
+            subject: "Potvrzení platby | CarMakléř",
+            html: `<p>Vaše platba ${payment.amount.toLocaleString("cs-CZ")} Kč za ${vehicleName} byla přijata.</p><p>Děkujeme za nákup přes CarMakléř.</p>`,
+            text: `Vaše platba ${payment.amount.toLocaleString("cs-CZ")} Kč za ${vehicleName} byla přijata. Děkujeme za nákup přes CarMakléř.`,
           });
         }
         break;

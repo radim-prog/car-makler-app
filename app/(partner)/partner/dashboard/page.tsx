@@ -90,7 +90,7 @@ export default function PartnerDashboardPage() {
             icon="✅"
             iconColor="green"
             value={String(data.stats.soldVehicles || 0)}
-            label="Prodano pres Carmakler"
+            label="Prodano pres CarMakléř"
           />
           <StatCard
             icon="📊"

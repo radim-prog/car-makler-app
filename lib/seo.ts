@@ -154,7 +154,7 @@ export function generateServiceJsonLd(service: ServiceJsonLdData): string {
     url: service.url,
     provider: {
       "@type": "Organization",
-      name: service.provider || "CarMakler",
+      name: service.provider || "CarMakléř",
       url: "https://carmakler.cz",
     },
     ...(service.areaServed && { areaServed: service.areaServed }),
@@ -180,11 +180,11 @@ export function generateArticleJsonLd(article: {
     dateModified: article.dateModified,
     author: {
       "@type": "Organization",
-      name: article.author || "CarMakler",
+      name: article.author || "CarMakléř",
     },
     publisher: {
       "@type": "Organization",
-      name: "CarMakler",
+      name: "CarMakléř",
       url: "https://carmakler.cz",
     },
   };
@@ -255,7 +255,7 @@ export function generateWebPageJsonLd(page: WebPageJsonLdData): string {
     url: page.url,
     publisher: {
       "@type": "Organization",
-      name: "CarMakler",
+      name: "CarMakléř",
       url: "https://carmakler.cz",
     },
   };
@@ -341,14 +341,14 @@ export function generateAggregateOfferJsonLd(vehicle: {
 // --- #87a SEO MVP foundation: Organization, WebSite, Product, Store ---
 
 /**
- * Carmakler Organization JSON-LD — single source of truth.
+ * CarMakléř Organization JSON-LD — single source of truth.
  * Reusable napříč všemi landing pages.
  */
 export function generateOrganizationJsonLd(): string {
   return JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Carmakler",
+    name: "CarMakléř",
     url: "https://carmakler.cz",
     logo: "https://carmakler.cz/logo.png",
     description:
@@ -380,7 +380,7 @@ export function generateWebSiteJsonLd(): string {
   return JSON.stringify({
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Carmakler",
+    name: "CarMakléř",
     url: "https://carmakler.cz",
     potentialAction: {
       "@type": "SearchAction",
@@ -402,7 +402,7 @@ export interface PartProductJsonLdData {
   url: string;
   price: number;
   inStock: boolean;
-  /** "NEW" | "USED" | "REFURBISHED" — Carmakler Part.partType / Part.condition derivative */
+  /** "NEW" | "USED" | "REFURBISHED" — CarMakléř Part.partType / Part.condition derivative */
   condition: string;
 }
 
@@ -437,7 +437,7 @@ export function generatePartProductJsonLd(part: PartProductJsonLdData): string {
         : "https://schema.org/OutOfStock",
       seller: {
         "@type": "Organization",
-        name: "Carmakler",
+        name: "CarMakléř",
       },
     },
   });

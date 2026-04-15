@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Card } from "@/components/ui/Card";
 
 export const metadata: Metadata = {
-  title: "Dokumenty | Carmakler Partner",
+  title: "Dokumenty | CarMakléř Partner",
   description: "Partnerske dokumenty ke stazeni.",
 };
 
@@ -17,14 +17,14 @@ const documents: DocumentItem[] = [
   {
     title: "Partnerska smlouva",
     description:
-      "Vzor partnerske smlouvy pro spolupraci s Carmakler. Ke stazeni ve formatu PDF.",
+      "Vzor partnerske smlouvy pro spolupraci s CarMakléř. Ke stazeni ve formatu PDF.",
     href: "/documents/partnerska-smlouva.pdf",
     available: true,
   },
   {
     title: "Obchodní podmínky",
     description:
-      "Obchodní podmínky pro partnery platformy Carmakler. Aktualni verze.",
+      "Obchodní podmínky pro partnery platformy CarMakléř. Aktualni verze.",
     href: "/documents/obchodni-podminky.pdf",
     available: true,
   },

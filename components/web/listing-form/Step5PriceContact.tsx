@@ -176,7 +176,7 @@ export function Step5PriceContact({ data, updateData, onNext, onPrev }: Step5Pro
       {/* Broker help */}
       <div className="mt-6 p-4 bg-orange-50 rounded-xl">
         <Checkbox
-          label="Chci pomoc od makléře Carmakler"
+          label="Chci pomoc od makléře CarMakléř"
           checked={data.wantsBrokerHelp}
           onChange={(e) => update("wantsBrokerHelp", e.target.checked)}
         />

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { formatPrice } from "@/lib/utils";
+import { COMPANY_LEGAL_NAME } from "@/lib/constants/company";
 import type { WizardData } from "../ContractWizard";
 
 interface PreviewStepProps {
@@ -55,7 +56,7 @@ export function PreviewStep({
               <div className="bg-gray-50 rounded-lg p-3">
                 <p className="text-xs text-gray-500 mb-1">Zprostředkovatel</p>
                 <p className="font-bold text-sm text-gray-900">
-                  Carmakler s.r.o.
+                  {COMPANY_LEGAL_NAME}
                 </p>
                 <p className="text-sm text-gray-600">
                   zastoupený makléřem: {brokerName}
@@ -134,7 +135,7 @@ export function PreviewStep({
             </h3>
             <p className="text-xs text-gray-400 italic leading-relaxed">
               Standardní podmínky zprostředkování dle obchodních podmínek
-              Carmakler s.r.o. Finální text podmínek bude doplněn.
+              {COMPANY_LEGAL_NAME} Finální text podmínek bude doplněn.
             </p>
           </section>
 

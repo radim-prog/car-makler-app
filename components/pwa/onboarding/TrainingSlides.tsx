@@ -12,10 +12,10 @@ interface Slide {
 
 const SLIDES: Slide[] = [
   {
-    title: "Jak funguje Carmakler",
+    title: "Jak funguje CarMakléř",
     icon: "1",
     points: [
-      "Carmakler propojuje prodejce vozidel s ověřenými makléři",
+      "CarMakléř propojuje prodejce vozidel s ověřenými makléři",
       "Makléř nabere auto v terénu a zadá ho do systému",
       "BackOffice schválí vozidlo a publikuje inzerát",
       "Po úspěšném prodeji makléř získá provizi 5 % z prodejní ceny (min. 25 000 Kč)",

@@ -14,20 +14,20 @@ import { BASE_URL } from "@/lib/seo-data";
 export const dynamic = "force-static";
 export const revalidate = 86400;
 
-const LLMS_TXT = `# Carmakler
+const LLMS_TXT = `# CarMakléř
 
 > Česká marketplace platforma pro použité autodíly z vrakovišť a komplexní automobilové služby. Spojuje vrakoviště s kupujícími přes katalogizovanou nabídku s detailními popisy, fotkami a kompatibilitou podle VIN. Součástí ekosystému jsou makléřská síť, inzertní platforma, eshop autodíly a uzavřená investiční marketplace pro flipping vozů.
 
-Carmakler je ekosystém 4 propojených produktů pod jednou značkou — všechny sdílí jediný backend, jednu identitu uživatele a jedinou platební infrastrukturu (Stripe). Cílem je nabídnout celý lifecycle vozu na jednom místě: koupě, prodej, údržba, díly, financování i flipping.
+CarMakléř je ekosystém 4 propojených produktů pod jednou značkou — všechny sdílí jediný backend, jednu identitu uživatele a jedinou platební infrastrukturu (Stripe). Cílem je nabídnout celý lifecycle vozu na jednom místě: koupě, prodej, údržba, díly, financování i flipping.
 
 ## Hlavní produkty
 
 - [Eshop autodíly](${BASE_URL}/dily): E-shop s použitými díly z vrakovišť a novými aftermarket díly. Vyhledávání podle VIN kódu, značky, modelu nebo kategorie. Doprava 2-5 dnů po celé ČR (Zásilkovna, PPL, DPD).
 - [Vrakoviště — katalog dodavatelů](${BASE_URL}/dily/vrakoviste): Ověřená vrakoviště s aktivní nabídkou dílů. Každé vrakoviště má vlastní landing page s aktuálním inventářem, kontakty a ratingem.
-- [Nabídka aut](${BASE_URL}/nabidka): Katalog ojetých vozidel zprostředkovaných sítí Carmakler makléřů. Každé auto je ověřené, prověřené (Cebia) a má kompletní servisní historii.
+- [Nabídka aut](${BASE_URL}/nabidka): Katalog ojetých vozidel zprostředkovaných sítí CarMakléř makléřů. Každé auto je ověřené, prověřené (Cebia) a má kompletní servisní historii.
 - [Chci prodat auto](${BASE_URL}/chci-prodat): Bezplatné ocenění vozu a zprostředkovaný prodej přes lokálního makléře. Provize 5% z prodejní ceny, minimálně 25 000 Kč.
 - [Inzerce](${BASE_URL}/inzerce): Inzertní platforma pro soukromé prodejce, autobazary a dealery — alternativa k Sauto.cz a TipCars s vyšší kvalitou inzerátů.
-- [Marketplace VIP](${BASE_URL}/marketplace): Uzavřená investiční platforma pro flipping aut. Ověření dealeři nabízí příležitosti, ověření investoři financují. Dělení zisku 40% investor / 40% dealer / 20% Carmakler.
+- [Marketplace VIP](${BASE_URL}/marketplace): Uzavřená investiční platforma pro flipping aut. Ověření dealeři nabízí příležitosti, ověření investoři financují. Dělení zisku 40% investor / 40% dealer / 20% CarMakléř.
 
 ## Služby
 
@@ -46,7 +46,7 @@ Carmakler je ekosystém 4 propojených produktů pod jednou značkou — všechn
 
 ## Pro vrakoviště
 
-- [Stát se partnerem](${BASE_URL}/registrace): Registrace nového vrakoviště do sítě Carmakler. Po ověření admin tým aktivuje partnerský účet a vrakoviště získá vlastní landing page + PWA aplikaci pro správu inventáře.
+- [Stát se partnerem](${BASE_URL}/registrace): Registrace nového vrakoviště do sítě CarMakléř. Po ověření admin tým aktivuje partnerský účet a vrakoviště získá vlastní landing page + PWA aplikaci pro správu inventáře.
 - PWA aplikace: jednoduché přidávání dílů přes mobil, scan VIN, automatická generace popisů.
 - Partnerský payout: měsíční vyúčtování, transparentní commission přehled.
 

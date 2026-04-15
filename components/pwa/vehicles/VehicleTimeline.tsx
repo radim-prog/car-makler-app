@@ -58,7 +58,7 @@ export function VehicleTimeline({ vehicleId }: VehicleTimelineProps) {
 
   return (
     <div>
-      <h3 className="font-semibold text-gray-900 mb-3">Historie na Carmakler</h3>
+      <h3 className="font-semibold text-gray-900 mb-3">Historie na CarMakléř</h3>
       <Card className="p-4">
         <div className="relative pl-6 border-l-2 border-gray-200 space-y-4">
           {events.map((event, index) => (

@@ -36,8 +36,8 @@ export interface TemplateInfo {
 export const TEMPLATE_LIST: TemplateInfo[] = [
   {
     type: "PRESENTATION",
-    name: "Prezentace Carmakler",
-    description: "Představení služeb Carmakler prodejci před schůzkou",
+    name: "Prezentace CarMakléř",
+    description: "Představení služeb CarMakléř prodejci před schůzkou",
     requiredContext: "seller",
     requiresVehicle: false,
   },

@@ -56,5 +56,5 @@ export function vehicleSoldText(data: VehicleSoldData): string {
 }
 
 export function vehicleSoldSubject(data: VehicleSoldData): string {
-  return `Auto prodáno — ${data.vehicleName} | Carmakler`;
+  return `Auto prodáno — ${data.vehicleName} | CarMakléř`;
 }

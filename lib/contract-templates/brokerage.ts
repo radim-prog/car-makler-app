@@ -20,7 +20,7 @@ export function generateBrokerageContract(data: ContractData): ContractContent {
         heading: "I. Smluvní strany",
         content: `
 Zprostředkovatel:
-Carmakler s.r.o.
+CarMakléř s.r.o.
 zastoupený makléřem: ${broker.name}
 ${broker.email ? `Email: ${broker.email}` : ""}
 ${broker.phone ? `Tel: ${broker.phone}` : ""}

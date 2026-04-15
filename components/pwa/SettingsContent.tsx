@@ -380,7 +380,7 @@ export function SettingsContent({
         <div className="space-y-3">
           <div>
             <p className="text-sm text-gray-500 mb-2">
-              Stáhněte si kopii všech vašich dat uložených v systému Carmakler.
+              Stáhněte si kopii všech vašich dat uložených v systému CarMakléř.
             </p>
             <Button
               size="sm"

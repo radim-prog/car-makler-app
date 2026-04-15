@@ -19,7 +19,7 @@ export function generateHandoverProtocol(data: ContractData): ContractContent {
         heading: "I. Smluvní strany",
         content: `
 Přebírající strana:
-Carmakler s.r.o.
+CarMakléř s.r.o.
 zastoupený makléřem: ${broker.name}
 ${broker.email ? `Email: ${broker.email}` : ""}
 ${broker.phone ? `Tel: ${broker.phone}` : ""}

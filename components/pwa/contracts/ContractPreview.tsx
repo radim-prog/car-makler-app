@@ -69,7 +69,7 @@ export function ContractPreview({ contract }: ContractPreviewProps) {
       <div className="bg-gradient-to-br from-orange-500 to-orange-600 text-white p-5">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold uppercase tracking-wider opacity-80">
-            Carmakler
+            CarMakléř
           </span>
           {content?.contractNumber && (
             <span className="text-xs opacity-80">

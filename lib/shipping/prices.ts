@@ -1,7 +1,7 @@
 /**
- * Carmakler flat shipping prices — single source of truth.
+ * CarMakléř flat shipping prices — single source of truth.
  *
- * Carmakler má vlastní smlouvy s dopravci a nabízí zákazníkovi FLAT ceny
+ * CarMakléř má vlastní smlouvy s dopravci a nabízí zákazníkovi FLAT ceny
  * (ne dynamické z API dopravce). Všechny ceny jsou v Kč včetně DPH.
  *
  * Reálné ceny zadá product owner později, dokud to platí, jsou to
@@ -97,7 +97,7 @@ export const SHIPPING_METHOD_INFO: Record<DeliveryMethod, ShippingMethodInfo> = 
   PICKUP: {
     method: "PICKUP",
     label: "Osobní odběr",
-    description: "Vyzvednutí v sídle CarMakler, Praha — adresa v potvrzovacím emailu",
+    description: "Vyzvednutí v sídle CarMakléř, Praha — adresa v potvrzovacím emailu",
     eta: "Ihned po potvrzení",
     icon: "🏪",
     price: CARMAKLER_SHIPPING_PRICES.PICKUP,

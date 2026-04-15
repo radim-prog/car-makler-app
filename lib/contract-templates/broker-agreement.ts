@@ -27,10 +27,10 @@ export function generateBrokerAgreement(
       {
         heading: "I. Smluvní strany",
         content: `
-Carmakler s.r.o.
+CarMakléř s.r.o.
 IČO: 12345678
 se sídlem: Praha 1, Národní 10
-(dále jen "Carmakler")
+(dále jen "CarMakléř")
 
 a
 
@@ -43,16 +43,16 @@ Tel: ${data.brokerPhone}
       {
         heading: "II. Předmět smlouvy",
         content: `
-Předmětem této smlouvy je úprava podmínek spolupráce mezi Carmakler a Makléřem při zprostředkování prodeje motorových vozidel. Makléř bude jako nezávislý spolupracovník vyhledávat prodejce vozidel, uzavírat s nimi zprostředkovatelské smlouvy jménem Carmakler a zajišťovat kompletní servis spojený s prodejem vozidla.`.trim(),
+Předmětem této smlouvy je úprava podmínek spolupráce mezi CarMakléř a Makléřem při zprostředkování prodeje motorových vozidel. Makléř bude jako nezávislý spolupracovník vyhledávat prodejce vozidel, uzavírat s nimi zprostředkovatelské smlouvy jménem CarMakléř a zajišťovat kompletní servis spojený s prodejem vozidla.`.trim(),
       },
       {
         heading: "III. Práva a povinnosti Makléře",
         content: `
-1. Makléř se zavazuje jednat v souladu s pokyny a standardy Carmakler.
+1. Makléř se zavazuje jednat v souladu s pokyny a standardy CarMakléř.
 2. Makléř bude pořizovat kvalitní fotodokumentaci vozidel (min. 12 fotografií).
 3. Makléř provede základní kontrolu technického stavu vozidla.
 4. Makléř zajistí podpis zprostředkovatelské smlouvy s prodejcem.
-5. Makléř nesmí jednat v rozporu se zájmy Carmakler ani prodejce.
+5. Makléř nesmí jednat v rozporu se zájmy CarMakléř ani prodejce.
 6. Makléř je povinen dodržovat GDPR a zachovávat mlčenlivost o údajích klientů.
 7. Makléř nese odpovědnost za správnost údajů uvedených v inzerátu.`.trim(),
       },
@@ -61,7 +61,7 @@ Předmětem této smlouvy je úprava podmínek spolupráce mezi Carmakler a Makl
         content: `
 1. Makléř má nárok na provizi ve výši 5 % z prodejní ceny vozidla, minimálně však 25 000 Kč.
 2. Provize je splatná do 14 dnů od úspěšného prodeje vozidla.
-3. Provize bude vyplacena na bankovní účet Makléře uvedený v systému Carmakler.
+3. Provize bude vyplacena na bankovní účet Makléře uvedený v systému CarMakléř.
 4. V případě zrušení prodeje nemá Makléř na provizi nárok.`.trim(),
       },
       {
@@ -69,7 +69,7 @@ Předmětem této smlouvy je úprava podmínek spolupráce mezi Carmakler a Makl
         content: `
 1. Tato smlouva se uzavírá na dobu neurčitou.
 2. Každá smluvní strana může smlouvu vypovědět s výpovědní lhůtou 30 dní.
-3. Carmakler může smlouvu okamžitě ukončit v případě závažného porušení povinností Makléřem.
+3. CarMakléř může smlouvu okamžitě ukončit v případě závažného porušení povinností Makléřem.
 4. Ukončením smlouvy nezanikají nároky na dosud nevyplacené provize za realizované prodeje.`.trim(),
       },
       {

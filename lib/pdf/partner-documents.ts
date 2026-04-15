@@ -184,7 +184,7 @@ function addFooter(ctx: PdfContext) {
   ctx.doc.setFontSize(8);
   ctx.doc.setFont("helvetica", "normal");
   ctx.doc.setTextColor(150);
-  ctx.doc.text("Vygenerovano systemem CarMakler — carmakler.cz", ctx.margin, ctx.y);
+  ctx.doc.text("Vygenerovano systemem CarMakléř — carmakler.cz", ctx.margin, ctx.y);
   ctx.doc.setTextColor(0);
 }
 

@@ -61,7 +61,7 @@ function PrezentaceContent() {
         <div className="text-center text-white">
           <img
             src="/brand/logo-color.png"
-            alt="Carmakler"
+            alt="CarMakléř"
             className="h-20 mx-auto mb-8 brightness-0 invert"
           />
           <h1 className="text-4xl sm:text-6xl font-extrabold mb-6">
@@ -107,12 +107,12 @@ function PrezentaceContent() {
               {
                 icon: "🌐",
                 title: "Inzerce",
-                desc: "Vuz se publikuje na Carmakler i dalsi portaly",
+                desc: "Vuz se publikuje na CarMakléř i dalsi portaly",
               },
               {
                 icon: "🤝",
                 title: "Prodej",
-                desc: "Makler domlvi prodej, Carmakler zajisti platbu",
+                desc: "Makler domlvi prodej, CarMakléř zajisti platbu",
               },
             ].map((step) => (
               <motion.div
@@ -143,7 +143,7 @@ function PrezentaceContent() {
             {[
               "Leads od kupujicich z cele CR",
               "Vetsi viditelnost vaseho sortimentu",
-              "Badge 'Overeny partner Carmakler'",
+              "Badge 'Overeny partner CarMakléř'",
               "Zadne naklady na start",
               "Provize jen z uspesneho prodeje",
               "Bonus za zprostredkovani financovani",
@@ -228,7 +228,7 @@ function PrezentaceContent() {
               </div>
               <ul className="text-left space-y-3 text-gray-300">
                 <li>
-                  Provize Carmakler: <strong>15 %</strong> z prodeje
+                  Provize CarMakléř: <strong>15 %</strong> z prodeje
                 </li>
                 <li>
                   Pro vrakoviste: <strong>85 %</strong> z kazdeho prodeje
@@ -371,7 +371,7 @@ function PrezentaceContent() {
           </div>
 
           <p className="text-sm text-gray-600 mt-8">
-            &copy; {new Date().getFullYear()} Carmakler s.r.o. Vsechna prava
+            &copy; {new Date().getFullYear()} CarMakléř s.r.o. Vsechna prava
             vyhrazena.
           </p>
         </div>

@@ -57,5 +57,5 @@ export function insuranceText(data: InsuranceData): string {
 }
 
 export function insuranceSubject(data: InsuranceData): string {
-  return `Pojištění pro ${data.vehicleName} | Carmakler`;
+  return `Pojištění pro ${data.vehicleName} | CarMakléř`;
 }

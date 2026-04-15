@@ -1,12 +1,12 @@
 /**
- * Centralni kontaktni a firemni udaje CarMakler.
+ * Centralni kontaktni a firemni udaje CarMakléř.
  * Meni se na JEDNOM miste — vsude jinde importovat.
  *
  * Firemni udaje CAR makler, s.r.o.
  */
 
 export const companyInfo = {
-  name: "CarMakler",
+  name: "CarMakléř",
   legalName: "CAR makléř, s.r.o.",
   ico: "21957151",
   dic: "CZ21957151",

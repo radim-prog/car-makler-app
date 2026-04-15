@@ -291,7 +291,7 @@ export function AiAssistant() {
                     </h3>
                     <p className="text-sm text-gray-500 max-w-xs mx-auto">
                       Zeptej se mě na cokoliv ohledně smluv, focení, prohlídek,
-                      cenotvorby nebo procesů Carmakler.
+                      cenotvorby nebo procesů CarMakléř.
                     </p>
                   </div>
                 )}

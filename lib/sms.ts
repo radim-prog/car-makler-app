@@ -208,7 +208,7 @@ interface SmsTemplateParams {
 
 const SMS_TEMPLATES: Record<SmsTemplateType, (params: SmsTemplateParams) => string> = {
   VEHICLE_APPROVED: ({ vehicleName, brokerName, brokerPhone }) =>
-    `Carmakler: Vas vuz ${vehicleName} byl publikovan. Makler ${brokerName ?? ""}, tel: ${brokerPhone ?? ""}`,
+    `CarMakléř: Vas vuz ${vehicleName} byl publikovan. Makler ${brokerName ?? ""}, tel: ${brokerPhone ?? ""}`,
 
   NEW_INQUIRY: ({ vehicleName }) =>
     `O vas vuz ${vehicleName} se zajima kupujici. Makler vas kontaktuje.`,

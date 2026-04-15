@@ -15,7 +15,7 @@ const TEMPLATES = [
     id: "intro",
     label: "Úvodní zpráva",
     template:
-      "Dobrý den, {jmeno}. Jsem {makler} z Carmakler. Zavolám vám ohledně prodeje vašeho vozu.",
+      "Dobrý den, {jmeno}. Jsem {makler} z CarMakléř. Zavolám vám ohledně prodeje vašeho vozu.",
   },
   {
     id: "buyer",

@@ -22,16 +22,16 @@ export function getStripe(): Stripe {
 
 export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "";
 
-// Carmakler bankovní údaje pro převody — nastavte v .env
+// CarMakléř bankovní údaje pro převody — nastavte v .env
 export const CARMAKLER_BANK = {
   accountNumber: process.env.CARMAKLER_BANK_ACCOUNT || "",
   iban: process.env.CARMAKLER_IBAN || "",
   bic: process.env.CARMAKLER_BIC || "KOMBCZPP",
   bankName: process.env.CARMAKLER_BANK_NAME || "Komerční banka",
-  accountHolder: "Carmakler s.r.o.",
+  accountHolder: "CarMakléř s.r.o.",
 };
 
-// Provize Carmakler
+// Provize CarMakléř
 export const COMMISSION_CONFIG = {
   rate: 0.05, // 5%
   minimumCzk: 25000, // Minimální provize 25 000 Kč

@@ -168,7 +168,7 @@ console.log(result?.trackingNumber);  // DRY-PPL-... nebo reálné číslo
 | Task | Popis |
 |------|-------|
 | **#17** | Stripe webhook → volá `createShipmentForOrder()` po `payment_intent.succeeded` |
-| **#18** | Checkout UI — výběr ze všech 5 dopravců s flat Carmakler cenami |
+| **#18** | Checkout UI — výběr ze všech 5 dopravců s flat CarMakléř cenami |
 | **#19** | Email notifikace — pokud `!dryRun`, posílá tracking URL zákazníkovi |
 | **#20** | Doplnit `.env.example` a root README o shipping klíče |
 | **#21** | PWA vrakoviště — UI pro tisk PDF štítku po objednávce |

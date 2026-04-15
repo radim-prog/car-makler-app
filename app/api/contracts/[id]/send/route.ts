@@ -91,17 +91,17 @@ export async function POST(
     const emailResult = await sendEmail({
       from: RESEND_FROM_CONTRACTS,
       to: contract.sellerEmail,
-      subject: `${contractType} - ${vehicleName} | Carmakler`,
+      subject: `${contractType} - ${vehicleName} | CarMakléř`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #F97316;">Carmakler</h2>
+          <h2 style="color: #F97316;">CarMakléř</h2>
           <p>Dobrý den,</p>
           <p>v příloze zasíláme ${contractType.toLowerCase()} pro ${vehicleName}.</p>
           <p>Smlouvu zprostředkoval makléř <strong>${brokerName}</strong>.</p>
           <br/>
-          <p>S pozdravem,<br/>Tým Carmakler</p>
+          <p>S pozdravem,<br/>Tým CarMakléř</p>
           <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
-          <p style="color: #999; font-size: 12px;">Tato zpráva byla odeslána automaticky ze systému Carmakler.</p>
+          <p style="color: #999; font-size: 12px;">Tato zpráva byla odeslána automaticky ze systému CarMakléř.</p>
         </div>
       `,
       attachments: [

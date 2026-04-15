@@ -70,9 +70,9 @@ export async function POST(
     if (vehicle?.sellerEmail) {
       await sendEmail({
         to: vehicle.sellerEmail,
-        subject: "Výplata z prodeje vozidla | Carmakler",
-        html: `<p>Částka ${payout.amount.toLocaleString("cs-CZ")} Kč za prodej vozidla ${vehicle.brand} ${vehicle.model} byla odeslána na váš účet.</p><p>Děkujeme, že jste prodávali přes Carmakler.</p>`,
-        text: `Částka ${payout.amount.toLocaleString("cs-CZ")} Kč za prodej vozidla ${vehicle.brand} ${vehicle.model} byla odeslána na váš účet. Děkujeme, že jste prodávali přes Carmakler.`,
+        subject: "Výplata z prodeje vozidla | CarMakléř",
+        html: `<p>Částka ${payout.amount.toLocaleString("cs-CZ")} Kč za prodej vozidla ${vehicle.brand} ${vehicle.model} byla odeslána na váš účet.</p><p>Děkujeme, že jste prodávali přes CarMakléř.</p>`,
+        text: `Částka ${payout.amount.toLocaleString("cs-CZ")} Kč za prodej vozidla ${vehicle.brand} ${vehicle.model} byla odeslána na váš účet. Děkujeme, že jste prodávali přes CarMakléř.`,
       });
     }
 

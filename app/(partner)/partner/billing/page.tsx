@@ -69,7 +69,7 @@ export default function PartnerBillingPage() {
               icon="📊"
               iconColor="orange"
               value={formatPrice(data.carmaklerCommission)}
-              label={`Provize Carmakler (${data.commissionRate}%)`}
+              label={`Provize CarMakléř (${data.commissionRate}%)`}
             />
             <StatCard
               icon="✅"

@@ -1,6 +1,6 @@
 /**
  * Sdílené brand konstanty pro všechny dokumenty, emaily a PDF.
- * Jeden zdroj pravdy pro celý vizuální styl Carmakler.
+ * Jeden zdroj pravdy pro celý vizuální styl CarMakléř.
  */
 
 export const brand = {
@@ -23,7 +23,7 @@ export const brand = {
     primary: "'Outfit', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
   },
   company: {
-    name: "Carmakler s.r.o.",
+    name: "CarMakléř s.r.o.",
     web: "carmakler.cz",
     email: "info@carmakler.cz",
     emailPartners: "partneri@carmakler.cz",

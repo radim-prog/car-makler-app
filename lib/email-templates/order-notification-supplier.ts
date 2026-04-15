@@ -239,5 +239,5 @@ export function orderNotificationSupplierSubject(
   data: OrderNotificationSupplierData,
 ): string {
   const prefix = data.dryRun ? "[DRY-RUN] " : "";
-  return `${prefix}Objednávka ${data.orderNumber} k odeslání | Carmakler`;
+  return `${prefix}Objednávka ${data.orderNumber} k odeslání | CarMakléř`;
 }

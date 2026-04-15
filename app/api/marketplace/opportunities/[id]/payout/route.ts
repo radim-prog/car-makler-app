@@ -100,7 +100,7 @@ export async function POST(
       });
     }
 
-    // Výpočet podílů: 40% investoři, 40% dealer, 20% Carmakler
+    // Výpočet podílů: 40% investoři, 40% dealer, 20% CarMakléř
     const investorShare = Math.floor(actualProfit * 0.4);
     const dealerShare = Math.floor(actualProfit * 0.4);
     const carmaklerShare = actualProfit - investorShare - dealerShare;

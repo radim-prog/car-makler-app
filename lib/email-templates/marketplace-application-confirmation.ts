@@ -12,7 +12,7 @@ const ROLE_LABELS: Record<MarketplaceApplicationConfirmationData["role"], string
 };
 
 export function marketplaceApplicationConfirmationSubject(): string {
-  return "Vaše žádost o přístup k marketplace byla přijata | Carmakler";
+  return "Vaše žádost o přístup k marketplace byla přijata | CarMakléř";
 }
 
 export function marketplaceApplicationConfirmationHtml(

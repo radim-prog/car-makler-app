@@ -61,5 +61,5 @@ export function contractOfferText(data: ContractOfferData): string {
 }
 
 export function contractOfferSubject(data: ContractOfferData): string {
-  return `Návrh smlouvy — ${data.vehicleName} | Carmakler`;
+  return `Návrh smlouvy — ${data.vehicleName} | CarMakléř`;
 }

@@ -113,7 +113,7 @@ export default async function DilyDetailPage({
     ? JSON.parse(part.compatibleModels)
     : [];
 
-  // U aftermarket dílů zobrazit jako "Carmakler Shop"
+  // U aftermarket dílů zobrazit jako "CarMakléř Shop"
   const supplierName = part.partType === "AFTERMARKET" || part.partType === "NEW"
     ? "CarMakléř Shop"
     : (part.supplier.companyName ?? `${part.supplier.firstName} ${part.supplier.lastName}`);

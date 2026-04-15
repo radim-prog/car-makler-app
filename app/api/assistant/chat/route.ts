@@ -92,13 +92,13 @@ export async function POST(request: Request) {
 
     // Sestavit system prompt
     const knowledgeBase = getKnowledgeBase();
-    let systemPrompt = `Jsi AI asistent pro makléře v platformě Carmakler. Pomáháš makléřům s otázkami ohledně:
+    let systemPrompt = `Jsi AI asistent pro makléře v platformě CarMakléř. Pomáháš makléřům s otázkami ohledně:
 - Smluv a právních záležitostí
 - Focení vozidel
 - Prohlídky a inspekce vozidel
 - Cenotvorby a oceňování
 - Právních otázek (přepis, STK, DPH)
-- Procesů a postupů v Carmakler
+- Procesů a postupů v CarMakléř
 
 PRAVIDLA:
 - Odpovídej vždy česky

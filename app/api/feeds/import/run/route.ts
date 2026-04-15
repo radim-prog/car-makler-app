@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     let feedContent: string;
     try {
       const response = await fetch(config.url, {
-        headers: { "User-Agent": "Carmakler Feed Importer/1.0" },
+        headers: { "User-Agent": "CarMakléř Feed Importer/1.0" },
         signal: AbortSignal.timeout(30000),
       });
       if (!response.ok) {

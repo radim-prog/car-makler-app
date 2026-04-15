@@ -77,5 +77,5 @@ export function priceChangeText(data: PriceChangeData): string {
 }
 
 export function priceChangeSubject(data: PriceChangeData): string {
-  return `Doporučení změny ceny — ${data.vehicleName} | Carmakler`;
+  return `Doporučení změny ceny — ${data.vehicleName} | CarMakléř`;
 }

@@ -115,20 +115,20 @@ export async function POST(request: Request) {
     const registrationUrl = `${process.env.NEXTAUTH_URL || "https://carmakler.cz"}/registrace/makler?token=${token}`;
     const managerName = invitation.manager
       ? `${invitation.manager.firstName} ${invitation.manager.lastName}`.trim()
-      : "Carmakler";
+      : "CarMakléř";
     const regionName = invitation.region?.name || "";
 
     await sendEmail({
       to: email,
-      subject: "Pozvanka do Carmakler",
+      subject: "Pozvánka do CarMakléř",
       html: `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
           <div style="background: linear-gradient(135deg, #f97316, #ea580c); padding: 24px 32px; text-align: center; border-radius: 12px 12px 0 0;">
-            <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #ffffff;">Carmakler</h1>
+            <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #ffffff;">CarMakléř</h1>
           </div>
           <div style="padding: 32px;">
             <p>Dobry den${name ? ` ${name}` : ""},</p>
-            <p>manazer <strong>${managerName}</strong> vas zve do maklerskesiti Carmakler${regionName ? ` (region ${regionName})` : ""}.</p>
+            <p>manazer <strong>${managerName}</strong> vas zve do makléřské síti CarMakléř${regionName ? ` (region ${regionName})` : ""}.</p>
             <p>Pro dokonceni registrace kliknete na tlacitko nize:</p>
             <div style="text-align: center; margin: 32px 0;">
               <a href="${registrationUrl}"
@@ -136,12 +136,12 @@ export async function POST(request: Request) {
                 Registrovat se jako makler
               </a>
             </div>
-            <p style="color: #6b7280; font-size: 14px;">Pozvanka je platna 7 dni. Pokud odkaz nefunguje, zkopirujte tuto adresu do prohlizece:</p>
+            <p style="color: #6b7280; font-size: 14px;">Pozvánka je platna 7 dni. Pokud odkaz nefunguje, zkopirujte tuto adresu do prohlizece:</p>
             <p style="color: #6b7280; font-size: 12px; word-break: break-all;">${registrationUrl}</p>
           </div>
           <div style="padding: 16px 32px; background-color: #f9fafb; border-top: 1px solid #e5e7eb; text-align: center; border-radius: 0 0 12px 12px;">
             <p style="margin: 0; font-size: 12px; color: #9ca3af;">
-              Tento email byl odeslan ze systemu Carmakler. |
+              Tento email byl odeslan ze systemu CarMakléř. |
               <a href="https://carmakler.cz" style="color: #f97316; text-decoration: none;">carmakler.cz</a>
             </p>
           </div>

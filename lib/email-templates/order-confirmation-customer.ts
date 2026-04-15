@@ -212,5 +212,5 @@ export function orderConfirmationCustomerSubject(
   data: OrderConfirmationCustomerData,
 ): string {
   const prefix = data.dryRun ? "[DRY-RUN] " : "";
-  return `${prefix}Objednávka ${data.orderNumber} byla odeslána | Carmakler`;
+  return `${prefix}Objednávka ${data.orderNumber} byla odeslána | CarMakléř`;
 }

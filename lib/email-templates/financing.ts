@@ -78,5 +78,5 @@ export function financingText(data: FinancingData): string {
 }
 
 export function financingSubject(data: FinancingData): string {
-  return `Financování ${data.vehicleName} | Carmakler`;
+  return `Financování ${data.vehicleName} | CarMakléř`;
 }

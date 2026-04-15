@@ -1,7 +1,7 @@
 import { NotificationPreferences } from "@/components/pwa/settings/NotificationPreferences";
 
 export const metadata = {
-  title: "Nastaveni notifikaci | Carmakler",
+  title: "Nastaveni notifikaci | CarMakléř",
 };
 
 export default function NotificationSettingsPage() {

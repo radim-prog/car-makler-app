@@ -15,7 +15,7 @@ export default function OnboardingTrainingPage() {
       <p className="text-sm text-gray-500 mb-6">
         {showQuiz
           ? "Odpovedete na 10 otazek. Pro uspesne dokonceni potrebujete alespon 80%."
-          : "Projdete si zakladni informace o fungovani Carmakler."}
+          : "Projdete si zakladni informace o fungovani CarMakléř."}
       </p>
 
       {showQuiz ? (

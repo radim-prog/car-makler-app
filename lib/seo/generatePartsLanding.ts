@@ -129,19 +129,19 @@ function generateBrandContent(
 
   const intro =
     stats.partCount > 0
-      ? `Hledáte náhradní díly pro ${brand.name}? Na CarMakler najdete ${stats.partCount} dílů od ${stats.supplierCount} ověřených vrakovišť za ceny od ${fmtPrice(stats.minPrice)} Kč. Originální použité díly z dárcovských vozů i nové aftermarket alternativy. Všechny díly jsou katalogizovány podle VIN kódu pro maximální kompatibilitu s vaším vozem ${brand.name}.`
-      : `Hledáte náhradní díly pro ${brand.name}? Na CarMakler nabízíme originální použité díly z ověřených vrakovišť i nové aftermarket alternativy. Všechny díly jsou katalogizovány podle VIN kódu pro maximální kompatibilitu s vaším vozem ${brand.name}.`;
+      ? `Hledáte náhradní díly pro ${brand.name}? Na CarMakléř najdete ${stats.partCount} dílů od ${stats.supplierCount} ověřených vrakovišť za ceny od ${fmtPrice(stats.minPrice)} Kč. Originální použité díly z dárcovských vozů i nové aftermarket alternativy. Všechny díly jsou katalogizovány podle VIN kódu pro maximální kompatibilitu s vaším vozem ${brand.name}.`
+      : `Hledáte náhradní díly pro ${brand.name}? Na CarMakléř nabízíme originální použité díly z ověřených vrakovišť i nové aftermarket alternativy. Všechny díly jsou katalogizovány podle VIN kódu pro maximální kompatibilitu s vaším vozem ${brand.name}.`;
 
   const sections = [
     {
-      h2: `Proč nakupovat díly ${brand.name} na CarMakler?`,
+      h2: `Proč nakupovat díly ${brand.name} na CarMakléř?`,
       html: `<p>Všichni naši dodavatelé dílů procházejí verifikací — pracujeme jen s ověřenými vrakovišti a profesionálními rozprodejci. Díly jsou detailně popsány a vyfoceny, abyste věděli, co kupujete. Na použité originální díly poskytujeme záruku funkčnosti 3 měsíce, na repasované 12 měsíců. Objednávky doručujeme po celé ČR do 2-5 pracovních dní.</p>`,
     },
     {
       h2: `Cenové rozpětí dílů ${brand.name}`,
       html:
         stats.partCount > 0
-          ? `<p>Aktuální cenové rozpětí dílů ${brand.name} na CarMakler: od <strong>${fmtPrice(stats.minPrice)} Kč</strong> do <strong>${fmtPrice(stats.maxPrice)} Kč</strong>. Průměrná cena dílu: <strong>${fmtPrice(stats.avgPrice)} Kč</strong>. Konkrétní cena závisí na typu dílu, generaci modelu a stavu — používané díly z vrakovišť bývají o 50-80 % levnější než nové originály.</p>`
+          ? `<p>Aktuální cenové rozpětí dílů ${brand.name} na CarMakléř: od <strong>${fmtPrice(stats.minPrice)} Kč</strong> do <strong>${fmtPrice(stats.maxPrice)} Kč</strong>. Průměrná cena dílu: <strong>${fmtPrice(stats.avgPrice)} Kč</strong>. Konkrétní cena závisí na typu dílu, generaci modelu a stavu — používané díly z vrakovišť bývají o 50-80 % levnější než nové originály.</p>`
           : `<p>Cenové rozpětí dílů ${brand.name} se průběžně aktualizuje podle dostupnosti na vrakovištích. Zadejte poptávku přes VIN a dodavatelé vám zašlou aktuální nabídky.</p>`,
     },
   ];
@@ -154,14 +154,14 @@ function generateBrandContent(
     },
     {
       question: `Jaké modely ${brand.name} podporujete?`,
-      answer: `Na CarMakler najdete díly pro všechny aktuální i starší modely ${brand.name}. Nabídka se denně aktualizuje podle dostupnosti na vrakovištích. Pokud daný díl nevidíte v katalogu, můžete zadat poptávku a dodavatelé vám pošlou nabídky.`,
+      answer: `Na CarMakléř najdete díly pro všechny aktuální i starší modely ${brand.name}. Nabídka se denně aktualizuje podle dostupnosti na vrakovištích. Pokud daný díl nevidíte v katalogu, můžete zadat poptávku a dodavatelé vám pošlou nabídky.`,
     },
   ];
 
   const aiSnippet =
     stats.partCount > 0
-      ? `Náhradní díly ${brand.name} na CarMakler — ${stats.partCount} dílů od ${stats.supplierCount} vrakovišť, ceny od ${fmtPrice(stats.minPrice)} Kč. Použité originální i nové aftermarket. Doručení do 5 dnů, záruka 3 měsíce.`
-      : `Náhradní díly ${brand.name} na CarMakler — použité originální i nové aftermarket díly od ověřených vrakovišť. Doručení do 5 dnů, záruka 3 měsíce.`;
+      ? `Náhradní díly ${brand.name} na CarMakléř — ${stats.partCount} dílů od ${stats.supplierCount} vrakovišť, ceny od ${fmtPrice(stats.minPrice)} Kč. Použité originální i nové aftermarket. Doručení do 5 dnů, záruka 3 měsíce.`
+      : `Náhradní díly ${brand.name} na CarMakléř — použité originální i nové aftermarket díly od ověřených vrakovišť. Doručení do 5 dnů, záruka 3 měsíce.`;
 
   const quickFacts =
     stats.partCount > 0
@@ -189,7 +189,7 @@ function generateBrandContent(
     pageType: "BRAND",
     brand: brand.slug,
     h1,
-    metaTitle: `Náhradní díly ${brand.name} | Carmakler`,
+    metaTitle: `Náhradní díly ${brand.name} | CarMakléř`,
     metaDesc: truncateMeta(intro),
     introHtml,
     sectionsJson: JSON.stringify(sections),
@@ -215,23 +215,23 @@ function generateModelContent(
 
   const intro =
     stats.partCount > 0
-      ? `Hledáte náhradní díly pro ${brand.name} ${model.name}? Na CarMakler najdete ${stats.partCount} dílů od ${stats.supplierCount} ověřených vrakovišť. Ceny od ${fmtPrice(stats.minPrice)} Kč. Pokrýváme všechny generace modelu — ${generationsText}. Originální použité díly z dárcovských vozů i nové aftermarket alternativy, vše katalogizováno podle VIN.`
-      : `Hledáte náhradní díly pro ${brand.name} ${model.name}? Na CarMakler nabízíme originální použité díly i aftermarket alternativy pro všechny generace modelu — ${generationsText}. Všechny díly jsou katalogizovány podle VIN pro maximální kompatibilitu.`;
+      ? `Hledáte náhradní díly pro ${brand.name} ${model.name}? Na CarMakléř najdete ${stats.partCount} dílů od ${stats.supplierCount} ověřených vrakovišť. Ceny od ${fmtPrice(stats.minPrice)} Kč. Pokrýváme všechny generace modelu — ${generationsText}. Originální použité díly z dárcovských vozů i nové aftermarket alternativy, vše katalogizováno podle VIN.`
+      : `Hledáte náhradní díly pro ${brand.name} ${model.name}? Na CarMakléř nabízíme originální použité díly i aftermarket alternativy pro všechny generace modelu — ${generationsText}. Všechny díly jsou katalogizovány podle VIN pro maximální kompatibilitu.`;
 
   const sections = [
     {
       h2: `Generace ${brand.name} ${model.name}`,
-      html: `<p>Model ${brand.name} ${model.name} prošel během let několika generacemi. Při výběru dílů je klíčové znát přesnou generaci vozidla — díly mezi generacemi jsou jen výjimečně zaměnitelné. Aktuálně podporované generace na CarMakler:</p><ul>${model.generations.map((g) => `<li><strong>${g.name}</strong> — ročníky ${g.yearFrom}–${g.yearTo}</li>`).join("")}</ul>`,
+      html: `<p>Model ${brand.name} ${model.name} prošel během let několika generacemi. Při výběru dílů je klíčové znát přesnou generaci vozidla — díly mezi generacemi jsou jen výjimečně zaměnitelné. Aktuálně podporované generace na CarMakléř:</p><ul>${model.generations.map((g) => `<li><strong>${g.name}</strong> — ročníky ${g.yearFrom}–${g.yearTo}</li>`).join("")}</ul>`,
     },
     {
       h2: `Nejčastější díly ${brand.name} ${model.name}`,
-      html: `<p>Nejvíce poptávané kategorie pro ${model.name} jsou motorové díly (alternátory, turba, vstřikovače), brzdové komponenty (kotouče, destičky, třmeny), podvozek (tlumiče, ramena, spojovací tyče) a karoserie (světla, nárazníky, kapoty). Na CarMakler najdete použité originály i aftermarket varianty pro každou kategorii.</p>`,
+      html: `<p>Nejvíce poptávané kategorie pro ${model.name} jsou motorové díly (alternátory, turba, vstřikovače), brzdové komponenty (kotouče, destičky, třmeny), podvozek (tlumiče, ramena, spojovací tyče) a karoserie (světla, nárazníky, kapoty). Na CarMakléř najdete použité originály i aftermarket varianty pro každou kategorii.</p>`,
     },
     {
       h2: `Cenové rozpětí dílů ${brand.name} ${model.name}`,
       html:
         stats.partCount > 0
-          ? `<p>Aktuální cenové rozpětí dílů ${brand.name} ${model.name} na CarMakler: od <strong>${fmtPrice(stats.minPrice)} Kč</strong> do <strong>${fmtPrice(stats.maxPrice)} Kč</strong>. Průměrná cena: <strong>${fmtPrice(stats.avgPrice)} Kč</strong>. Použité díly z vrakovišť bývají o 50-80 % levnější než nové originály z autorizovaných servisů.</p>`
+          ? `<p>Aktuální cenové rozpětí dílů ${brand.name} ${model.name} na CarMakléř: od <strong>${fmtPrice(stats.minPrice)} Kč</strong> do <strong>${fmtPrice(stats.maxPrice)} Kč</strong>. Průměrná cena: <strong>${fmtPrice(stats.avgPrice)} Kč</strong>. Použité díly z vrakovišť bývají o 50-80 % levnější než nové originály z autorizovaných servisů.</p>`
           : `<p>Cenové rozpětí dílů ${brand.name} ${model.name} se průběžně aktualizuje podle dostupnosti na vrakovištích. Zadejte poptávku přes VIN a dodavatelé vám zašlou aktuální nabídky.</p>`,
     },
   ];
@@ -254,8 +254,8 @@ function generateModelContent(
 
   const aiSnippet =
     stats.partCount > 0
-      ? `Náhradní díly ${brand.name} ${model.name} na CarMakler — ${stats.partCount} dílů od ${stats.supplierCount} vrakovišť, ceny od ${fmtPrice(stats.minPrice)} Kč. Pokrýváme všechny generace (${model.generations.length}). Doručení do 5 dnů, záruka 3 měsíce.`
-      : `Náhradní díly ${brand.name} ${model.name} na CarMakler — použité originály i aftermarket pro ${model.generations.length} generací. Doručení do 5 dnů, záruka 3 měsíce.`;
+      ? `Náhradní díly ${brand.name} ${model.name} na CarMakléř — ${stats.partCount} dílů od ${stats.supplierCount} vrakovišť, ceny od ${fmtPrice(stats.minPrice)} Kč. Pokrýváme všechny generace (${model.generations.length}). Doručení do 5 dnů, záruka 3 měsíce.`
+      : `Náhradní díly ${brand.name} ${model.name} na CarMakléř — použité originály i aftermarket pro ${model.generations.length} generací. Doručení do 5 dnů, záruka 3 měsíce.`;
 
   const generationCount = model.generations.length;
   const yearRange = `${model.generations[0]?.yearFrom ?? "–"}–${model.generations[generationCount - 1]?.yearTo ?? "–"}`;
@@ -287,7 +287,7 @@ function generateModelContent(
     brand: brand.slug,
     model: model.slug,
     h1,
-    metaTitle: `Náhradní díly ${brand.name} ${model.name} | Carmakler`,
+    metaTitle: `Náhradní díly ${brand.name} ${model.name} | CarMakléř`,
     metaDesc: truncateMeta(intro),
     introHtml,
     sectionsJson: JSON.stringify(sections),
@@ -317,8 +317,8 @@ function generateModelYearContent(
 
   const intro =
     stats.partCount > 0
-      ? `Hledáte konkrétní díly pro ${brand.name} ${model.name} ročník ${year}? Na CarMakler najdete ${stats.partCount} dílů od ${stats.supplierCount} dodavatelů kompatibilních s generací ${genLabel}. Ceny od ${fmtPrice(stats.minPrice)} Kč. Originální použité díly z dárcovských vozů stejného ročníku i kompatibilní aftermarket alternativy.`
-      : `Hledáte konkrétní díly pro ${brand.name} ${model.name} ročník ${year}? Na CarMakler nabízíme originální použité díly z vrakovišť i nové aftermarket alternativy kompatibilní s generací ${genLabel}. Všechny díly jsou katalogizovány podle VIN pro maximální přesnost.`;
+      ? `Hledáte konkrétní díly pro ${brand.name} ${model.name} ročník ${year}? Na CarMakléř najdete ${stats.partCount} dílů od ${stats.supplierCount} dodavatelů kompatibilních s generací ${genLabel}. Ceny od ${fmtPrice(stats.minPrice)} Kč. Originální použité díly z dárcovských vozů stejného ročníku i kompatibilní aftermarket alternativy.`
+      : `Hledáte konkrétní díly pro ${brand.name} ${model.name} ročník ${year}? Na CarMakléř nabízíme originální použité díly z vrakovišť i nové aftermarket alternativy kompatibilní s generací ${genLabel}. Všechny díly jsou katalogizovány podle VIN pro maximální přesnost.`;
 
   const sections = [
     {
@@ -331,7 +331,7 @@ function generateModelYearContent(
       h2: `Cenové rozpětí dílů ${brand.name} ${model.name} ${year}`,
       html:
         stats.partCount > 0
-          ? `<p>Aktuální cenové rozpětí na CarMakler: od <strong>${fmtPrice(stats.minPrice)} Kč</strong> do <strong>${fmtPrice(stats.maxPrice)} Kč</strong>. Průměrná cena: <strong>${fmtPrice(stats.avgPrice)} Kč</strong>. Použité originální díly z vrakovišť stejného ročníku jsou nejlepší volba pro dlouhou životnost a jistou kompatibilitu.</p>`
+          ? `<p>Aktuální cenové rozpětí na CarMakléř: od <strong>${fmtPrice(stats.minPrice)} Kč</strong> do <strong>${fmtPrice(stats.maxPrice)} Kč</strong>. Průměrná cena: <strong>${fmtPrice(stats.avgPrice)} Kč</strong>. Použité originální díly z vrakovišť stejného ročníku jsou nejlepší volba pro dlouhou životnost a jistou kompatibilitu.</p>`
           : `<p>Cenové rozpětí dílů ${brand.name} ${model.name} ${year} se průběžně aktualizuje podle dostupnosti na vrakovištích. Zadejte poptávku s VIN a dodavatelé vám zašlou aktuální nabídky.</p>`,
     },
   ];
@@ -346,8 +346,8 @@ function generateModelYearContent(
 
   const aiSnippet =
     stats.partCount > 0
-      ? `Náhradní díly ${brand.name} ${model.name} ${year} na CarMakler — ${stats.partCount} dílů od ${stats.supplierCount} vrakovišť, ceny od ${fmtPrice(stats.minPrice)} Kč. Generace ${matchingGen?.name ?? ""}. Doručení do 5 dnů.`
-      : `Náhradní díly ${brand.name} ${model.name} ${year} na CarMakler — použité originály i aftermarket pro generaci ${matchingGen?.name ?? "tohoto ročníku"}. Doručení do 5 dnů.`;
+      ? `Náhradní díly ${brand.name} ${model.name} ${year} na CarMakléř — ${stats.partCount} dílů od ${stats.supplierCount} vrakovišť, ceny od ${fmtPrice(stats.minPrice)} Kč. Generace ${matchingGen?.name ?? ""}. Doručení do 5 dnů.`
+      : `Náhradní díly ${brand.name} ${model.name} ${year} na CarMakléř — použité originály i aftermarket pro generaci ${matchingGen?.name ?? "tohoto ročníku"}. Doručení do 5 dnů.`;
 
   const quickFacts =
     stats.partCount > 0
@@ -380,7 +380,7 @@ function generateModelYearContent(
     model: model.slug,
     year,
     h1,
-    metaTitle: `Náhradní díly ${brand.name} ${model.name} ${year} | Carmakler`,
+    metaTitle: `Náhradní díly ${brand.name} ${model.name} ${year} | CarMakléř`,
     metaDesc: truncateMeta(intro),
     introHtml,
     sectionsJson: JSON.stringify(sections),

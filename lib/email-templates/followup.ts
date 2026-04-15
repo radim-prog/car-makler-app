@@ -49,5 +49,5 @@ export function followupText(data: FollowupData): string {
 }
 
 export function followupSubject(data: FollowupData): string {
-  return `${data.vehicleName} — auto jsem zadal do systému | Carmakler`;
+  return `${data.vehicleName} — auto jsem zadal do systému | CarMakléř`;
 }

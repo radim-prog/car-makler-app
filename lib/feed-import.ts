@@ -229,7 +229,7 @@ export async function fetchAndParseFeed(
   config: FeedConfigRow
 ): Promise<Record<string, string>[]> {
   const response = await fetch(config.feedUrl, {
-    headers: { "User-Agent": "Carmakler-FeedImport/1.0" },
+    headers: { "User-Agent": "CarMakléř-FeedImport/1.0" },
     signal: AbortSignal.timeout(60000),
   });
 
