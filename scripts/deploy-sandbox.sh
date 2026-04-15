@@ -27,7 +27,18 @@ set -a
 . ./.env
 set +a
 npm run build
-pm2 startOrReload ecosystem.config.cjs --only "$PM2_APP" --update-env
+
+if pm2 describe "$PM2_APP" > /tmp/carmakler-pm2-describe.txt 2>/dev/null; then
+  if grep -q "script path.* /usr/bin/npm" /tmp/carmakler-pm2-describe.txt; then
+    pm2 delete "$PM2_APP"
+    pm2 start ecosystem.config.cjs --only "$PM2_APP" --update-env
+  else
+    pm2 startOrReload ecosystem.config.cjs --only "$PM2_APP" --update-env
+  fi
+else
+  pm2 start ecosystem.config.cjs --only "$PM2_APP" --update-env
+fi
+
 pm2 save
 REMOTE
 

@@ -4,6 +4,8 @@ set -euo pipefail
 
 BASE_URL="${1:-https://car.zajcon.cz}"
 TIMEOUT="${SMOKE_TIMEOUT:-20}"
+RETRIES="${SMOKE_RETRIES:-12}"
+RETRY_SLEEP="${SMOKE_RETRY_SLEEP:-2}"
 BODY_FILE="$(mktemp)"
 
 trap 'rm -f "$BODY_FILE"' EXIT
@@ -26,18 +28,24 @@ fail() {
 check_status() {
   local url="$1"
   local status
+  local attempt
 
-  status="$(curl -L -sS --max-time "$TIMEOUT" -o "$BODY_FILE" -w "%{http_code}" "$url")" || {
-    cat "$BODY_FILE" >&2 || true
-    fail "$url did not respond"
-  }
+  for attempt in $(seq 1 "$RETRIES"); do
+    if status="$(curl -L -sS --max-time "$TIMEOUT" -o "$BODY_FILE" -w "%{http_code}" "$url")"; then
+      if [[ "$status" -ge 200 && "$status" -lt 400 ]]; then
+        echo "[smoke] OK $status $url"
+        return 0
+      fi
+    else
+      status="000"
+    fi
 
-  if [[ "$status" -lt 200 || "$status" -ge 400 ]]; then
-    cat "$BODY_FILE" >&2 || true
-    fail "$url returned HTTP $status"
-  fi
+    echo "[smoke] wait $attempt/$RETRIES $url returned HTTP $status"
+    sleep "$RETRY_SLEEP"
+  done
 
-  echo "[smoke] OK $status $url"
+  cat "$BODY_FILE" >&2 || true
+  fail "$url did not become healthy"
 }
 
 check_contains() {
