@@ -291,6 +291,78 @@ export const PAVEL_STORY_CSS = `
   margin-top: 4px;
 }
 
+/* === Illustrated step variant (FIX-043) === */
+.pavel-step[data-illustration="true"] {
+  grid-template-columns: 96px minmax(0, 1fr) 360px;
+  grid-template-areas:
+    "icon  body         illustration"
+    "icon  kpi          illustration";
+  gap: 14px 32px;
+  align-items: center;
+  padding: 32px 32px;
+}
+/* Area mapping — addressable per side */
+.pavel-step[data-illustration="true"] .pavel-step-icon { grid-area: icon; }
+.pavel-step[data-illustration="true"] .pavel-step-body { grid-area: body; }
+.pavel-step[data-illustration="true"] .pavel-step-kpi { grid-area: kpi; }
+.pavel-step[data-illustration="true"] .pavel-step-illustration { grid-area: illustration; }
+
+.pavel-step[data-illustration="true"][data-side="left"] {
+  grid-template-columns: 360px minmax(0, 1fr) 96px;
+  grid-template-areas:
+    "illustration body icon"
+    "illustration kpi  icon";
+}
+
+.pavel-step[data-illustration="true"] .pavel-step-kpi {
+  text-align: left;
+  padding-left: 0;
+  min-width: 0;
+  padding-top: 10px;
+  border-top: 1px dashed var(--p-mid-100);
+  margin-top: 6px;
+}
+
+.pavel-step-illustration {
+  position: relative;
+  display: block;
+  margin: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--p-mid-50) 0%, #fff 100%);
+  border: 1px solid var(--p-mid-100);
+  box-shadow: 0 16px 40px -28px rgba(13, 31, 60, 0.3);
+  aspect-ratio: 3 / 2;
+  min-height: 240px;
+}
+.pavel-step-illustration > figure,
+.pavel-step-illustration figure {
+  margin: 0;
+  width: 100%;
+  max-width: none !important;
+}
+.pavel-step-illustration img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+}
+/* Hide PavelIllustration's own figcaption inside timeline (duplicates step-day) */
+.pavel-step-illustration figcaption {
+  display: none;
+}
+
+/* Accent ring on illustration container matches step accent */
+.pavel-step[data-accent="broker"][data-illustration="true"] .pavel-step-illustration {
+  border-color: #FED7AA;
+}
+.pavel-step[data-accent="investor"][data-illustration="true"] .pavel-step-illustration {
+  border-color: #C7D2FE;
+}
+.pavel-step[data-accent="shop"][data-illustration="true"] .pavel-step-illustration {
+  border-color: #A7F3D0;
+}
+
 /* === Final breakdown === */
 .pavel-breakdown {
   max-width: 1120px;
@@ -413,5 +485,26 @@ export const PAVEL_STORY_CSS = `
     border-top: 1px dashed var(--p-mid-100);
   }
   .pavel-timeline::before { left: 27px; }
+
+  /* Illustrated steps stack on mobile — illustration after body, before kpi */
+  .pavel-step[data-illustration="true"],
+  .pavel-step[data-illustration="true"][data-side="left"] {
+    grid-template-columns: 56px 1fr;
+    grid-template-areas:
+      "icon         body"
+      "illustration illustration"
+      "kpi          kpi";
+    gap: 16px 18px;
+    padding: 20px;
+  }
+  .pavel-step[data-illustration="true"] .pavel-step-illustration {
+    min-height: 0;
+    aspect-ratio: 3 / 2;
+  }
+  .pavel-step[data-illustration="true"] .pavel-step-kpi {
+    border-top: 1px dashed var(--p-mid-100);
+    padding-top: 12px;
+    margin-top: 0;
+  }
 }
 `;

@@ -1,5 +1,9 @@
 import type { ReactNode, SVGProps } from "react";
 import { PAVEL_STORY_CSS } from "./pavelStoryStyles";
+import {
+  PavelIllustration,
+  type PavelScene,
+} from "../illustrations/PavelIllustration";
 
 // =====================================================================
 //  PavelStory — modelový scénář autíčkáře pro /pro-autickare landing
@@ -242,6 +246,10 @@ type Step = {
   kpiLabel?: string;
   icon: ReactNode;
   accent?: Accent;
+  /** FIX-043 — pokud je vyplněno, renderuje se PavelIllustration vedle step textu. */
+  illustrationScene?: PavelScene;
+  /** Strana illustration na desktopu (alternate). */
+  illustrationSide?: "left" | "right";
 };
 
 const STEPS: Step[] = [
@@ -282,6 +290,8 @@ const STEPS: Step[] = [
     kpiLabel: "odsouhlaseno",
     icon: <UserCheck />,
     accent: "investor",
+    illustrationScene: 2,
+    illustrationSide: "right",
   },
   {
     day: "Den 9",
@@ -292,6 +302,8 @@ const STEPS: Step[] = [
     kpiLabel: "převod kapitálu",
     icon: <Wallet />,
     accent: "investor",
+    illustrationScene: 1,
+    illustrationSide: "left",
   },
   {
     day: "Den 10–35",
@@ -301,6 +313,8 @@ const STEPS: Step[] = [
     kpiValue: "220 000 Kč",
     kpiLabel: "náklady na přípravu",
     icon: <Wrench />,
+    illustrationScene: 3,
+    illustrationSide: "right",
   },
   {
     day: "Den 36–84",
@@ -311,6 +325,8 @@ const STEPS: Step[] = [
     kpiLabel: "realizované prodeje",
     icon: <Handshake />,
     accent: "broker",
+    illustrationScene: 4,
+    illustrationSide: "left",
   },
   {
     day: "Den 85–90",
@@ -373,24 +389,38 @@ export function PavelStory({ headingId = "pavel-story", className }: PavelStoryP
           <h3 className="pavel-timeline-h2">Od prvního telefonátu k vyúčtování za 90 dní</h3>
         </header>
         <ol className="pavel-timeline" role="list">
-          {STEPS.map((step, i) => (
-            <li key={i} className="pavel-step" data-accent={step.accent ?? "default"}>
-              <div className="pavel-step-icon" aria-hidden>
-                {step.icon}
-              </div>
-              <div className="pavel-step-body">
-                <div className="pavel-step-day">{step.day}</div>
-                <h4 className="pavel-step-title">{step.title}</h4>
-                <p className="pavel-step-text">{step.body}</p>
-              </div>
-              {step.kpiValue ? (
-                <div className="pavel-step-kpi">
-                  <div className="pavel-step-kpi-value">{step.kpiValue}</div>
-                  {step.kpiLabel ? <div className="pavel-step-kpi-label">{step.kpiLabel}</div> : null}
+          {STEPS.map((step, i) => {
+            const hasIllustration = step.illustrationScene !== undefined;
+            return (
+              <li
+                key={i}
+                className="pavel-step"
+                data-accent={step.accent ?? "default"}
+                data-illustration={hasIllustration ? "true" : undefined}
+                data-side={hasIllustration ? step.illustrationSide ?? "right" : undefined}
+              >
+                <div className="pavel-step-icon" aria-hidden>
+                  {step.icon}
                 </div>
-              ) : null}
-            </li>
-          ))}
+                <div className="pavel-step-body">
+                  <div className="pavel-step-day">{step.day}</div>
+                  <h4 className="pavel-step-title">{step.title}</h4>
+                  <p className="pavel-step-text">{step.body}</p>
+                </div>
+                {step.kpiValue ? (
+                  <div className="pavel-step-kpi">
+                    <div className="pavel-step-kpi-value">{step.kpiValue}</div>
+                    {step.kpiLabel ? <div className="pavel-step-kpi-label">{step.kpiLabel}</div> : null}
+                  </div>
+                ) : null}
+                {step.illustrationScene !== undefined ? (
+                  <div className="pavel-step-illustration" aria-hidden>
+                    <PavelIllustration scene={step.illustrationScene} width={480} height={320} />
+                  </div>
+                ) : null}
+              </li>
+            );
+          })}
         </ol>
       </div>
 
