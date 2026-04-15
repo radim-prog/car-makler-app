@@ -14,11 +14,16 @@ const outfit = Outfit({
 // FIX-022: Editorial B2B typography (AUDIT-028b sec 8.2)
 // Fraunces = serif display font pro hero/sekční nadpisy (editorial aesthetic)
 // JetBrains Mono = monospace pro číselné statistiky (ceny, VIN, ROI)
+// FIX-049d — Font subsetting: drop weights 500 + 900 (0 výskytů v codebase),
+// zachovat 600 (font-semibold, 1×) + 700 (font-bold, 8×). Úspora ~50 KB.
+// preload: true — Fraunces H1 je LCP kandidát na B2B landings.
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin", "latin-ext"],
-  weight: ["500", "600", "700", "900"],
+  weight: ["600", "700"],
   display: "swap",
+  preload: true,
+  fallback: ["Georgia", "Times New Roman", "serif"],
 });
 
 const jetbrains = JetBrains_Mono({
@@ -26,6 +31,8 @@ const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
+  preload: false, // mono je jen pro cenovky/VIN, ne LCP
+  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
 });
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://carmakler.cz";
