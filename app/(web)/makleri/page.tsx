@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description:
     "Certifikovaní automakléři po celé ČR. Najděte svého makléře a prodejte auto rychle a bezpečně.",
   openGraph: {
-    title: "Certifikovaní automakléři | CarMakléř",
+    title: "Certifikovaní automakléři",
     description:
       "Najděte svého makléře a prodejte auto rychle a bezpečně. Síť ověřených makléřů po celé ČR.",
   },

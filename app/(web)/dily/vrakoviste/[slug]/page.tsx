@@ -120,11 +120,11 @@ async function getPartnerWithParts(slug: string) {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const data = await getPartnerWithParts(slug);
-  if (!data) return { title: "Vrakoviště nenalezeno — Carmakler" };
+  if (!data) return { title: "Vrakoviště nenalezeno — CarMakléř" };
 
   const { partner, partsCount } = data;
   const regionPart = partner.region || partner.city || "ČR";
-  const titleBase = `Díly z ${partner.name} — Carmakler`;
+  const titleBase = `Díly z ${partner.name} — CarMakléř`;
   const description = `${partsCount > 0 ? `${partsCount} náhradních dílů` : "Náhradní díly"} od ověřeného vrakoviště ${partner.name} (${regionPart}). Originální použité díly s dopravou po celé ČR za 2-5 dnů.`;
 
   return {
@@ -384,7 +384,7 @@ export default async function VrakovisteLandingPage({ params }: PageProps) {
             <div>
               <div className="text-3xl mb-2">✅</div>
               <h3 className="font-bold text-gray-900 mb-1">Ověřené vrakoviště</h3>
-              <p className="text-sm text-gray-500">Carmakler verifikuje každý dodavatel</p>
+              <p className="text-sm text-gray-500">CarMakléř verifikuje každý dodavatel</p>
             </div>
             <div>
               <div className="text-3xl mb-2">🚚</div>

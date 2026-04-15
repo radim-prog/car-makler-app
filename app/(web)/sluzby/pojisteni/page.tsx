@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Povinné ručení i havarijní pojištění online. Srovnání nabídek všech pojišťoven, nejlepší cena, sjednání bez papírování.",
   openGraph: {
-    title: "Pojištění auta online | CarMakléř",
+    title: "Pojištění auta online",
     description:
       "Srovnání nabídek všech pojišťoven. Nejlepší cena, sjednání online bez papírování.",
   },

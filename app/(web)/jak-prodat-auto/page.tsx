@@ -11,7 +11,7 @@ import {
 import { BASE_URL } from "@/lib/seo-data";
 
 export const metadata: Metadata = {
-  title: "Jak prodat auto v roce 2026 | Kompletní průvodce — CarMakler",
+  title: "Jak prodat auto v roce 2026 | Kompletní průvodce — CarMakléř",
   description:
     "Kompletní průvodce prodejem auta v roce 2026. Příprava vozu, stanovení ceny, inzerce, fotografie, prohlídky, smlouva a daňové povinnosti.",
   openGraph: {
@@ -26,7 +26,7 @@ const faqItems = [
   {
     question: "Jak dlouho trvá prodej auta?",
     answer:
-      "Průměrná doba prodeje ojetého auta je 2-6 týdnů. S makléřem CarMakler se doba zkracuje na 1-3 týdny díky profesionální prezentaci a síti kontaktů.",
+      "Průměrná doba prodeje ojetého auta je 2-6 týdnů. S makléřem CarMakléř se doba zkracuje na 1-3 týdny díky profesionální prezentaci a síti kontaktů.",
   },
   {
     question: "Musím platit daň z prodeje auta?",
@@ -41,12 +41,12 @@ const faqItems = [
   {
     question: "Jak stanovit správnou cenu ojetého auta?",
     answer:
-      "Porovnejte ceny podobných vozidel na inzertních portálech, využijte online kalkulačky nebo nechte auto ocenit makléřem CarMakler zdarma.",
+      "Porovnejte ceny podobných vozidel na inzertních portálech, využijte online kalkulačky nebo nechte auto ocenit makléřem CarMakléř zdarma.",
   },
   {
     question: "Je bezpečné prodávat auto přes makléře?",
     answer:
-      "Ano, prodej přes certifikovaného makléře CarMakler je bezpečný. Makléř zajistí kupní smlouvu, ověří kupujícího a dohlédne na bezpečnou platbu.",
+      "Ano, prodej přes certifikovaného makléře CarMakléř je bezpečný. Makléř zajistí kupní smlouvu, ověří kupujícího a dohlédne na bezpečnou platbu.",
   },
 ];
 
@@ -57,11 +57,11 @@ const howToSteps = [
   },
   {
     name: "Stanovení ceny",
-    text: "Zjistěte aktuální tržní cenu porovnáním s podobnými vozy na inzertních portálech. Využijte kalkulačku CarMakler nebo nechte auto ocenit makléřem zdarma.",
+    text: "Zjistěte aktuální tržní cenu porovnáním s podobnými vozy na inzertních portálech. Využijte kalkulačku CarMakléř nebo nechte auto ocenit makléřem zdarma.",
   },
   {
     name: "Inzerce a prezentace",
-    text: "Vytvořte kvalitní inzerát s detailním popisem a profesionálními fotografiemi. Na CarMakler můžete vložit inzerát zdarma nebo využít služeb makléře.",
+    text: "Vytvořte kvalitní inzerát s detailním popisem a profesionálními fotografiemi. Na CarMakléř můžete vložit inzerát zdarma nebo využít služeb makléře.",
   },
   {
     name: "Kvalitní fotografie",
@@ -161,7 +161,7 @@ export default function JakProdatAutoPage() {
               {index === 1 && (
                 <p>
                   Správná cena je klíčová pro rychlý prodej. Příliš vysoká cena odradí zájemce,
-                  příliš nízká znamená ztrátu peněz. Na CarMakler nabízíme bezplatné ocenění vozu
+                  příliš nízká znamená ztrátu peněz. Na CarMakléř nabízíme bezplatné ocenění vozu
                   certifikovaným makléřem, který zná aktuální tržní ceny ve vašem regionu.
                   Makléř zohlední značku, model, rok, nájezd, výbavu a celkový stav vozu.
                 </p>
@@ -170,7 +170,7 @@ export default function JakProdatAutoPage() {
                 <p>
                   Kvalitní inzerát obsahuje: kompletní specifikace vozu, historii servisu a oprav,
                   informaci o STK a emisích, výbavu a příslušenství, a samozřejmě kvalitní fotografie.
-                  Na CarMakler můžete vložit inzerát zdarma nebo využít služeb certifikovaného makléře,
+                  Na CarMakléř můžete vložit inzerát zdarma nebo využít služeb certifikovaného makléře,
                   který vytvoří profesionální prezentaci a zajistí propagaci vašeho vozu.
                 </p>
               )}
@@ -195,7 +195,7 @@ export default function JakProdatAutoPage() {
                   Kupní smlouva musí obsahovat: identifikaci prodávajícího a kupujícího (jméno, adresa,
                   rodné číslo/IČO), identifikaci vozidla (VIN, SPZ, značka, model, rok), kupní cenu
                   slovem i číslem, stav tachometru, prohlášení o známých vadách a podpisy obou stran.
-                  Certifikovaný makléř CarMakler připraví právně bezchybnou smlouvu.
+                  Certifikovaný makléř CarMakléř připraví právně bezchybnou smlouvu.
                 </p>
               )}
               {index === 6 && (
@@ -237,7 +237,7 @@ export default function JakProdatAutoPage() {
               Nechcete se o nic starat?
             </h2>
             <p className="text-orange-100 mb-8 text-lg">
-              Certifikovaný makléř CarMakler prodá vaše auto za vás. Kompletní servis od ocenění po přepis.
+              Certifikovaný makléř CarMakléř prodá vaše auto za vás. Kompletní servis od ocenění po přepis.
             </p>
             <Link
               href="/chci-prodat"

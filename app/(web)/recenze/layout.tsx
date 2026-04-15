@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description:
     "Přečtěte si recenze spokojených klientů CarMakléř. Skutečné zkušenosti prodejců i kupujících.",
   openGraph: {
-    title: "Recenze klientů | CarMakléř",
+    title: "Recenze klientů",
     description:
       "Skutečné zkušenosti prodejců i kupujících. Přečtěte si hodnocení od našich klientů.",
   },

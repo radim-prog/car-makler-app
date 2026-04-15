@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Odpovědi na nejčastější dotazy k službám CarMakléř — prodej auta, nákup, prověrka, financování, pojištění, marketplace.",
   openGraph: {
-    title: "Časté dotazy (FAQ) | CarMakléř",
+    title: "Časté dotazy (FAQ)",
     description:
       "Odpovědi na nejčastější dotazy k službám CarMakléř — prodej, nákup, makléřská síť, marketplace.",
   },

@@ -7,11 +7,11 @@ import { pageCanonical } from "@/lib/canonical";
 export const metadata: Metadata = {
   title: "Obchodní podmínky",
   description:
-    "Obchodní podmínky platformy CarMakler. Podmínky pro nákup autodílů, inzertní služby, makléřské služby a investiční marketplace.",
+    "Obchodní podmínky platformy CarMakléř. Podmínky pro nákup autodílů, inzertní služby, makléřské služby a investiční marketplace.",
   openGraph: {
-    title: "Obchodní podmínky | CarMakler",
+    title: "Obchodní podmínky",
     description:
-      "Obchodní podmínky platformy CarMakler — e-shop s autodíly, inzerce vozidel, makléřské služby.",
+      "Obchodní podmínky platformy CarMakléř — e-shop s autodíly, inzerce vozidel, makléřské služby.",
   },
   alternates: pageCanonical("/obchodni-podminky"),
 };
@@ -19,12 +19,12 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "Obchodní podmínky — CarMakler",
+  name: "Obchodní podmínky — CarMakléř",
   url: `${BASE_URL}/obchodni-podminky`,
-  description: "Obchodní podmínky platformy CarMakler",
+  description: "Obchodní podmínky platformy CarMakléř",
   isPartOf: {
     "@type": "WebSite",
-    name: "CarMakler",
+    name: "CarMakléř",
     url: BASE_URL,
   },
 };
@@ -76,7 +76,7 @@ export default function ObchodniPodminkyPage() {
             </p>
             <h3>Definice</h3>
             <ul>
-              <li><strong>Prodávající</strong> — provozovatel platformy CarMakler s.r.o.</li>
+              <li><strong>Prodávající</strong> — provozovatel platformy CarMakléř s.r.o.</li>
               <li><strong>Kupující</strong> — fyzická nebo právnická osoba, která prostřednictvím platformy objednává zboží nebo služby.</li>
               <li><strong>Zboží</strong> — autodíly (nové i použité) nabízené v e-shopu.</li>
               <li><strong>Služba</strong> — inzertní služby, makléřské služby zprostředkování prodeje vozidel, investiční marketplace.</li>
@@ -204,7 +204,7 @@ export default function ObchodniPodminkyPage() {
           <section id="maklerske-sluzby">
             <h2>8. Makléřské služby</h2>
             <p>
-              CarMakler zprostředkovává prodej vozidel prostřednictvím sítě certifikovaných makléřů.
+              CarMakléř zprostředkovává prodej vozidel prostřednictvím sítě certifikovaných makléřů.
             </p>
             <ul>
               <li><strong>Provize:</strong> 5 % z prodejní ceny, minimálně 25 000 Kč včetně DPH.</li>
@@ -220,8 +220,8 @@ export default function ObchodniPodminkyPage() {
               Uzavřená platforma pro ověřené dealery a investory. Přístup podléhá verifikaci.
             </p>
             <ul>
-              <li><strong>Dělení zisku:</strong> 40 % investor, 40 % dealer, 20 % CarMakler.</li>
-              <li>Vozidlo se kupuje na firmu CarMakler s.r.o.; po prodeji se zisk dělí dle smluvního poměru.</li>
+              <li><strong>Dělení zisku:</strong> 40 % investor, 40 % dealer, 20 % CarMakléř.</li>
+              <li>Vozidlo se kupuje na firmu CarMakléř s.r.o.; po prodeji se zisk dělí dle smluvního poměru.</li>
               <li>Podrobnosti upravuje samostatná investiční smlouva.</li>
             </ul>
           </section>

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description:
     "Vložte inzerát na prodej auta zdarma za minutu. Bez registrace, bez poplatků. Vaše auto uvidí tisíce kupujících denně.",
   openGraph: {
-    title: "Inzerce zdarma | CarMakléř",
+    title: "Inzerce zdarma",
     description:
       "Prodejte své auto online. Vložte inzerát za minutu, zcela zdarma.",
   },

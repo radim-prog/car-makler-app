@@ -6,11 +6,11 @@ import { pageCanonical } from "@/lib/canonical";
 export const metadata: Metadata = {
   title: "Ochrana osobních údajů (GDPR)",
   description:
-    "Zásady zpracování osobních údajů na platformě CarMakler. Informace dle nařízení GDPR (EU 2016/679) a zákona č. 110/2019 Sb.",
+    "Zásady zpracování osobních údajů na platformě CarMakléř. Informace dle nařízení GDPR (EU 2016/679) a zákona č. 110/2019 Sb.",
   openGraph: {
-    title: "Ochrana osobních údajů (GDPR) | CarMakler",
+    title: "Ochrana osobních údajů (GDPR)",
     description:
-      "Zásady zpracování osobních údajů na platformě CarMakler — vaše práva, kontakt na pověřence, doba uchování.",
+      "Zásady zpracování osobních údajů na platformě CarMakléř — vaše práva, kontakt na pověřence, doba uchování.",
   },
   alternates: pageCanonical("/gdpr"),
 };
@@ -33,7 +33,7 @@ export default function GdprPage() {
         </h1>
 
         <p className="text-lg text-gray-600 leading-relaxed mb-8">
-          Tato stránka popisuje zpracování osobních údajů na platformě CarMakler v souladu
+          Tato stránka popisuje zpracování osobních údajů na platformě CarMakléř v souladu
           s nařízením Evropského parlamentu a Rady (EU) 2016/679 (GDPR) a zákonem č. 110/2019 Sb.
           Kompletní znění aktuálně připravujeme s právním partnerem.
         </p>

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Kompletní prověrka historie a technického stavu vozidla. Kontrola původu, havárií, servisní historie a stočení tachometru.",
   openGraph: {
-    title: "Prověrka vozidla | CarMakléř",
+    title: "Prověrka vozidla",
     description:
       "Kompletní prověrka historie a technického stavu vozidla. Kupte auto s jistotou.",
   },

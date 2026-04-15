@@ -7,11 +7,11 @@ import { pageCanonical } from "@/lib/canonical";
 export const metadata: Metadata = {
   title: "Ochrana osobních údajů",
   description:
-    "Informace o zpracování osobních údajů na platformě CarMakler dle GDPR a zákona 110/2019 Sb.",
+    "Informace o zpracování osobních údajů na platformě CarMakléř dle GDPR a zákona 110/2019 Sb.",
   openGraph: {
-    title: "Ochrana osobních údajů | CarMakler",
+    title: "Ochrana osobních údajů",
     description:
-      "Zásady ochrany osobních údajů platformy CarMakler — správce, účely zpracování, práva subjektů.",
+      "Zásady ochrany osobních údajů platformy CarMakléř — správce, účely zpracování, práva subjektů.",
   },
   alternates: pageCanonical("/ochrana-osobnich-udaju"),
 };
@@ -19,12 +19,12 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "Ochrana osobních údajů — CarMakler",
+  name: "Ochrana osobních údajů — CarMakléř",
   url: `${BASE_URL}/ochrana-osobnich-udaju`,
-  description: "Zásady ochrany osobních údajů platformy CarMakler dle GDPR",
+  description: "Zásady ochrany osobních údajů platformy CarMakléř dle GDPR",
   isPartOf: {
     "@type": "WebSite",
-    name: "CarMakler",
+    name: "CarMakléř",
     url: BASE_URL,
   },
 };

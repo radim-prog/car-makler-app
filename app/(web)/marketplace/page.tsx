@@ -16,11 +16,11 @@ import {
 import { WaitlistComingSoon } from "@/components/marketplace/WaitlistComingSoon";
 
 export const metadata: Metadata = {
-  title: "Marketplace | Propojujeme realizátory a investory | CarMakléř",
+  title: "Marketplace | Propojujeme realizátory a investory",
   description:
     "Propojujeme ověřené realizátory aut s investory. Transparentní spolupráce přes CarMakléř.",
   openGraph: {
-    title: "Marketplace — propojení realizátorů a investorů | CarMakléř",
+    title: "Marketplace — propojení realizátorů a investorů",
     description:
       "Propojujeme ověřené realizátory aut s investory. Transparentní spolupráce přes CarMakléř.",
   },

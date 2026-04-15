@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description:
     "Prodáme vaše auto rychleji a za lepší cenu. Nechte to na certifikovaném makléři CarMakléř.",
   openGraph: {
-    title: "Prodejte auto přes makléře | CarMakléř",
+    title: "Prodejte auto přes makléře",
     description:
       "Prodáme vaše auto rychleji a za lepší cenu. Nechte to na certifikovaném makléři CarMakléř.",
   },

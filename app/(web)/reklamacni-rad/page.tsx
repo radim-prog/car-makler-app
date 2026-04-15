@@ -7,11 +7,11 @@ import { pageCanonical } from "@/lib/canonical";
 export const metadata: Metadata = {
   title: "Reklamační řád",
   description:
-    "Reklamační řád e-shopu CarMakler. Záruční doby, uplatnění reklamace, odstoupení od smlouvy, mimosoudní řešení sporů.",
+    "Reklamační řád e-shopu CarMakléř. Záruční doby, uplatnění reklamace, odstoupení od smlouvy, mimosoudní řešení sporů.",
   openGraph: {
-    title: "Reklamační řád | CarMakler",
+    title: "Reklamační řád",
     description:
-      "Reklamační řád e-shopu s autodíly CarMakler — záruční doby, postup reklamace, práva spotřebitele.",
+      "Reklamační řád e-shopu s autodíly CarMakléř — záruční doby, postup reklamace, práva spotřebitele.",
   },
   alternates: pageCanonical("/reklamacni-rad"),
 };
@@ -19,12 +19,12 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "Reklamační řád — CarMakler",
+  name: "Reklamační řád — CarMakléř",
   url: `${BASE_URL}/reklamacni-rad`,
-  description: "Reklamační řád e-shopu CarMakler",
+  description: "Reklamační řád e-shopu CarMakléř",
   isPartOf: {
     "@type": "WebSite",
-    name: "CarMakler",
+    name: "CarMakléř",
     url: BASE_URL,
   },
 };
@@ -65,7 +65,7 @@ export default function ReklamacniRadPage() {
             <h2>1. Obecná ustanovení</h2>
             <p>
               Tento reklamační řád upravuje postup při uplatňování práv z vadného plnění (dále jen
-              &bdquo;reklamace&ldquo;) u zboží zakoupeného prostřednictvím e-shopu CarMakler.
+              &bdquo;reklamace&ldquo;) u zboží zakoupeného prostřednictvím e-shopu CarMakléř.
             </p>
             <p>
               <strong>Provozovatel a prodávající:</strong> CAR makléř, s.r.o., IČO: 21957151,
@@ -173,7 +173,7 @@ export default function ReklamacniRadPage() {
             <h3>Specifika pro díly z vrakoviště</h3>
             <p>
               Reklamace dílu od externího dodavatele (vrakoviště) je postoupena tomuto dodavateli.
-              CarMakler zajišťuje koordinaci a komunikaci mezi kupujícím a dodavatelem. Lhůta pro
+              CarMakléř zajišťuje koordinaci a komunikaci mezi kupujícím a dodavatelem. Lhůta pro
               vyřízení se tím nemění.
             </p>
           </section>

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description:
     "CarMakléř — nová éra prodeje aut v Česku. Certifikovaní makléři, prověřená vozidla, spokojení klienti.",
   openGraph: {
-    title: "O nás | CarMakléř",
+    title: "O nás",
     description:
       "Certifikovaní makléři, prověřená vozidla, spokojení klienti. Poznejte náš příběh.",
   },

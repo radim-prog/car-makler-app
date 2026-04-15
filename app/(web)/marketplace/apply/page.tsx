@@ -5,12 +5,12 @@ import { Alert } from "@/components/ui/Alert";
 import { pageCanonical } from "@/lib/canonical";
 
 export const metadata: Metadata = {
-  title: "Žádost o přístup | Marketplace | CarMakléř",
+  title: "Žádost o přístup | Marketplace",
   description:
     "Vyplňte žádost o přístup k marketplace. Investujte do aut nebo nabízejte flip příležitosti. Ověříme váš profil do 48 hodin.",
   robots: { index: true, follow: true },
   openGraph: {
-    title: "Žádost o přístup k Marketplace | CarMakléř",
+    title: "Žádost o přístup k Marketplace",
     description:
       "Staňte se součástí VIP investiční platformy pro flipping vozidel. Ověřeni dealeři + investoři.",
   },

@@ -20,11 +20,11 @@ export async function generateMetadata({
   if (!category) return {};
 
   return {
-    title: `${category.name} | Náhradní díly — CarMakler`,
+    title: `${category.name} | Náhradní díly — CarMakléř`,
     description: `Náhradní díly — ${category.name.toLowerCase()}. Použité i nové díly od ověřených dodavatelů za výhodné ceny s garancí funkčnosti.`,
     alternates: pageCanonical(`/dily/kategorie/${slug}`),
     openGraph: {
-      title: `${category.name} | Náhradní díly CarMakler`,
+      title: `${category.name} | Náhradní díly CarMakléř`,
       description: `${category.name} — použité i nové díly za výhodné ceny.`,
     },
   };
@@ -146,7 +146,7 @@ export default async function PartsCategoryPage({
               Jste vrakoviště nebo dodavatel dílů?
             </h2>
             <p className="text-orange-100 mb-8 text-lg">
-              Přidejte se k CarMakler a prodávejte své díly tisícům zákazníků. Registrace je zdarma.
+              Přidejte se k CarMakléř a prodávejte své díly tisícům zákazníků. Registrace je zdarma.
             </p>
             <Link
               href="/registrace/dodavatel"
