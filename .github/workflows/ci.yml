@@ -5,6 +5,12 @@ on:
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      sandbox_url:
+        description: "Base URL for external smoke test"
+        required: false
+        default: "https://car.zajcon.cz"
 
 # Zrusit predchozi behy na stejnem branchi
 concurrency:
@@ -130,3 +136,38 @@ jobs:
           NEXTAUTH_SECRET: "ci-build-secret-not-real"
           NEXTAUTH_URL: "http://localhost:3000"
           NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+          NEXT_PUBLIC_MAIN_URL: "http://localhost:3000"
+          NEXT_PUBLIC_INZERCE_URL: "http://localhost:3000/inzerce"
+          NEXT_PUBLIC_SHOP_URL: "http://localhost:3000/shop"
+          NEXT_PUBLIC_MARKETPLACE_URL: "http://localhost:3000/marketplace"
+
+  # ==========================================
+  # 5. External smoke — manual sandbox check
+  # ==========================================
+  sandbox-smoke:
+    name: Sandbox Smoke
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run external smoke
+        run: npm run test:e2e:smoke
+        env:
+          PLAYWRIGHT_BASE_URL: ${{ github.event.inputs.sandbox_url || 'https://car.zajcon.cz' }}
+          PLAYWRIGHT_INZERCE_URL: "https://inzerce.car.zajcon.cz"
+          PLAYWRIGHT_SHOP_URL: "https://shop.car.zajcon.cz"
+          PLAYWRIGHT_MARKETPLACE_URL: "https://marketplace.car.zajcon.cz"

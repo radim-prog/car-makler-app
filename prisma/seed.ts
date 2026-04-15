@@ -4,6 +4,17 @@ import { Pool } from "pg";
 import bcrypt from "bcryptjs";
 
 const connectionString = process.env.DATABASE_URL || "postgresql://zen@localhost:5432/carmakler";
+
+const isProductionSeed =
+  process.env.NODE_ENV === "production" ||
+  process.env.NEXTAUTH_URL?.includes("carmakler.cz");
+
+if (isProductionSeed && process.env.ALLOW_DESTRUCTIVE_SEED !== "true") {
+  throw new Error(
+    "Refusing to run destructive seed in production. Set ALLOW_DESTRUCTIVE_SEED=true only for an intentional rebuild."
+  );
+}
+
 const pool = new Pool({ connectionString });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });

@@ -1,17 +1,22 @@
 #!/usr/bin/env bash
-# Deploy current main to the sandbox origin car.zajcon.cz.
+# Deploy current main to the public carmakler.cz server checkout.
 set -euo pipefail
 
-SANDBOX_HOST="${SANDBOX_HOST:-root@91.98.203.239}"
-SANDBOX_PATH="${SANDBOX_PATH:-/var/www/car.zajcon.cz}"
-PM2_NAME="${PM2_NAME:-car-zajcon}"
-BASE_URL="${BASE_URL:-https://car.zajcon.cz}"
+PRODUCTION_HOST="${PRODUCTION_HOST:-root@91.98.203.239}"
+PRODUCTION_PATH="${PRODUCTION_PATH:-/var/www/carmakler}"
+PM2_NAME="${PM2_NAME:-carmakler}"
+BASE_URL="${BASE_URL:-https://carmakler.cz}"
+
+if [[ "${CONFIRM_PRODUCTION_DEPLOY:-}" != "1" ]]; then
+  echo "Refusing production deploy without CONFIRM_PRODUCTION_DEPLOY=1" >&2
+  exit 2
+fi
 
 echo "==> git push origin main"
 git push origin main
 
 echo "==> remote pull + install + build + pm2 reload (${PM2_NAME})"
-ssh "$SANDBOX_HOST" "REMOTE_PATH='$SANDBOX_PATH' PM2_APP='$PM2_NAME' bash -s" <<'REMOTE'
+ssh "$PRODUCTION_HOST" "REMOTE_PATH='$PRODUCTION_PATH' PM2_APP='$PM2_NAME' bash -s" <<'REMOTE'
 set -euo pipefail
 
 cd "$REMOTE_PATH"
@@ -34,4 +39,4 @@ REMOTE
 echo "==> smoke check"
 bash scripts/smoke-deploy.sh "$BASE_URL"
 
-echo "==> sandbox deploy done"
+echo "==> production deploy done"

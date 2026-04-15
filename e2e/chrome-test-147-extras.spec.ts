@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const BASE = "http://localhost:3000";
+const BASE = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
 
 test("EXTRA-1: GET /api/revalidate/parts → 405", async ({ page }) => {
   const r = await page.goto(`${BASE}/api/revalidate/parts`, { waitUntil: "load" });
