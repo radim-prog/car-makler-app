@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" role="img" aria-label="Pavel s klíči u přivezeného staršího auta, panelové sídliště v pozadí">
+  <defs>
+    <clipPath id="pavel01-frame"><rect x="0" y="0" width="480" height="320" rx="14" /></clipPath>
+  </defs>
+  <g clip-path="url(#pavel01-frame)">
+    <rect width="480" height="320" fill="#F4F6FB" />
+
+    <!-- Horizon line -->
+    <line x1="0" y1="226" x2="480" y2="226" stroke="#C5CFE0" stroke-width="1" />
+
+    <!-- Panelák silhouette (background, low contrast) -->
+    <g fill="#E4E9F2" stroke="#C5CFE0" stroke-width="1">
+      <rect x="20"  y="80"  width="110" height="146" />
+      <rect x="146" y="60"  width="92"  height="166" />
+      <rect x="254" y="92"  width="130" height="134" />
+      <rect x="400" y="74"  width="64"  height="152" />
+    </g>
+    <!-- Windows pattern on paneláky -->
+    <g fill="#C5CFE0">
+      <!-- blok 1 -->
+      <rect x="30"  y="92"  width="10" height="10" /><rect x="48"  y="92"  width="10" height="10" /><rect x="66"  y="92"  width="10" height="10" /><rect x="84"  y="92"  width="10" height="10" /><rect x="102" y="92"  width="10" height="10" />
+      <rect x="30"  y="112" width="10" height="10" /><rect x="48"  y="112" width="10" height="10" /><rect x="66"  y="112" width="10" height="10" /><rect x="84"  y="112" width="10" height="10" /><rect x="102" y="112" width="10" height="10" />
+      <rect x="30"  y="132" width="10" height="10" /><rect x="48"  y="132" width="10" height="10" /><rect x="66"  y="132" width="10" height="10" /><rect x="84"  y="132" width="10" height="10" /><rect x="102" y="132" width="10" height="10" />
+      <rect x="30"  y="152" width="10" height="10" /><rect x="48"  y="152" width="10" height="10" /><rect x="66"  y="152" width="10" height="10" /><rect x="84"  y="152" width="10" height="10" /><rect x="102" y="152" width="10" height="10" />
+      <rect x="30"  y="172" width="10" height="10" /><rect x="48"  y="172" width="10" height="10" /><rect x="66"  y="172" width="10" height="10" /><rect x="84"  y="172" width="10" height="10" /><rect x="102" y="172" width="10" height="10" />
+      <rect x="30"  y="192" width="10" height="10" /><rect x="48"  y="192" width="10" height="10" /><rect x="66"  y="192" width="10" height="10" /><rect x="84"  y="192" width="10" height="10" /><rect x="102" y="192" width="10" height="10" />
+      <!-- blok 2 -->
+      <rect x="156" y="76"  width="10" height="10" /><rect x="174" y="76"  width="10" height="10" /><rect x="192" y="76"  width="10" height="10" /><rect x="210" y="76"  width="10" height="10" />
+      <rect x="156" y="96"  width="10" height="10" /><rect x="174" y="96"  width="10" height="10" /><rect x="192" y="96"  width="10" height="10" /><rect x="210" y="96"  width="10" height="10" />
+      <rect x="156" y="116" width="10" height="10" /><rect x="174" y="116" width="10" height="10" /><rect x="192" y="116" width="10" height="10" /><rect x="210" y="116" width="10" height="10" />
+      <rect x="156" y="136" width="10" height="10" /><rect x="174" y="136" width="10" height="10" /><rect x="192" y="136" width="10" height="10" /><rect x="210" y="136" width="10" height="10" />
+      <rect x="156" y="156" width="10" height="10" /><rect x="174" y="156" width="10" height="10" /><rect x="192" y="156" width="10" height="10" /><rect x="210" y="156" width="10" height="10" />
+      <rect x="156" y="176" width="10" height="10" /><rect x="174" y="176" width="10" height="10" /><rect x="192" y="176" width="10" height="10" /><rect x="210" y="176" width="10" height="10" />
+      <rect x="156" y="196" width="10" height="10" /><rect x="174" y="196" width="10" height="10" /><rect x="192" y="196" width="10" height="10" /><rect x="210" y="196" width="10" height="10" />
+      <!-- blok 3 -->
+      <rect x="264" y="108" width="10" height="10" /><rect x="282" y="108" width="10" height="10" /><rect x="300" y="108" width="10" height="10" /><rect x="318" y="108" width="10" height="10" /><rect x="336" y="108" width="10" height="10" /><rect x="354" y="108" width="10" height="10" />
+      <rect x="264" y="128" width="10" height="10" /><rect x="282" y="128" width="10" height="10" /><rect x="300" y="128" width="10" height="10" /><rect x="318" y="128" width="10" height="10" /><rect x="336" y="128" width="10" height="10" /><rect x="354" y="128" width="10" height="10" />
+      <rect x="264" y="148" width="10" height="10" /><rect x="282" y="148" width="10" height="10" /><rect x="300" y="148" width="10" height="10" /><rect x="318" y="148" width="10" height="10" /><rect x="336" y="148" width="10" height="10" /><rect x="354" y="148" width="10" height="10" />
+      <rect x="264" y="168" width="10" height="10" /><rect x="282" y="168" width="10" height="10" /><rect x="300" y="168" width="10" height="10" /><rect x="318" y="168" width="10" height="10" /><rect x="336" y="168" width="10" height="10" /><rect x="354" y="168" width="10" height="10" />
+      <rect x="264" y="188" width="10" height="10" /><rect x="282" y="188" width="10" height="10" /><rect x="300" y="188" width="10" height="10" /><rect x="318" y="188" width="10" height="10" /><rect x="336" y="188" width="10" height="10" /><rect x="354" y="188" width="10" height="10" />
+      <!-- blok 4 -->
+      <rect x="408" y="88"  width="10" height="10" /><rect x="426" y="88"  width="10" height="10" /><rect x="444" y="88"  width="10" height="10" />
+      <rect x="408" y="108" width="10" height="10" /><rect x="426" y="108" width="10" height="10" /><rect x="444" y="108" width="10" height="10" />
+      <rect x="408" y="128" width="10" height="10" /><rect x="426" y="128" width="10" height="10" /><rect x="444" y="128" width="10" height="10" />
+      <rect x="408" y="148" width="10" height="10" /><rect x="426" y="148" width="10" height="10" /><rect x="444" y="148" width="10" height="10" />
+      <rect x="408" y="168" width="10" height="10" /><rect x="426" y="168" width="10" height="10" /><rect x="444" y="168" width="10" height="10" />
+      <rect x="408" y="188" width="10" height="10" /><rect x="426" y="188" width="10" height="10" /><rect x="444" y="188" width="10" height="10" />
+    </g>
+
+    <!-- Foreground road/asphalt -->
+    <rect x="0" y="226" width="480" height="94" fill="#0D1F3C" />
+    <line x1="0" y1="280" x2="480" y2="280" stroke="#F97316" stroke-width="1.6" stroke-dasharray="18 14" opacity="0.8" />
+
+    <!-- Car (side profile, older sedan — midnight body + orange accent wheel rim) -->
+    <g transform="translate(260 180)">
+      <!-- Body -->
+      <path d="M-96 40 L-96 20 Q-92 6, -78 4 L-58 4 L-40 -18 Q-32 -26, -20 -28 L40 -28 Q54 -26, 62 -14 L76 4 L96 6 Q108 8, 110 22 L110 40 Z"
+            fill="#1A2F52" stroke="#0D1F3C" stroke-width="1.8" stroke-linejoin="round" />
+      <!-- Windows -->
+      <path d="M-34 -18 L-18 -20 Q-12 -22, -4 -22 L6 -22 L12 -18 L6 2 L-26 2 Z" fill="#C5CFE0" stroke="#0D1F3C" stroke-width="1.2" />
+      <path d="M14 -18 L36 -22 Q48 -22, 54 -14 L64 0 L14 2 Z" fill="#C5CFE0" stroke="#0D1F3C" stroke-width="1.2" />
+      <!-- Door line -->
+      <path d="M-6 2 L-6 30" stroke="#0D1F3C" stroke-width="1.2" />
+      <!-- Headlight -->
+      <rect x="100" y="14" width="8" height="6" rx="1" fill="#F97316" />
+      <!-- Wheels -->
+      <g>
+        <circle cx="-60" cy="40" r="16" fill="#040B1F" />
+        <circle cx="-60" cy="40" r="9"  fill="none" stroke="#F97316" stroke-width="1.8" />
+        <circle cx="-60" cy="40" r="3"  fill="#F97316" />
+      </g>
+      <g>
+        <circle cx="62" cy="40" r="16" fill="#040B1F" />
+        <circle cx="62" cy="40" r="9"  fill="none" stroke="#F97316" stroke-width="1.8" />
+        <circle cx="62" cy="40" r="3"  fill="#F97316" />
+      </g>
+    </g>
+
+    <!-- Pavel silhouette (right side, holding keys) -->
+    <g transform="translate(400 236)">
+      <!-- Shadow -->
+      <ellipse cx="0" cy="-8" rx="22" ry="3" fill="#040B1F" opacity="0.35" />
+      <!-- Legs (standing pose) -->
+      <path d="M-10 -10 L-10 -66 L-2 -66 L-2 -10 Z" fill="#0D1F3C" />
+      <path d="M2 -10 L2 -66 L10 -66 L10 -10 Z" fill="#0D1F3C" />
+      <!-- Torso -->
+      <path d="M-18 -66 Q-18 -108, 0 -110 Q18 -108, 18 -66 Z" fill="#1A2F52" />
+      <!-- Arm (right, down, holding keys) -->
+      <path d="M14 -92 Q24 -80, 24 -62 L18 -62 L12 -86 Z" fill="#1A2F52" />
+      <!-- Left arm close to torso -->
+      <path d="M-18 -96 Q-22 -80, -20 -66 L-14 -66 L-14 -94 Z" fill="#1A2F52" />
+      <!-- Head (no face) -->
+      <circle cx="0" cy="-120" r="12" fill="#2D4669" />
+      <!-- Keys -->
+      <g transform="translate(26 -58) rotate(20)">
+        <circle cx="0" cy="0" r="3.5" fill="none" stroke="#F97316" stroke-width="1.6" />
+        <path d="M3 0 L14 0" stroke="#F97316" stroke-width="1.6" stroke-linecap="round" />
+        <path d="M11 0 L11 4" stroke="#F97316" stroke-width="1.6" stroke-linecap="round" />
+        <path d="M14 0 L14 3" stroke="#F97316" stroke-width="1.6" stroke-linecap="round" />
+      </g>
+    </g>
+
+    <!-- Accent sparkle above car (arrival moment) -->
+    <g transform="translate(236 140)" fill="#F97316">
+      <path d="M0 -8 L2 -2 L8 0 L2 2 L0 8 L-2 2 L-8 0 L-2 -2 Z" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" role="img" aria-label="Pavel předává klíče kupci u vyleštěného auta, cedule Prodáno a cena 335 000 Kč">
+  <defs>
+    <clipPath id="pavel04-frame"><rect x="0" y="0" width="480" height="320" rx="14" /></clipPath>
+    <linearGradient id="pavel04-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E4E9F2" />
+      <stop offset="100%" stop-color="#F4F6FB" />
+    </linearGradient>
+    <radialGradient id="pavel04-key-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF7ED" stop-opacity="1" />
+      <stop offset="100%" stop-color="#F97316" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <g clip-path="url(#pavel04-frame)">
+    <rect width="480" height="320" fill="url(#pavel04-sky)" />
+
+    <!-- Trees (background depth) -->
+    <g fill="#C5CFE0">
+      <circle cx="42" cy="184" r="22" />
+      <circle cx="92" cy="194" r="18" />
+      <circle cx="438" cy="186" r="20" />
+      <circle cx="402" cy="196" r="14" />
+    </g>
+    <g fill="#94A3BE">
+      <rect x="39" y="184" width="6" height="34" />
+      <rect x="89" y="194" width="6" height="26" />
+      <rect x="435" y="186" width="6" height="32" />
+      <rect x="399" y="196" width="6" height="24" />
+    </g>
+
+    <!-- Horizon -->
+    <line x1="0" y1="216" x2="480" y2="216" stroke="#94A3BE" stroke-width="1" />
+
+    <!-- Ground/road -->
+    <rect x="0" y="216" width="480" height="104" fill="#0D1F3C" />
+    <line x1="0" y1="270" x2="480" y2="270" stroke="#F97316" stroke-width="1.6" stroke-dasharray="18 14" opacity="0.85" />
+
+    <!-- Car (side profile — polished, brighter) -->
+    <g transform="translate(268 182)">
+      <ellipse cx="0" cy="46" rx="110" ry="5" fill="#040B1F" opacity="0.45" />
+      <path d="M-96 40 L-96 20 Q-92 6, -78 4 L-58 4 L-40 -18 Q-32 -26, -20 -28 L40 -28 Q54 -26, 62 -14 L76 4 L96 6 Q108 8, 110 22 L110 40 Z"
+            fill="#2D4669" stroke="#0D1F3C" stroke-width="1.8" stroke-linejoin="round" />
+      <!-- Hood shine -->
+      <path d="M-74 2 Q-54 -6, -30 -12" stroke="#F4F6FB" stroke-width="1.4" fill="none" opacity="0.55" stroke-linecap="round" />
+      <path d="M20 -20 Q32 -20, 42 -16" stroke="#F4F6FB" stroke-width="1.2" fill="none" opacity="0.5" stroke-linecap="round" />
+      <!-- Windows -->
+      <path d="M-34 -18 L-18 -20 Q-12 -22, -4 -22 L6 -22 L12 -18 L6 2 L-26 2 Z" fill="#E4E9F2" stroke="#0D1F3C" stroke-width="1.2" />
+      <path d="M14 -18 L36 -22 Q48 -22, 54 -14 L64 0 L14 2 Z" fill="#E4E9F2" stroke="#0D1F3C" stroke-width="1.2" />
+      <path d="M-6 2 L-6 30" stroke="#0D1F3C" stroke-width="1.2" />
+      <!-- Headlight -->
+      <rect x="100" y="14" width="8" height="6" rx="1" fill="#FFF7ED" />
+      <rect x="100" y="14" width="8" height="6" rx="1" fill="#F97316" opacity="0.7" />
+      <!-- Wheels -->
+      <circle cx="-60" cy="40" r="16" fill="#040B1F" />
+      <circle cx="-60" cy="40" r="9" fill="none" stroke="#F97316" stroke-width="1.8" />
+      <circle cx="-60" cy="40" r="3" fill="#F97316" />
+      <circle cx="62" cy="40" r="16" fill="#040B1F" />
+      <circle cx="62" cy="40" r="9" fill="none" stroke="#F97316" stroke-width="1.8" />
+      <circle cx="62" cy="40" r="3" fill="#F97316" />
+    </g>
+
+    <!-- Pavel silhouette (left) — extending keys -->
+    <g transform="translate(108 234)">
+      <ellipse cx="0" cy="-6" rx="22" ry="3" fill="#040B1F" opacity="0.35" />
+      <path d="M-10 -8 L-10 -64 L-2 -64 L-2 -8 Z" fill="#0D1F3C" />
+      <path d="M2 -8 L2 -64 L10 -64 L10 -8 Z" fill="#0D1F3C" />
+      <path d="M-18 -64 Q-18 -106, 0 -108 Q18 -106, 18 -64 Z" fill="#1A2F52" />
+      <!-- Right arm extended with keys -->
+      <path d="M18 -92 Q44 -82, 66 -74 L62 -66 Q38 -76, 14 -86 Z" fill="#1A2F52" />
+      <!-- Left arm -->
+      <path d="M-18 -94 Q-22 -78, -20 -64 L-14 -64 L-14 -92 Z" fill="#1A2F52" />
+      <circle cx="0" cy="-118" r="12" fill="#2D4669" />
+    </g>
+
+    <!-- Buyer silhouette (right of Pavel) — lighter tone to distinguish -->
+    <g transform="translate(196 234)">
+      <ellipse cx="0" cy="-6" rx="22" ry="3" fill="#040B1F" opacity="0.3" />
+      <path d="M-10 -8 L-10 -60 L-2 -60 L-2 -8 Z" fill="#0D1F3C" />
+      <path d="M2 -8 L2 -60 L10 -60 L10 -8 Z" fill="#0D1F3C" />
+      <path d="M-16 -60 Q-16 -98, 0 -100 Q16 -98, 16 -60 Z" fill="#5C7194" />
+      <!-- Left arm reaching for keys -->
+      <path d="M-16 -86 Q-42 -80, -58 -72 L-54 -64 Q-30 -74, -12 -80 Z" fill="#5C7194" />
+      <!-- Right arm -->
+      <path d="M16 -88 Q22 -74, 18 -60 L12 -60 L12 -86 Z" fill="#5C7194" />
+      <circle cx="0" cy="-110" r="11" fill="#94A3BE" />
+    </g>
+
+    <!-- Keys focal point (orange glow halo between hands) -->
+    <g transform="translate(154 150)">
+      <circle cx="0" cy="0" r="28" fill="url(#pavel04-key-glow)" opacity="0.9" />
+      <circle cx="0" cy="0" r="16" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8" />
+      <g transform="translate(-6 -1) rotate(18)">
+        <circle cx="0" cy="0" r="3.5" fill="none" stroke="#F97316" stroke-width="1.8" />
+        <path d="M3 0 L16 0" stroke="#F97316" stroke-width="1.8" stroke-linecap="round" />
+        <path d="M12 0 L12 4" stroke="#F97316" stroke-width="1.8" stroke-linecap="round" />
+        <path d="M16 0 L16 3" stroke="#F97316" stroke-width="1.8" stroke-linecap="round" />
+      </g>
+    </g>
+
+    <!-- PRODÁNO tag (top right, angled banner) -->
+    <g transform="translate(392 72) rotate(-8)">
+      <rect x="-62" y="-18" width="124" height="36" fill="#F97316" stroke="#0D1F3C" stroke-width="1.8" />
+      <text x="0" y="6" text-anchor="middle" font-family="'Fraunces', 'Times New Roman', serif" font-size="18" font-weight="700" letter-spacing="0.12em" fill="#0D1F3C">PRODÁNO</text>
+    </g>
+
+    <!-- Price pill -->
+    <g transform="translate(392 120)">
+      <rect x="-52" y="-13" width="104" height="24" rx="12" fill="#0D1F3C" />
+      <text x="0" y="5" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" letter-spacing="0.08em" fill="#F97316">335 000 Kč</text>
+    </g>
+
+    <!-- Accent sparkles (celebration moment) -->
+    <g fill="#F97316">
+      <path d="M70 76 L72 82 L78 84 L72 86 L70 92 L68 86 L62 84 L68 82 Z" />
+      <path d="M326 58 L327.5 62 L332 63 L327.5 64 L326 68 L324.5 64 L320 63 L324.5 62 Z" />
+    </g>
+  </g>
+</svg>

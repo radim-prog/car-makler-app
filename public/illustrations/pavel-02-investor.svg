@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" role="img" aria-label="Pavel a investor podávají si ruce nad stolem, laptop a smlouva mezi nimi">
+  <defs>
+    <clipPath id="pavel02-frame"><rect x="0" y="0" width="480" height="320" rx="14" /></clipPath>
+  </defs>
+  <g clip-path="url(#pavel02-frame)">
+    <rect width="480" height="320" fill="#F4F6FB" />
+
+    <!-- Background wall + subtle window grid (interior office feel) -->
+    <rect x="0" y="0" width="480" height="210" fill="#E4E9F2" />
+    <g stroke="#C5CFE0" stroke-width="1" fill="none">
+      <rect x="40"  y="40" width="80" height="60" />
+      <line x1="80" y1="40" x2="80" y2="100" />
+      <line x1="40" y1="70" x2="120" y2="70" />
+      <rect x="360" y="40" width="80" height="60" />
+      <line x1="400" y1="40" x2="400" y2="100" />
+      <line x1="360" y1="70" x2="440" y2="70" />
+    </g>
+
+    <!-- Floor -->
+    <rect x="0" y="210" width="480" height="110" fill="#0D1F3C" />
+
+    <!-- Table -->
+    <g>
+      <rect x="100" y="200" width="280" height="14" fill="#1A2F52" stroke="#040B1F" stroke-width="1.4" />
+      <rect x="110" y="214" width="6" height="60" fill="#0D1F3C" />
+      <rect x="364" y="214" width="6" height="60" fill="#0D1F3C" />
+    </g>
+
+    <!-- Laptop on table (open, facing away from viewer slightly) -->
+    <g transform="translate(180 174)">
+      <!-- base -->
+      <path d="M-44 26 L44 26 L50 30 L-50 30 Z" fill="#0D1F3C" stroke="#040B1F" stroke-width="1.4" stroke-linejoin="round" />
+      <!-- screen back -->
+      <rect x="-40" y="-4" width="80" height="30" rx="2" fill="#1A2F52" stroke="#040B1F" stroke-width="1.4" />
+      <!-- screen glow (orange chart bars hint) -->
+      <rect x="-34" y="2"  width="68" height="18" fill="#0D1F3C" />
+      <g fill="#F97316">
+        <rect x="-28" y="14" width="5" height="4" />
+        <rect x="-20" y="10" width="5" height="8" />
+        <rect x="-12" y="6"  width="5" height="12" />
+        <rect x="-4"  y="12" width="5" height="6" />
+        <rect x="4"   y="8"  width="5" height="10" />
+      </g>
+    </g>
+
+    <!-- Contract/document on table (right side) -->
+    <g transform="translate(290 196)">
+      <rect x="-32" y="-6" width="64" height="14" fill="#F4F6FB" stroke="#0D1F3C" stroke-width="1.2" transform="rotate(-4)" />
+      <g transform="rotate(-4)" stroke="#94A3BE" stroke-width="1" stroke-linecap="round">
+        <line x1="-26" y1="-2" x2="20" y2="-2" />
+        <line x1="-26" y1="2"  x2="14" y2="2" />
+      </g>
+      <!-- signature line + orange check -->
+      <g transform="rotate(-4)">
+        <path d="M-8 10 L24 10" stroke="#F97316" stroke-width="1.6" stroke-linecap="round" />
+        <path d="M14 7 L17 11 L22 5" fill="none" stroke="#F97316" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </g>
+    </g>
+
+    <!-- Pavel silhouette (left) -->
+    <g transform="translate(118 160)">
+      <!-- head -->
+      <circle cx="0" cy="0" r="14" fill="#2D4669" />
+      <!-- torso -->
+      <path d="M-22 14 Q-22 46, 0 50 Q22 46, 22 14 L22 60 L-22 60 Z" fill="#1A2F52" />
+      <!-- right arm extended toward center (handshake) -->
+      <path d="M18 24 Q48 38, 80 44 L76 52 Q46 46, 14 36 Z" fill="#1A2F52" />
+    </g>
+
+    <!-- Investor silhouette (right) -->
+    <g transform="translate(362 160)">
+      <!-- head -->
+      <circle cx="0" cy="0" r="14" fill="#2D4669" />
+      <!-- torso -->
+      <path d="M-22 14 Q-22 46, 0 50 Q22 46, 22 14 L22 60 L-22 60 Z" fill="#1A2F52" />
+      <!-- left arm extended toward center -->
+      <path d="M-18 24 Q-48 38, -80 44 L-76 52 Q-46 46, -14 36 Z" fill="#1A2F52" />
+    </g>
+
+    <!-- Handshake focal point (orange highlight) -->
+    <g transform="translate(240 198)">
+      <circle cx="0" cy="0" r="18" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8" />
+      <g stroke="#0D1F3C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M-10 -2 L-2 6 L4 2 L10 -4" />
+        <path d="M-8 4 L-2 8 L2 6" />
+      </g>
+    </g>
+
+    <!-- Label tag (small badge: §1115 OZ) -->
+    <g transform="translate(240 96)">
+      <rect x="-44" y="-12" width="88" height="22" rx="11" fill="#0D1F3C" />
+      <text x="0" y="4" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" letter-spacing="0.1em" fill="#F97316">§ 1115 OZ</text>
+    </g>
+
+    <!-- Subtle accent spark -->
+    <g fill="#F97316">
+      <path d="M70 40 L72 46 L78 48 L72 50 L70 56 L68 50 L62 48 L68 46 Z" />
+    </g>
+  </g>
+</svg>
